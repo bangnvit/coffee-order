@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:background="@color/colorPrimary"
+    tools:ignore="ContentDescription" >
+
+    <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="@dimen/define_dimen_45"
+        android:layout_height="@dimen/define_dimen_45"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/define_dimen_6"
+        android:padding="@dimen/define_dimen_10"
+        android:src="@drawable/ic_back_white_36"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_xnormal" />
+
+    <ImageView
+        android:id="@+id/img_cart"
+        android:layout_width="@dimen/define_dimen_45"
+        android:layout_height="@dimen/define_dimen_45"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/define_dimen_4"
+        android:padding="@dimen/define_dimen_6"
+        android:src="@drawable/ic_cart_white_36"
+        android:visibility="gone" />
+
+</RelativeLayout>
+

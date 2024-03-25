@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardCornerRadius="@dimen/define_dimen_10"
+    app:cardElevation="0dp">
+
+    <RelativeLayout
+        android:id="@+id/layout_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.bangnv.cafeorder.widget.AspectRatioNoRadiusImageView
+            android:id="@+id/image_food"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:aspectRatio="0.56"
+            app:aspectRatioEnabled="true"
+            app:dominantMeasurement="Width" />
+
+        <TextView
+            android:id="@+id/tv_sale_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/define_dimen_10"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/define_dimen_6"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xsmall"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

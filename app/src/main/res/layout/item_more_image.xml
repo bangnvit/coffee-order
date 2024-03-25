@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/define_dimen_10"
+    android:layout_marginEnd="@dimen/define_dimen_10"
+    app:cardCornerRadius="@dimen/define_dimen_6"
+    app:cardElevation="0dp">
+
+    <com.bangnv.cafeorder.widget.AspectRatioNoRadiusImageView
+        android:id="@+id/image_food"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:aspectRatio="0.75"
+        app:aspectRatioEnabled="true"
+        app:dominantMeasurement="Width" />
+
+</androidx.cardview.widget.CardView>

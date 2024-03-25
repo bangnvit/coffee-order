@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="define_dimen_2">2dp</dimen>
+    <dimen name="define_dimen_4">4dp</dimen>
+    <dimen name="define_dimen_5">5dp</dimen>
+    <dimen name="define_dimen_6">6dp</dimen>
+    <dimen name="define_dimen_8">8dp</dimen>
+    <dimen name="define_dimen_9">9dp</dimen>
+    <dimen name="define_dimen_10">10dp</dimen>
+    <dimen name="define_dimen_12">12dp</dimen>
+    <dimen name="define_dimen_14">14dp</dimen>
+    <dimen name="define_dimen_15">15dp</dimen>
+    <dimen name="define_dimen_16">16dp</dimen>
+    <dimen name="define_dimen_18">18dp</dimen>
+    <dimen name="define_dimen_20">20dp</dimen>
+    <dimen name="define_dimen_22">22dp</dimen>
+    <dimen name="define_dimen_24">24dp</dimen>
+    <dimen name="define_dimen_25">25dp</dimen>
+    <dimen name="define_dimen_26">26dp</dimen>
+    <dimen name="define_dimen_28">28dp</dimen>
+    <dimen name="define_dimen_30">30dp</dimen>
+    <dimen name="define_dimen_32">32dp</dimen>
+    <dimen name="define_dimen_35">35dp</dimen>
+    <dimen name="define_dimen_40">40dp</dimen>
+    <dimen name="define_dimen_42">42dp</dimen>
+    <dimen name="define_dimen_45">45dp</dimen>
+    <dimen name="define_dimen_48">48dp</dimen>
+    <dimen name="define_dimen_50">50dp</dimen>
+    <dimen name="define_dimen_56">56dp</dimen>
+    <dimen name="define_dimen_60">60dp</dimen>
+    <dimen name="define_dimen_70">70dp</dimen>
+    <dimen name="define_dimen_80">80dp</dimen>
+    <dimen name="define_dimen_90">90dp</dimen>
+    <dimen name="define_dimen_100">100dp</dimen>
+    <dimen name="define_dimen_106">106dp</dimen>
+    <dimen name="define_dimen_110">110dp</dimen>
+    <dimen name="define_dimen_120">120dp</dimen>
+    <dimen name="define_dimen_140">140dp</dimen>
+    <dimen name="define_dimen_150">150dp</dimen>
+    <dimen name="define_dimen_160">160dp</dimen>
+    <dimen name="define_dimen_180">180dp</dimen>
+    <dimen name="define_dimen_200">200dp</dimen>
+    <dimen name="define_dimen_300">300dp</dimen>
+
+    <!-- Text size -->
+    <dimen name="text_size_xxtiny">4sp</dimen>
+    <dimen name="text_size_xtiny">6sp</dimen>
+    <dimen name="text_size_tiny">8sp</dimen>
+    <dimen name="text_size_xxsmall">10sp</dimen>
+    <dimen name="text_size_xsmall">12sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_xnormal">18sp</dimen>
+    <dimen name="text_size_xxnormal">20sp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_xlarge">24sp</dimen>
+    <dimen name="text_size_xxlarge">26sp</dimen>
+    <dimen name="text_size_huge">28sp</dimen>
+    <dimen name="text_size_xhuge">30sp</dimen>
+    <dimen name="text_size_xxhuge">32sp</dimen>
+
+</resources>

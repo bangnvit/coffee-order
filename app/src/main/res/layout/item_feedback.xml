@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/define_dimen_8"
+    android:layout_marginTop="@dimen/define_dimen_6"
+    android:layout_marginBottom="@dimen/define_dimen_10"
+    android:background="@drawable/bg_color_white_border_divider_radius_10"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="@dimen/define_dimen_16">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="@dimen/define_dimen_40"
+            android:layout_height="@dimen/define_dimen_40"
+            android:src="@drawable/ic_avatar_default" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/define_dimen_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:maxLines="10"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/text_size_xsmall" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

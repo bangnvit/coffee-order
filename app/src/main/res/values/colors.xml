@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#15AE6A</color>
+    <color name="colorPrimaryDark">#15AE6A</color>
+    <color name="colorAccent">#15AE6A</color>
+
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondary">#6D6E70</color>
+    <color name="textColorAccent">#A7A9AB</color>
+
+    <color name="iconColorPrimary">#212121</color>
+    <color name="iconColorSecondary">#6D6E70</color>
+    <color name="color_tint_icon_2">#9E9E9E</color>
+
+    <color name="dividerColor">#EEEEEE</color>
+    <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="purple">#9C27B0</color>
+    <color name="green">#4CAF50</color>
+    <color name="redAccent">#ffebee</color>
+    <color name="red">#EF9A9A</color>
+    <color name="pink">#F06292</color>
+    <color name="orange">#FF5722</color>
+    <color name="tran_parent">#66000000</color>
+    <color name="yellow">#FF9800</color>
+    <color name="blue">#2196F3</color>
+
+    <color name="background_text_input">#FAFAFA</color>
+
+    <color name="bottomTabActive">#F24040</color>
+    <color name="bottomTabInActive">#171717</color>
+    <color name="black_overlay">#667C7474</color>
+
+
+    <color name="color898989">#898989</color>
+    <color name="color252525">#252525</color>
+    <color name="color35729F">#35729F</color>
+    <color name="colorA4A4A4">#A4A4A4</color>
+    <color name="colorB4B4B4">#B4B4B4</color>
+    <color name="colorBDBDBD">#BDBDBD</color>
+
+
+    <color name="active_color">#15AE6A</color> <!-- Màu cho các thành phần active -->
+    <color name="inactive_color">#757575</color> <!-- Màu cho các thành phần inactive -->
+    <color name="title_active_color">#15AE6A</color> <!-- Màu cho tiêu đề của các thành phần active -->
+    <color name="title_inactive_color">#757575</color> <!-- Màu cho tiêu đề của các thành phần inactive -->
+
+    <color name="color_212121">#212121</color>
+    <color name="edittext_active_border">#01AF67</color>
+
+    <color name="edittext_bg_inactive">#FAFAFA</color>
+    <color name="edittext_bg_active">#EBF9F3</color>
+
+    <color name="bg_button_disable">#EEEEEE</color>
+    <color name="bg_button_cancel">#EBF9F3</color>
+
+</resources>

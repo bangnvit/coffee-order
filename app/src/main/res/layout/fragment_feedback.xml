@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/layout_wrap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="Autofill,LabelFor,UselessParent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/define_dimen_16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/feedback_name"
+                android:textColor="@color/color252525"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/layout_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_10"
+                android:background="@drawable/bg_edittext_inactive"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/define_dimen_5"
+                android:weightSum="1">
+
+                <EditText
+                    android:id="@+id/edt_name"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/define_dimen_48"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/hint_full_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/define_dimen_10"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/img_clear_full_name"
+                    android:layout_width="@dimen/define_dimen_30"
+                    android:layout_height="@dimen/define_dimen_30"
+                    android:layout_marginStart="@dimen/define_dimen_5"
+                    android:padding="@dimen/define_dimen_10"
+                    android:src="@drawable/ic_clear_no_bg"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_16"
+                android:text="@string/feedback_phone"
+                android:textColor="@color/color252525"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/layout_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_10"
+                android:background="@drawable/bg_edittext_inactive"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/define_dimen_5"
+                android:weightSum="1">
+
+                <EditText
+                    android:id="@+id/edt_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/define_dimen_48"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/hint_phone"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/define_dimen_10"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/img_clear_phone"
+                    android:layout_width="@dimen/define_dimen_30"
+                    android:layout_height="@dimen/define_dimen_30"
+                    android:layout_marginStart="@dimen/define_dimen_5"
+                    android:padding="@dimen/define_dimen_10"
+                    android:src="@drawable/ic_clear_no_bg"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_16"
+                android:text="@string/feedback_email"
+                android:textColor="@color/color252525"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_10"
+                android:background="@drawable/bg_edittext_inactive"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/define_dimen_5"
+                android:weightSum="1">
+
+                <EditText
+                    android:id="@+id/edt_email"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/define_dimen_48"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/define_dimen_10"
+                    android:paddingEnd="@dimen/define_dimen_10"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_size_small" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_16"
+                android:text="@string/feedback_comment"
+                android:textColor="@color/color252525"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:id="@+id/layout_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_10"
+                android:background="@drawable/bg_edittext_inactive"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/define_dimen_5"
+                android:weightSum="1">
+
+                <EditText
+                    android:id="@+id/edt_comment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="start"
+                    android:hint="@string/hint_comment"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine"
+                    android:maxLength="1000"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:paddingHorizontal="@dimen/define_dimen_10"
+                    android:paddingVertical="@dimen/define_dimen_5"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_size_small" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_send_feedback"
+                style="@style/MyButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_30"
+                android:text="@string/send_feedback"
+                app:backgroundTint="@color/colorPrimaryDark" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

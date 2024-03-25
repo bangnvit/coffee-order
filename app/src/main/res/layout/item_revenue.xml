@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/define_dimen_8"
+    android:layout_marginTop="@dimen/define_dimen_6"
+    android:layout_marginBottom="@dimen/define_dimen_10"
+    android:background="@drawable/bg_color_white_border_divider_radius_10"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="@dimen/define_dimen_16">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/label_id"
+            android:layout_width="@dimen/define_dimen_100"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/label_id"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/define_dimen_5"
+            android:layout_toEndOf="@+id/label_id"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/text_size_small" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/define_dimen_10">
+
+        <TextView
+            android:id="@+id/label_date"
+            android:layout_width="@dimen/define_dimen_100"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/label_date"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/define_dimen_5"
+            android:layout_toEndOf="@+id/label_date"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/text_size_small" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/define_dimen_10"
+        android:background="@color/dividerColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/define_dimen_10">
+
+        <TextView
+            android:id="@+id/label_total_amount"
+            android:layout_width="@dimen/define_dimen_100"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/total"
+            android:textColor="@color/green"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_total_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/define_dimen_5"
+            android:layout_toEndOf="@+id/label_total_amount"
+            android:textColor="@color/green"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</LinearLayout>
