@@ -6,7 +6,7 @@
     android:layout_marginHorizontal="@dimen/define_dimen_8"
     android:layout_marginTop="@dimen/define_dimen_6"
     android:layout_marginBottom="@dimen/define_dimen_10"
-    android:background="@drawable/bg_color_white_border_divider_radius_10"
+    android:background="@drawable/bg_color_white_border_divider_radius_12"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="@dimen/define_dimen_16">

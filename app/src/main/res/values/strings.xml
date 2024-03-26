@@ -144,7 +144,7 @@
     <string name="hint_discount">Khuyến mại</string>
     <string name="hint_image">Link ảnh</string>
     <string name="hint_image_banner">Link ảnh banner</string>
-    <string name="hint_image_other">Hình ảnh khác</string>
+    <string name="hint_image_other">Link hình ảnh khác</string>
 
     <string name="msg_get_date_error">Lỗi đã xảy ra, vui lòng thử lại sau</string>
     <string name="msg_order_success">Đặt hàng thành công, vui lòng check đơn hàng trong phần Lịch sử</string>

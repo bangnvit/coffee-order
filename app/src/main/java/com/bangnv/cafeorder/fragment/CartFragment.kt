@@ -169,7 +169,7 @@ class CartFragment : BaseFragment() {
                 val strEmail = user!!.email
                 val order = Order(
                     id, strName, strEmail, strPhone, strAddress,
-                    mAmount, getStringListFoodsOrder(), Constant.TYPE_PAYMENT_CASH, false
+                    mAmount, getStringListFoodsOrder(), Constant.TYPE_PAYMENT_CASH, 31
                 )
                 ControllerApplication[requireActivity()].bookingDatabaseReference
                     .child(id.toString())

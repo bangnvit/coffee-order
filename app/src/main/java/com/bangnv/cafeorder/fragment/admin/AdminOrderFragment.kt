@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -28,6 +29,7 @@ class AdminOrderFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         mFragmentAdminOrderBinding = FragmentAdminOrderBinding.inflate(inflater, container, false)
+
         initView()
         getListOrders()
         return mFragmentAdminOrderBinding!!.root
@@ -109,8 +111,9 @@ class AdminOrderFragment : BaseFragment() {
         if (activity == null) {
             return
         }
+        // Cần check
         ControllerApplication[requireContext()].bookingDatabaseReference
-                .child(order.id.toString()).child("completed").setValue(!order.isCompleted)
+                .child(order.id.toString()).child("status").setValue(35)
     }
 
     override fun onDestroyView() {

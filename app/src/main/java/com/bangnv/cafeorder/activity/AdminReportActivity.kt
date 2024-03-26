@@ -87,7 +87,7 @@ class AdminReportActivity : AppCompatActivity() {
         if (order == null) {
             return false
         }
-        if (!order.isCompleted) {
+        if (order.status != 35) {
             return false
         }
         val strDateFrom = mActivityAdminReportBinding!!.tvDateFrom.text.toString()

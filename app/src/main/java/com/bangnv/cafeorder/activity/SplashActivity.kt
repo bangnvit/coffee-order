@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.constant.GlobalFunction.gotoMainActivity

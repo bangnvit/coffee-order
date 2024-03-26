@@ -26,14 +26,12 @@ import androidx.core.app.ActivityCompat
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.AdminMainActivity
 import com.bangnv.cafeorder.activity.MainActivity
-import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionDoneListener
 import com.bangnv.cafeorder.listener.IGetDateListener
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.utils.StringUtil.getDoubleNumber
 import com.bangnv.cafeorder.utils.StringUtil.isEmpty
 import java.text.Normalizer
 import java.util.Calendar
-import java.util.Locale
 import java.util.regex.Pattern
 
 object GlobalFunction {
@@ -245,7 +243,7 @@ object GlobalFunction {
         editText.setSelection(editText.text.length)
     }
 
-    fun EditText.changeBackgroundOnFocusChange(layout: View) {
+    fun EditText.setBackgroundOnEditTextFocusChange(layout: View) {
         this.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 layout.setBackgroundResource(R.drawable.bg_edittext_active)
@@ -255,7 +253,7 @@ object GlobalFunction {
         }
     }
 
-    fun EditText.addClearButtonListener(clearButton: ImageView) {
+    fun EditText.addVisibilityClearButtonListener(clearButton: ImageView) {
         this.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 clearButton.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
@@ -265,17 +263,6 @@ object GlobalFunction {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-    }
-
-
-    fun EditText.setOnActionNextListener(action: () -> Unit) {
-        this.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                action()
-                return@setOnEditorActionListener true
-            }
-            return@setOnEditorActionListener false
-        }
     }
 
     fun EditText.setOnActionDoneListener(vararg actions: () -> Unit) {
@@ -298,29 +285,19 @@ object GlobalFunction {
         }
     }
 
-    fun setupLayoutEditTextListeners(
+    fun setupLayoutEditTextWithIconClearListeners(
         layoutEditText: View,
         editText: EditText,
-        imgClear: ImageView,
-        activity: Activity
+        imgClear: ImageView
     ) {
         // Change background when check focus
-        editText.changeBackgroundOnFocusChange(layoutEditText)
+        editText.setBackgroundOnEditTextFocusChange(layoutEditText)
         // set visibility icon clear
-        editText.addClearButtonListener(imgClear)
+        editText.addVisibilityClearButtonListener(imgClear)
         // Set text ""
         imgClear.setOnClickListener {
             editText.setText("")
         }
-        // Action Done: auto Check
-        editText.setOnActionDoneListener(
-            { hideSoftKeyboard(activity) },
-            { editText.clearFocus() }
-        )
-        editText.setOnActionSearchListener(
-            { hideSoftKeyboard(activity) },
-            { editText.clearFocus() }
-        )
     }
 
     fun setupLayoutPasswordListeners(
@@ -329,7 +306,7 @@ object GlobalFunction {
         activity: Activity
     ) {
         // Change background when check focus
-        edtPassword.changeBackgroundOnFocusChange(layoutEditText)
+        edtPassword.setBackgroundOnEditTextFocusChange(layoutEditText)
 
         // Action Done: auto Check
         edtPassword.setOnActionDoneListener(

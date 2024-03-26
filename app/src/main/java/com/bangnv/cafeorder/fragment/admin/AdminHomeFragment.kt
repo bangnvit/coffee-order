@@ -6,12 +6,9 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.ChildEventListener
@@ -24,12 +21,16 @@ import com.bangnv.cafeorder.activity.AdminAddFoodActivity
 import com.bangnv.cafeorder.activity.AdminMainActivity
 import com.bangnv.cafeorder.adapter.AdminFoodAdapter
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.getTextSearch
+import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
+import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionSearchListener
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentAdminHomeBinding
 import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.listener.IOnManagerFoodListener
 import com.bangnv.cafeorder.model.Food
+import com.bangnv.cafeorder.utils.StringUtil
 import com.bangnv.cafeorder.utils.StringUtil.isEmpty
 import java.util.*
 
@@ -44,6 +45,10 @@ class AdminHomeFragment : BaseFragment() {
         initView()
         initListener()
         getListFood("")
+
+        setupTouchOtherToClearAllFocus()
+        setupLayoutSearchListener()
+
         return mFragmentAdminHomeBinding!!.root
     }
 
@@ -74,24 +79,26 @@ class AdminHomeFragment : BaseFragment() {
 
     private fun initListener() {
         mFragmentAdminHomeBinding!!.btnAddFood.setOnClickListener { onClickAddFood() }
-        mFragmentAdminHomeBinding!!.imgSearch.setOnClickListener { searchFood() }
-        mFragmentAdminHomeBinding!!.edtSearchName.setOnEditorActionListener { _: TextView?, actionId: Int, _: KeyEvent? ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                searchFood()
-                return@setOnEditorActionListener true
-            }
-            false
-        }
+
         mFragmentAdminHomeBinding!!.edtSearchName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
+
             override fun afterTextChanged(s: Editable) {
-                val strKey = s.toString().trim { it <= ' ' }
-                if (strKey == "" || strKey.isEmpty()) {
-                    searchFood()
-                }
+                filterFoodList(mFragmentAdminHomeBinding!!.edtSearchName.text.toString())
             }
         })
+        mFragmentAdminHomeBinding!!.imgSearch.setOnClickListener {
+            searchFood()
+            hideSoftKeyboard(requireActivity())
+            mFragmentAdminHomeBinding!!.edtSearchName.clearFocus()
+        }
+        mFragmentAdminHomeBinding!!.edtSearchName.setOnActionSearchListener(
+            { searchFood() },
+            { hideSoftKeyboard(requireActivity()) },
+            { mFragmentAdminHomeBinding!!.edtSearchName.clearFocus() }
+        )
     }
 
     private fun onClickAddFood() {
@@ -124,13 +131,35 @@ class AdminHomeFragment : BaseFragment() {
 
     private fun searchFood() {
         val strKey = mFragmentAdminHomeBinding!!.edtSearchName.text.toString().trim { it <= ' ' }
-        if (mListFood != null) {
-            mListFood!!.clear()
+        filterFoodList(strKey)
+    }
+
+    private fun filterFoodList(key: String) {
+        val filteredList = if (key.isEmpty()) {
+            mListFood  // if there is no search keyword, display the original data
         } else {
-            mListFood = ArrayList()
+            val normalizedKey = StringUtil.normalizeEnglishString(key)
+            mListFood?.filter { food ->
+                val normalizedFoodName = StringUtil.normalizeEnglishString(food.name ?: "")
+                normalizedFoodName.contains(normalizedKey)
+            }
         }
-        getListFood(strKey)
-//        hideSoftKeyboard(activity!!)
+        if (filteredList != null) {
+            displayFilteredFoodList(filteredList)
+        }
+    }
+
+    private fun displayFilteredFoodList(filteredList: List<Food>) {
+        mAdminFoodAdapter  = AdminFoodAdapter(filteredList, object : IOnManagerFoodListener {
+            override fun onClickUpdateFood(food: Food?) {
+                onClickEditFood(food)
+            }
+
+            override fun onClickDeleteFood(food: Food?) {
+                deleteFoodItem(food)
+            }
+        })
+        mFragmentAdminHomeBinding!!.rcvFood.adapter = mAdminFoodAdapter
     }
 
     private fun getListFood(keyword: String?) {
@@ -189,5 +218,22 @@ class AdminHomeFragment : BaseFragment() {
                     override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
                     override fun onCancelled(databaseError: DatabaseError) {}
                 })
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupTouchOtherToClearAllFocus() {
+        mFragmentAdminHomeBinding!!.layoutContent.setOnClickListener {
+            hideSoftKeyboard(requireActivity())
+            mFragmentAdminHomeBinding!!.edtSearchName.clearFocus()
+        }
+    }
+
+    private fun setupLayoutSearchListener() {
+        //Layout Search: Listener focus, clear text icon
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
+            mFragmentAdminHomeBinding!!.layoutSearch,
+            mFragmentAdminHomeBinding!!.edtSearchName,
+            mFragmentAdminHomeBinding!!.imgClear
+        )
     }
 }

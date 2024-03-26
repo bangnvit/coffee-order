@@ -22,10 +22,10 @@ class OrderAdapter(private var mContext: Context?,
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = mListOrder!![position]
-        if (order.isCompleted) {
-            holder.mItemOrderBinding.layoutItem.setBackgroundResource(R.drawable.bg_color_overlay_border_radius_10)
+        if (order.status == 35) { //status: 35: Completed
+            holder.mItemOrderBinding.layoutItem.setBackgroundResource(R.drawable.bg_color_overlay_border_radius_12)
         } else {
-            holder.mItemOrderBinding.layoutItem.setBackgroundResource(R.drawable.bg_color_white_border_divider_radius_10)
+            holder.mItemOrderBinding.layoutItem.setBackgroundResource(R.drawable.bg_color_white_border_divider_radius_12)
         }
         holder.mItemOrderBinding.tvId.text = order.id.toString()
         holder.mItemOrderBinding.tvName.text = order.name

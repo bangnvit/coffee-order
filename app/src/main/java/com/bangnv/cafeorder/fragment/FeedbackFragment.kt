@@ -2,18 +2,14 @@ package com.bangnv.cafeorder.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.MainActivity
 import com.bangnv.cafeorder.constant.GlobalFunction
-import com.bangnv.cafeorder.constant.GlobalFunction.changeBackgroundOnFocusChange
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
-import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionNextListener
 import com.bangnv.cafeorder.constant.GlobalFunction.showToastMessage
 import com.bangnv.cafeorder.databinding.FragmentFeedbackBinding
 import com.bangnv.cafeorder.model.Feedback
@@ -101,28 +97,24 @@ class FeedbackFragment : BaseFragment() {
     @SuppressLint("ClickableViewAccessibility")
     private fun setupLayoutEditTextsListener() {
         //Layout Name: Listener focus, clear text icon
-        GlobalFunction.setupLayoutEditTextListeners(
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
             mFragmentFeedbackBinding!!.layoutName,
             mFragmentFeedbackBinding!!.edtName,
-            mFragmentFeedbackBinding!!.imgClearFullName,
-            requireActivity()
+            mFragmentFeedbackBinding!!.imgClearName
         )
         //Layout Phone: Listener focus, clear text icon
-        GlobalFunction.setupLayoutEditTextListeners(
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
             mFragmentFeedbackBinding!!.layoutPhone,
             mFragmentFeedbackBinding!!.edtPhone,
-            mFragmentFeedbackBinding!!.imgClearPhone,
-            requireActivity()
+            mFragmentFeedbackBinding!!.imgClearPhone
         )
-        //Layout Comment: Listener focus, (No has icon clear text)
-        mFragmentFeedbackBinding!!.edtComment.changeBackgroundOnFocusChange(mFragmentFeedbackBinding!!.layoutComment)
 
-        mFragmentFeedbackBinding!!.edtName.setOnActionNextListener {
-            mFragmentFeedbackBinding!!.edtPhone.requestFocus()
-        }
-        mFragmentFeedbackBinding!!.edtPhone.setOnActionNextListener {
-            mFragmentFeedbackBinding!!.edtComment.requestFocus()
-        }
+        //Layout Comment: Listener focus, clear text icon
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
+            mFragmentFeedbackBinding!!.layoutComment,
+            mFragmentFeedbackBinding!!.edtComment,
+            mFragmentFeedbackBinding!!.imgClearComment
+        )
     }
 
 }

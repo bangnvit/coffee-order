@@ -6,12 +6,9 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.bangnv.cafeorder.ControllerApplication
@@ -24,6 +21,7 @@ import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.getTextSearch
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
+import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionSearchListener
 import com.bangnv.cafeorder.constant.GlobalFunction.showToastMessage
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentHomeBinding
@@ -74,36 +72,41 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun initListener() {
-        mFragmentHomeBinding!!.edtSearchName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // Do nothing
+
+    private fun getListFoodFromFirebase(key: String) {
+        if (activity == null) {
+            return
+        }
+        ControllerApplication[requireContext()].foodDatabaseReference.addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                mFragmentHomeBinding!!.layoutContent.visibility = View.VISIBLE
+                mListFood = ArrayList()
+                mListFoodPopular = ArrayList()
+                for (dataSnapshot in snapshot.children) {
+                    val food = dataSnapshot.getValue(Food::class.java) ?: continue
+                    if (food.isPopular) {
+                        mListFoodPopular?.add(food)
+                    }
+                    mListFood?.add(food)
+                }
+                // Nếu có từ khóa tìm kiếm, lọc danh sách đồ ăn
+                if (key.isNotEmpty()) {
+                    mListFood = mListFood?.filter { food ->
+                        getTextSearch(food.name)
+                            .toLowerCase(Locale.getDefault())
+                            .trim { it <= ' ' }
+                            .contains(getTextSearch(key).toLowerCase(Locale.getDefault()))
+                    }?.toMutableList()
+                }
+                displayListFoodPopular()
+                displayListFoodSuggest()
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                // Do nothing
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                filterFoodList(mFragmentHomeBinding!!.edtSearchName.text.toString())
+            override fun onCancelled(error: DatabaseError) {
+                showToastMessage(activity, getString(R.string.msg_get_date_error))
             }
         })
-
-        mFragmentHomeBinding!!.imgSearch.setOnClickListener {
-            searchFood()
-            hideSoftKeyboard(requireActivity())
-            mFragmentHomeBinding!!.edtSearchName.clearFocus()
-        }
-        mFragmentHomeBinding!!.edtSearchName.setOnEditorActionListener { _: TextView?, actionId: Int, _: KeyEvent? ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                searchFood()
-                hideSoftKeyboard(requireActivity())
-                mFragmentHomeBinding!!.edtSearchName.clearFocus()
-                return@setOnEditorActionListener true
-            }
-            false
-        }
-
     }
 
     private fun displayListFoodPopular() {
@@ -149,46 +152,38 @@ class HomeFragment : BaseFragment() {
         return mListFoodPopular
     }
 
-    private fun getListFoodFromFirebase(key: String) {
-        if (activity == null) {
-            return
-        }
-        ControllerApplication[requireContext()].foodDatabaseReference.addValueEventListener(object :
-            ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                mFragmentHomeBinding!!.layoutContent.visibility = View.VISIBLE
-                mListFood = ArrayList()
-                mListFoodPopular = ArrayList()
-                for (dataSnapshot in snapshot.children) {
-                    val food = dataSnapshot.getValue(Food::class.java) ?: continue
-                    if (food.isPopular) {
-                        mListFoodPopular?.add(food)
-                    }
-                    mListFood?.add(food)
-                }
-                // Nếu có từ khóa tìm kiếm, lọc danh sách đồ ăn
-                if (key.isNotEmpty()) {
-                    mListFood = mListFood?.filter { food ->
-                        getTextSearch(food.name)
-                            .toLowerCase(Locale.getDefault())
-                            .trim { it <= ' ' }
-                            .contains(getTextSearch(key).toLowerCase(Locale.getDefault()))
-                    }?.toMutableList()
-                }
-                displayListFoodPopular()
-                displayListFoodSuggest()
-            }
+    private fun initListener() {
+        mFragmentHomeBinding!!.edtSearchName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
-            override fun onCancelled(error: DatabaseError) {
-                showToastMessage(activity, getString(R.string.msg_get_date_error))
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable) {
+                filterFoodList(mFragmentHomeBinding!!.edtSearchName.text.toString())
             }
         })
+
+        mFragmentHomeBinding!!.imgSearch.setOnClickListener {
+            searchFood()
+            hideSoftKeyboard(requireActivity())
+            mFragmentHomeBinding!!.edtSearchName.clearFocus()
+        }
+        mFragmentHomeBinding!!.edtSearchName.setOnActionSearchListener(
+            { searchFood() },
+            { hideSoftKeyboard(requireActivity()) },
+            { mFragmentHomeBinding!!.edtSearchName.clearFocus() }
+        )
+
     }
 
+    private fun searchFood() {
+        val strKey = mFragmentHomeBinding!!.edtSearchName.text.toString().trim { it <= ' ' }
+        filterFoodList(strKey)
+    }
 
     private fun filterFoodList(key: String) {
         val filteredList = if (key.isEmpty()) {
-            mListFood  // Nếu không có từ khóa, trả về danh sách gốc
+            mListFood  // if there is no search keyword, display the original data
         } else {
             val normalizedKey = StringUtil.normalizeEnglishString(key)
             mListFood?.filter { food ->
@@ -201,7 +196,6 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-
     private fun displayFilteredFoodList(filteredList: List<Food>) {
         val mFoodGridAdapter = FoodGridAdapter(filteredList, object : IOnClickFoodItemListener {
             override fun onClickItemFood(food: Food) {
@@ -209,11 +203,6 @@ class HomeFragment : BaseFragment() {
             }
         })
         mFragmentHomeBinding!!.rcvFood.adapter = mFoodGridAdapter
-    }
-
-    private fun searchFood() {
-        val strKey = mFragmentHomeBinding!!.edtSearchName.text.toString().trim { it <= ' ' }
-        filterFoodList(strKey)
     }
 
     private fun goToFoodDetail(food: Food) {
@@ -228,7 +217,7 @@ class HomeFragment : BaseFragment() {
             hideSoftKeyboard(requireActivity())
             mFragmentHomeBinding!!.edtSearchName.clearFocus()
         }
-        //S
+        // NestedScrollView
         mFragmentHomeBinding!!.layoutChild.setOnTouchListener { _, _ ->
             hideSoftKeyboard(requireActivity())
             mFragmentHomeBinding!!.edtSearchName.clearFocus()
@@ -238,11 +227,10 @@ class HomeFragment : BaseFragment() {
 
     private fun setupLayoutSearchListener() {
         //Layout Search: Listener focus, clear text icon
-        GlobalFunction.setupLayoutEditTextListeners(
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
             mFragmentHomeBinding!!.layoutSearch,
             mFragmentHomeBinding!!.edtSearchName,
-            mFragmentHomeBinding!!.imgClear,
-            requireActivity()
+            mFragmentHomeBinding!!.imgClear
         )
     }
 

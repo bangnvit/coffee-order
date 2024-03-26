@@ -5,10 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bangnv.cafeorder.adapter.MoreImageAdapter.MoreImageViewHolder
 import com.bangnv.cafeorder.databinding.ItemMoreImageBinding
+import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.model.Image
 import com.bangnv.cafeorder.utils.GlideUtils.loadUrl
 
 class MoreImageAdapter(private val mListImages: List<Image>?) : RecyclerView.Adapter<MoreImageViewHolder>() {
+
+    interface IOnClickOtherImagesListener {
+        fun onClickOtherImages(urlImage: String)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoreImageViewHolder {
         val itemMoreImageBinding = ItemMoreImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)

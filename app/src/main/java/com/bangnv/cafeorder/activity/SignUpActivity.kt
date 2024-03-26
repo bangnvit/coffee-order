@@ -116,11 +116,10 @@ class SignUpActivity : BaseActivity() {
 
     private fun setupLayoutEmailAndPasswordListener() {
         //Layout Email: Listener focus, clear text icon
-        GlobalFunction.setupLayoutEditTextListeners(
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
             mActivitySignUpBinding!!.layoutEmail,
             mActivitySignUpBinding!!.edtEmail,
-            mActivitySignUpBinding!!.imgClear,
-            this@SignUpActivity
+            mActivitySignUpBinding!!.imgClear
         )
         //Layout Password: Listener focus
         GlobalFunction.setupLayoutPasswordListeners(

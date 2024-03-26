@@ -1,6 +1,7 @@
 package com.bangnv.cafeorder.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
@@ -49,6 +50,8 @@ class AdminMainActivity : BaseActivity() {
             }
             true
         }
+        val TAG = "MAINQUANGQUE"
+        Log.d(TAG, "Test Log Main, đã chạy qua đây");
     }
 
     override fun onBackPressed() {

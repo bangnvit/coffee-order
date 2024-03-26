@@ -35,7 +35,6 @@
                 android:background="@drawable/bg_edittext_inactive"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/define_dimen_5"
                 android:weightSum="1">
 
                 <EditText
@@ -48,15 +47,15 @@
                     android:imeOptions="actionNext"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:paddingStart="@dimen/define_dimen_10"
+                    android:paddingStart="@dimen/define_dimen_16"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/text_size_small" />
 
                 <ImageView
-                    android:id="@+id/img_clear_full_name"
+                    android:id="@+id/img_clear_name"
                     android:layout_width="@dimen/define_dimen_30"
                     android:layout_height="@dimen/define_dimen_30"
-                    android:layout_marginStart="@dimen/define_dimen_5"
+                    android:layout_marginEnd="@dimen/define_dimen_5"
                     android:padding="@dimen/define_dimen_10"
                     android:src="@drawable/ic_clear_no_bg"
                     android:visibility="gone" />
@@ -80,7 +79,6 @@
                 android:background="@drawable/bg_edittext_inactive"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/define_dimen_5"
                 android:weightSum="1">
 
                 <EditText
@@ -93,7 +91,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="phone"
                     android:maxLines="1"
-                    android:paddingStart="@dimen/define_dimen_10"
+                    android:paddingStart="@dimen/define_dimen_16"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/text_size_small" />
 
@@ -101,7 +99,7 @@
                     android:id="@+id/img_clear_phone"
                     android:layout_width="@dimen/define_dimen_30"
                     android:layout_height="@dimen/define_dimen_30"
-                    android:layout_marginStart="@dimen/define_dimen_5"
+                    android:layout_marginEnd="@dimen/define_dimen_5"
                     android:padding="@dimen/define_dimen_10"
                     android:src="@drawable/ic_clear_no_bg"
                     android:visibility="gone" />
@@ -124,7 +122,6 @@
                 android:background="@drawable/bg_edittext_inactive"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/define_dimen_5"
                 android:weightSum="1">
 
                 <EditText
@@ -138,8 +135,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:paddingStart="@dimen/define_dimen_10"
-                    android:paddingEnd="@dimen/define_dimen_10"
+                    android:paddingHorizontal="@dimen/define_dimen_16"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/text_size_small" />
 
@@ -161,9 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/define_dimen_10"
                 android:background="@drawable/bg_edittext_inactive"
-                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/define_dimen_5"
                 android:weightSum="1">
 
                 <EditText
@@ -174,15 +168,24 @@
                     android:background="@null"
                     android:gravity="start"
                     android:hint="@string/hint_comment"
-                    android:imeOptions="actionDone"
                     android:inputType="textMultiLine"
                     android:maxLength="1000"
                     android:maxLines="10"
                     android:minLines="6"
-                    android:paddingHorizontal="@dimen/define_dimen_10"
+                    android:paddingStart="@dimen/define_dimen_16"
                     android:paddingVertical="@dimen/define_dimen_5"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                android:id="@+id/img_clear_comment"
+                android:layout_width="@dimen/define_dimen_30"
+                android:layout_height="@dimen/define_dimen_30"
+                android:layout_marginTop="@dimen/define_dimen_5"
+                android:layout_marginEnd="@dimen/define_dimen_5"
+                android:padding="@dimen/define_dimen_10"
+                android:src="@drawable/ic_clear_no_bg"
+                android:visibility="gone" />
 
             </LinearLayout>
 

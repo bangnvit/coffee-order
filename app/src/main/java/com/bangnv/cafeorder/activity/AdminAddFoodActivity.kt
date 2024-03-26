@@ -1,14 +1,20 @@
 package com.bangnv.cafeorder.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
+import com.bangnv.cafeorder.constant.GlobalFunction.setBackgroundOnEditTextFocusChange
+import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionDoneListener
 import com.bangnv.cafeorder.databinding.ActivityAdminAddFoodBinding
 import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.model.FoodObject
@@ -31,6 +37,9 @@ class AdminAddFoodActivity : BaseActivity() {
         initToolbar()
         initView()
         mActivityAdminAddFoodBinding!!.btnAddOrEdit.setOnClickListener { addOrEditFood() }
+
+        setupTouchOtherToClearAllFocus()
+        setupLayoutEditTextsListener()
     }
 
     private fun getDataIntent() {
@@ -167,5 +176,72 @@ class AdminAddFoodActivity : BaseActivity() {
                     hideSoftKeyboard(this)
                     Toast.makeText(this, getString(R.string.msg_add_food_success), Toast.LENGTH_SHORT).show()
                 }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupTouchOtherToClearAllFocus() {
+        mActivityAdminAddFoodBinding!!.layoutWrap.setOnTouchListener { _, _ ->
+            hideSoftKeyboard(this@AdminAddFoodActivity)
+            mActivityAdminAddFoodBinding!!.edtName.clearFocus()
+            mActivityAdminAddFoodBinding!!.edtDescription.clearFocus()
+            mActivityAdminAddFoodBinding!!.edtPrice.clearFocus()
+            mActivityAdminAddFoodBinding!!.edtDiscount.clearFocus()
+            mActivityAdminAddFoodBinding!!.edtImage.clearFocus()
+            mActivityAdminAddFoodBinding!!.edtImageBanner.clearFocus()
+            mActivityAdminAddFoodBinding!!.edtOtherImage.clearFocus()
+            false
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupLayoutEditTextsListener() {
+        //Layout Name: Listener focus, clear text icon
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
+            mActivityAdminAddFoodBinding!!.layoutName,
+            mActivityAdminAddFoodBinding!!.edtName,
+            mActivityAdminAddFoodBinding!!.imgClearName
+        )
+
+        //Layout Description: Listener focus, clear text icon
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
+            mActivityAdminAddFoodBinding!!.layoutDescription,
+            mActivityAdminAddFoodBinding!!.edtDescription,
+            mActivityAdminAddFoodBinding!!.imgClearDescription
+        )
+        mActivityAdminAddFoodBinding!!.edtDescription.setImeOptions(EditorInfo.IME_ACTION_NEXT)
+        mActivityAdminAddFoodBinding!!.edtDescription.setRawInputType(InputType.TYPE_CLASS_TEXT)
+
+        //Layout Image: Listener focus, clear text icon
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
+            mActivityAdminAddFoodBinding!!.layoutImage,
+            mActivityAdminAddFoodBinding!!.edtImage,
+            mActivityAdminAddFoodBinding!!.imgClearImage
+        )
+
+        //Layout Image Banner: Listener focus, clear text icon
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
+            mActivityAdminAddFoodBinding!!.layoutImageBanner,
+            mActivityAdminAddFoodBinding!!.edtImageBanner,
+            mActivityAdminAddFoodBinding!!.imgClearImageBanner
+        )
+
+        //Layout Other Image: Listener focus, clear text icon
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
+            mActivityAdminAddFoodBinding!!.layoutOtherImage,
+            mActivityAdminAddFoodBinding!!.edtOtherImage,
+            mActivityAdminAddFoodBinding!!.imgClearOtherImage
+        )
+        mActivityAdminAddFoodBinding!!.edtOtherImage.setImeOptions(EditorInfo.IME_ACTION_DONE)
+        mActivityAdminAddFoodBinding!!.edtOtherImage.setRawInputType(InputType.TYPE_CLASS_TEXT)
+        mActivityAdminAddFoodBinding!!.edtOtherImage.setOnActionDoneListener(
+            { hideSoftKeyboard(this@AdminAddFoodActivity) },
+            { mActivityAdminAddFoodBinding!!.edtOtherImage.clearFocus() }
+        )
+
+        //Layout Price: Listener focus, NO clear text icon
+        mActivityAdminAddFoodBinding!!.edtPrice.setBackgroundOnEditTextFocusChange( mActivityAdminAddFoodBinding!!.layoutPrice)
+
+        //Layout Discount: Listener focus, NO clear text icon
+        mActivityAdminAddFoodBinding!!.edtDiscount.setBackgroundOnEditTextFocusChange( mActivityAdminAddFoodBinding!!.layoutDiscount)
     }
 }

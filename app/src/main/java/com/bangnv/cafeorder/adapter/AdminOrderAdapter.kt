@@ -26,12 +26,18 @@ class AdminOrderAdapter(private var mContext: Context?, private val mListOrder: 
 
     override fun onBindViewHolder(holder: AdminOrderViewHolder, position: Int) {
         val order = mListOrder!![position]
-        if (order.isCompleted) {
-            holder.mItemAdminOrderBinding.layoutItem.setBackgroundResource(R.drawable.bg_color_overlay_border_radius_10)
+        if (order.status == 35) { //status: 35: Completed
+            holder.mItemAdminOrderBinding.layoutItem.setBackgroundResource(R.drawable.bg_color_overlay_border_radius_12)
         } else {
-            holder.mItemAdminOrderBinding.layoutItem.setBackgroundResource(R.drawable.bg_color_white_border_divider_radius_10)
+            holder.mItemAdminOrderBinding.layoutItem.setBackgroundResource(R.drawable.bg_color_white_border_divider_radius_12)
         }
-        holder.mItemAdminOrderBinding.chbStatus.isChecked = order.isCompleted
+//        holder.mItemAdminOrderBinding.chbStatus.isChecked = order.status
+//        holder.mItemAdminOrderBinding.chbStatus.setOnClickListener { mIUpdateStatusListener.updateStatus(order) }
+//        changed to:
+        holder.mItemAdminOrderBinding.chbStatus.setOnClickListener { mIUpdateStatusListener.updateStatus(order) } // Đang bị lỗi
+        // Cần thay Checkbox sang Button/TextView, Khi bấm vào thì đưa sang AdminOrderFragment xử lý ở bên (có nói bên đó là cần dialog hỏi..)
+
+
         holder.mItemAdminOrderBinding.tvId.text = order.id.toString()
         holder.mItemAdminOrderBinding.tvEmail.text = order.email
         holder.mItemAdminOrderBinding.tvName.text = order.name
@@ -46,7 +52,6 @@ class AdminOrderAdapter(private var mContext: Context?, private val mListOrder: 
             paymentMethod = Constant.PAYMENT_METHOD_CASH
         }
         holder.mItemAdminOrderBinding.tvPayment.text = paymentMethod
-        holder.mItemAdminOrderBinding.chbStatus.setOnClickListener { mIUpdateStatusListener.updateStatus(order) }
     }
 
     override fun getItemCount(): Int {

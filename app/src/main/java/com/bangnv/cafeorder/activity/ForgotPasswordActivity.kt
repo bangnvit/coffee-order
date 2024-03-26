@@ -1,7 +1,6 @@
 package com.bangnv.cafeorder.activity
 
 import android.os.Bundle
-import android.widget.EditText
 import android.widget.Toast
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.constant.GlobalFunction
@@ -72,11 +71,10 @@ class ForgotPasswordActivity : BaseActivity() {
 
     private fun setupLayoutEmailListener() {
         //Layout Email: Listener focus, clear text icon
-        GlobalFunction.setupLayoutEditTextListeners(
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
             mActivityForgotPasswordBinding!!.layoutEmail,
             mActivityForgotPasswordBinding!!.edtEmail,
-            mActivityForgotPasswordBinding!!.imgClear,
-            this@ForgotPasswordActivity
+            mActivityForgotPasswordBinding!!.imgClear
         )
     }
 
