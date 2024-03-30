@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Cafe Order</string>
-<!--    <string name="splash_text">Highly committed to quality products &amp; excellent services</string>-->
+    <string name="app_name">Coffee NB</string>
+    <!--    <string name="splash_text">Highly committed to quality products &amp; excellent services</string>-->
     <string name="splash_text">Cam kết chất lượng sản phẩm &amp; dịch vụ hoàn hảo</string>
-    <string name="cafe_nb">Coffee NB</string>
+    <string name="coffee_nb">Coffee NB</string>
 
     // Tab Menu
     <string name="home">Menu</string>
@@ -16,6 +16,7 @@
     // action
     <string name="action_ok">Đồng ý</string>
     <string name="action_cancel">Hủy bỏ</string>
+    <string name="action_back">Trở về</string>
     <string name="action_add">Thêm</string>
     <string name="action_edit">Chỉnh sửa</string>
 
@@ -29,6 +30,7 @@
     <string name="category_title">Danh mục</string>
     <string name="food_suggest">Gợi ý</string>
     <string name="food_detail_title">Chi tiết món</string>
+    <string name="order_detail_title">Chi tiết đơn hàng</string>
     <string name="add_to_cart">Thêm vào giỏ hàng</string>
     <string name="added_to_cart">Đã thêm vào giỏ hàng</string>
     <string name="cancel">Hủy bỏ</string>
@@ -42,6 +44,9 @@
     <string name="message_delete_food">Bạn có chắc chắn muốn xóa món này không?</string>
     <string name="dialog_cancel">Hủy</string>
     <string name="order_detail">Chi tiết đơn hàng</string>
+    <string name="delivery">Vận chuyển</string>
+    <string name="payment_detail">Chi tiết thanh toán</string>
+    <string name="transaction_detail">Chi tiết giao dịch</string>
     <string name="address_delivery">Địa chỉ giao hàng</string>
     <string name="message_enter_infor_order">Vui lòng điền đầy đủ thông tin giao hàng</string>
     <string name="hint_search_name">Tên món</string>
@@ -49,7 +54,7 @@
     <string name="description_label">Mô tả</string>
     <string name="more_image_label">Một số hình ảnh khác</string>
     <string name="payment_method">Phương thức thanh toán</string>
-    <string name="payment_method_cash">Tiền mặt</string>
+    <string name="payment_method_cod">Thanh toán khi nhận hàng (COD)</string>
     <string name="label_sub">-</string>
     <string name="label_add">+</string>
     <string name="label_quantity_1">1</string>
@@ -69,14 +74,14 @@
     <string name="label_price">Tổng tiền:</string>
     <string name="label_date">Ngày đặt hàng:</string>
     <string name="label_payment">Thanh toán:</string>
+    <string name="label_status">Trạng thái:</string>
     <string name="label_menu">Thực đơn:</string>
     <string name="label_popular">Phổ biến:</string>
+    <string name="label_cancel_order">Hủy bỏ đơn hàng</string>
+    <string name="label_accept_order">Chấp nhận</string>
+    <string name="label_refuse_order">Từ chối</string>
+    <string name="label_send_order">Gửi đơn hàng</string>
 
-    <string name="status_new">Chờ xử lý</string>
-    <string name="status_cancel">Hủy đơn hàng</string>
-    <string name="status_process">Đang giao hàng</string>
-    <string name="status_success">Thành công</string>
-    <string name="status_fail">Thất bại</string>
     <string name="quantity">Số lượng:</string>
     <string name="list_food_order">Danh sách món trong đơn hàng</string>
 
@@ -92,6 +97,8 @@
     <string name="sign_in_user">Đăng nhập tài khoản</string>
     <string name="str_email">Email</string>
     <string name="str_password">Mật khẩu</string>
+    <string name="str_user_name">Họ và Tên (tùy chọn)</string>
+    <string name="hint_user_name_sign_up">Họ và Tên</string>
     <string name="sign_in_hello">Chào mừng bạn đã quay lại</string>
     <string name="sign_in_request">Vui lòng nhập email &amp; mật khẩu để đăng nhập.</string>
     <string name="sign_up_create_account">Tạo tài khoản</string>
@@ -113,6 +120,7 @@
     <string name="edit_food">Chỉnh sửa món</string>
     <string name="currency_food">000 VNĐ</string>
     <string name="percent">%</string>
+    <string name="reduce">Giảm</string>
     <string name="popular">Phổ biến</string>
 
     <string name="revenue">Doanh thu</string>
@@ -161,7 +169,7 @@
     <string name="msg_change_password_successfully">Thay đổi mật khẩu thành công</string>
     <string name="msg_reset_password_successfully">Reset mật khẩu thành công, vui lòng kiểm tra email của bạn</string>
     <string name="msg_email_invalid">Định dạng Email dành cho Admin không hợp lệ, vui lòng nhập lại</string>
-<!--    <string name="msg_email_invalid_admin">Email dành cho quản trị viên cần có định dạng …@admin.com</string>-->
+    <!--    <string name="msg_email_invalid_admin">Email dành cho quản trị viên cần có định dạng …@admin.com</string>-->
     <string name="msg_email_invalid_admin">Email dành cho quản trị viên sai định dạng!</string>
     <string name="msg_email_invalid_user">Email sai định dạng dành cho người dùng</string>
     <string name="msg_sign_up_error">Đăng ký không thành công, vui lòng thử lại</string>
@@ -173,11 +181,18 @@
     <string name="msg_discount_food_require">Vui lòng nhập phần trăm khuyến mại</string>
     <string name="msg_image_food_require">Vui lòng nhập link ảnh món</string>
     <string name="msg_image_banner_food_require">Vui lòng nhập link ảnh banner</string>
-    <string name="msg_add_food_success">Thêm món thành công !!!</string>
-    <string name="msg_edit_food_success">Chỉnh sửa món thành công !!!</string>
+    <string name="msg_add_food_success">Thêm món thành công!</string>
+    <string name="msg_edit_food_success">Chỉnh sửa món thành công!</string>
     <string name="msg_delete_title">Xác nhận xóa</string>
     <string name="msg_confirm_delete">Bạn có chắc chắn muốn xóa mục này không?</string>
-    <string name="msg_delete_movie_successfully">Xóa món thành công !!!</string>
+    <string name="msg_delete_movie_successfully">Xóa món thành công!</string>
+
+    <string name="msg_cancel_title">Xác nhận hủy đơn hàng</string>
+    <string name="msg_confirm_cancel">Bạn có chắc chắn muốn hủy đơn hàng này không?</string>
+    <string name="msg_cancel_order_successfully">Hủy đơn hàng thành công!</string>
+    <string name="msg_refuse_title">Xác nhận từ chối đơn hàng</string>
+    <string name="msg_confirm_refuse">Bạn có chắc chắn muốn từ chối đơn hàng này không?</string>
+    <string name="msg_refuse_order_successfully">Từ chối đơn hàng thành công!</string>
 
     <!-- digits -->
     <string name="digits_number">0123456789</string>
@@ -188,5 +203,28 @@
     <string name="hint_phone">Số điện thoại</string>
     <string name="hint_comment">Hãy đóng góp ý kiến cho chúng tôi. Cảm ơn quý khách!</string>
     <string name="hint_search">Tìm kiếm</string>
+
+
+    <string name="NOTE_CartFragment">"Test Note: from Cart Fragment onClickOrderCart()"</string>
+    <string name="notes">Ghi chú</string>
+    <string name="str_pick_up_at">Đã đặt lúc</string>
+    <string name="str_subtotal">Tổng tạm tính</string>
+    <string name="str_service_fee">Phí dịch vụ</string>
+    <string name="str_delivery_fee">Phí vận chuyển</string>
+    <string name="str_total_fee">Tổng chi phí</string>
+    <string name="str_to_client_address">Tới địa chỉ:</string>
+    <string name="str_status">Trạng thái</string>
+    <string name="str_date">Ngày</string>
+    <string name="str_time">Thời gian</string>
+    <string name="str_order_id">Mã đơn hàng</string>
+    <string name="str_transaction_id">Mã giao dịch</string>
+    <string name="str_track_driver">Tra cứu tài xế</string>
+    <string name="str_no_note">Không có ghi chú</string>
+    <string name="str_cancel_by">Người hủy đơn</string>
+    <string name="str_payment_cod">COD</string>
+    <string name="str_empty_data">Không có dữ liệu</string>
+    <string name="str_empty_cart">Không có sản phẩm trong giỏ hàng!</string>
+    <string name="text_popular_yes">Có</string>
+    <string name="text_popular_no">Không</string>
 
 </resources>

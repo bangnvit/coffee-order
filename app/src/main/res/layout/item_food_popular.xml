@@ -28,7 +28,7 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="bottom"
             android:layout_marginTop="@dimen/define_dimen_10"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/bg_reduce_border_left_radius_8"
             android:padding="@dimen/define_dimen_6"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_xsmall"

@@ -51,10 +51,8 @@
                     android:hint="@string/hint_name"
                     android:imeOptions="actionNext"
                     android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/define_dimen_16"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/text_size_small" />
+                    style="@style/EditTextPrimary"
+                    android:paddingStart="@dimen/define_dimen_16" />
 
                 <ImageView
                     android:id="@+id/img_clear_name"
@@ -141,9 +139,8 @@
                     android:imeOptions="actionNext"
                     android:inputType="number"
                     android:paddingVertical="@dimen/define_dimen_12"
-                    android:paddingStart="@dimen/define_dimen_16"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/text_size_small" />
+                    style="@style/EditTextPrimary"
+                    android:paddingStart="@dimen/define_dimen_16"/>
 
                 <TextView
                     android:id="@+id/tv_currency"
@@ -229,10 +226,8 @@
                     android:hint="@string/hint_image"
                     android:imeOptions="actionNext"
                     android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/define_dimen_16"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/text_size_small" />
+                    style="@style/EditTextPrimary"
+                    android:paddingStart="@dimen/define_dimen_16" />
 
                 <ImageView
                     android:id="@+id/img_clear_image"
@@ -274,10 +269,8 @@
                     android:hint="@string/hint_image_banner"
                     android:imeOptions="actionNext"
                     android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/define_dimen_16"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/text_size_small" />
+                    style="@style/EditTextPrimary"
+                    android:paddingStart="@dimen/define_dimen_16" />
 
                 <ImageView
                     android:id="@+id/img_clear_image_banner"
