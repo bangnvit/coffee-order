@@ -22,7 +22,6 @@ import com.bangnv.cafeorder.activity.AdminMainActivity
 import com.bangnv.cafeorder.adapter.AdminFoodAdapter
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
-import com.bangnv.cafeorder.constant.GlobalFunction.getTextSearch
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
 import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionSearchListener
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
@@ -31,25 +30,23 @@ import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.listener.IOnManagerFoodListener
 import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.utils.StringUtil
-import com.bangnv.cafeorder.utils.StringUtil.isEmpty
 import java.util.*
 
 class AdminHomeFragment : BaseFragment() {
 
-    private var mFragmentAdminHomeBinding: FragmentAdminHomeBinding? = null
-    private var mListFood: MutableList<Food>? = null
-    private var mAdminFoodAdapter: AdminFoodAdapter? = null
+    private lateinit var mFragmentAdminHomeBinding: FragmentAdminHomeBinding
+    private var mListFood: MutableList<Food> = mutableListOf()
+    private var displayFood: MutableList<Food> = mutableListOf()
+    private lateinit var mAdminFoodAdapter: AdminFoodAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mFragmentAdminHomeBinding = FragmentAdminHomeBinding.inflate(inflater, container, false)
         initView()
         initListener()
-        getListFood("")
-
+        getListFood()
         setupTouchOtherToClearAllFocus()
         setupLayoutSearchListener()
-
-        return mFragmentAdminHomeBinding!!.root
+        return mFragmentAdminHomeBinding.root
     }
 
     override fun initToolbar() {
@@ -63,9 +60,8 @@ class AdminHomeFragment : BaseFragment() {
             return
         }
         val linearLayoutManager = LinearLayoutManager(activity)
-        mFragmentAdminHomeBinding!!.rcvFood.layoutManager = linearLayoutManager
-        mListFood = ArrayList()
-        mAdminFoodAdapter = AdminFoodAdapter(mListFood, object : IOnManagerFoodListener {
+        mFragmentAdminHomeBinding.rcvFood.layoutManager = linearLayoutManager
+        mAdminFoodAdapter = AdminFoodAdapter(requireContext(), mListFood, object : IOnManagerFoodListener {
             override fun onClickUpdateFood(food: Food?) {
                 onClickEditFood(food)
             }
@@ -74,30 +70,28 @@ class AdminHomeFragment : BaseFragment() {
                 deleteFoodItem(food)
             }
         })
-        mFragmentAdminHomeBinding!!.rcvFood.adapter = mAdminFoodAdapter
+        mFragmentAdminHomeBinding.rcvFood.adapter = mAdminFoodAdapter
     }
 
     private fun initListener() {
-        mFragmentAdminHomeBinding!!.btnAddFood.setOnClickListener { onClickAddFood() }
+        mFragmentAdminHomeBinding.btnAddFood.setOnClickListener { onClickAddFood() }
 
-        mFragmentAdminHomeBinding!!.edtSearchName.addTextChangedListener(object : TextWatcher {
+        mFragmentAdminHomeBinding.edtSearchName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
 
             override fun afterTextChanged(s: Editable) {
-                filterFoodList(mFragmentAdminHomeBinding!!.edtSearchName.text.toString())
+                filterFoodList(mFragmentAdminHomeBinding.edtSearchName.text.toString())
             }
         })
-        mFragmentAdminHomeBinding!!.imgSearch.setOnClickListener {
-            searchFood()
+        mFragmentAdminHomeBinding.imgSearch.setOnClickListener {
             hideSoftKeyboard(requireActivity())
-            mFragmentAdminHomeBinding!!.edtSearchName.clearFocus()
+            mFragmentAdminHomeBinding.edtSearchName.clearFocus()
         }
-        mFragmentAdminHomeBinding!!.edtSearchName.setOnActionSearchListener(
-            { searchFood() },
+        mFragmentAdminHomeBinding.edtSearchName.setOnActionSearchListener(
             { hideSoftKeyboard(requireActivity()) },
-            { mFragmentAdminHomeBinding!!.edtSearchName.clearFocus() }
+            { mFragmentAdminHomeBinding.edtSearchName.clearFocus() }
         )
     }
 
@@ -129,40 +123,20 @@ class AdminHomeFragment : BaseFragment() {
                 .show()
     }
 
-    private fun searchFood() {
-        val strKey = mFragmentAdminHomeBinding!!.edtSearchName.text.toString().trim { it <= ' ' }
-        filterFoodList(strKey)
-    }
-
     private fun filterFoodList(key: String) {
-        val filteredList = if (key.isEmpty()) {
+        displayFood = if (key.isEmpty()) {
             mListFood  // if there is no search keyword, display the original data
         } else {
             val normalizedKey = StringUtil.normalizeEnglishString(key)
-            mListFood?.filter { food ->
+            mListFood.filter { food ->
                 val normalizedFoodName = StringUtil.normalizeEnglishString(food.name ?: "")
                 normalizedFoodName.contains(normalizedKey)
-            }
+            }.toMutableList()
         }
-        if (filteredList != null) {
-            displayFilteredFoodList(filteredList)
-        }
+        mAdminFoodAdapter.updateData(displayFood)
     }
 
-    private fun displayFilteredFoodList(filteredList: List<Food>) {
-        mAdminFoodAdapter  = AdminFoodAdapter(filteredList, object : IOnManagerFoodListener {
-            override fun onClickUpdateFood(food: Food?) {
-                onClickEditFood(food)
-            }
-
-            override fun onClickDeleteFood(food: Food?) {
-                deleteFoodItem(food)
-            }
-        })
-        mFragmentAdminHomeBinding!!.rcvFood.adapter = mAdminFoodAdapter
-    }
-
-    private fun getListFood(keyword: String?) {
+    private fun getListFood() {
         if (activity == null) {
             return
         }
@@ -170,49 +144,39 @@ class AdminHomeFragment : BaseFragment() {
                 .addChildEventListener(object : ChildEventListener {
                     @SuppressLint("NotifyDataSetChanged")
                     override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-                        val food = dataSnapshot.getValue(Food::class.java)
-                        if (food == null || mListFood == null || mAdminFoodAdapter == null) {
-                            return
-                        }
-                        if (isEmpty(keyword)) {
-                            mListFood!!.add(0, food)
-                        } else {
-                            if (getTextSearch(food.name).toLowerCase(Locale.getDefault()).trim { it <= ' ' }
-                                            .contains(getTextSearch(keyword).toLowerCase(Locale.getDefault()).trim { it <= ' ' })) {
-                                mListFood!!.add(0, food)
-                            }
-                        }
-                        mAdminFoodAdapter!!.notifyDataSetChanged()
+                        val food = dataSnapshot.getValue(Food::class.java) ?: return
+                        mListFood.add(0, food)
+                        mAdminFoodAdapter.notifyDataSetChanged()
                     }
 
                     @SuppressLint("NotifyDataSetChanged")
                     override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
                         val food = dataSnapshot.getValue(Food::class.java)
-                        if (food == null || mListFood == null || mListFood!!.isEmpty() || mAdminFoodAdapter == null) {
+                        if (food == null || mListFood.isEmpty()) {
                             return
                         }
-                        for (i in mListFood!!.indices) {
-                            if (food.id == mListFood!![i].id) {
-                                mListFood!![i] = food
+                        for (i in mListFood.indices) {
+                            if (food.id == mListFood[i].id) {
+                                mListFood[i] = food
                                 break
                             }
                         }
-                        mAdminFoodAdapter!!.notifyDataSetChanged()
+                        mAdminFoodAdapter.notifyDataSetChanged()
                     }
 
                     @SuppressLint("NotifyDataSetChanged")
                     override fun onChildRemoved(dataSnapshot: DataSnapshot) {
                         val food = dataSnapshot.getValue(Food::class.java)
-                        if (food == null || mListFood == null || mListFood!!.isEmpty() || mAdminFoodAdapter == null) {
+                        if (food == null || mListFood.isEmpty()) {
                             return
                         }
-                        for (foodObject in mListFood!!) {
+                        for (foodObject in mListFood) {
                             if (food.id == foodObject.id) {
-                                mListFood!!.remove(foodObject)
+                                mListFood.remove(foodObject)
                                 break
                             }
                         }
-                        mAdminFoodAdapter!!.notifyDataSetChanged()
+                        mAdminFoodAdapter.notifyDataSetChanged()
                     }
 
                     override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
@@ -222,18 +186,18 @@ class AdminHomeFragment : BaseFragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupTouchOtherToClearAllFocus() {
-        mFragmentAdminHomeBinding!!.layoutContent.setOnClickListener {
+        mFragmentAdminHomeBinding.layoutContent.setOnClickListener {
             hideSoftKeyboard(requireActivity())
-            mFragmentAdminHomeBinding!!.edtSearchName.clearFocus()
+            mFragmentAdminHomeBinding.edtSearchName.clearFocus()
         }
     }
 
     private fun setupLayoutSearchListener() {
         //Layout Search: Listener focus, clear text icon
         GlobalFunction.setupLayoutEditTextWithIconClearListeners(
-            mFragmentAdminHomeBinding!!.layoutSearch,
-            mFragmentAdminHomeBinding!!.edtSearchName,
-            mFragmentAdminHomeBinding!!.imgClear
+            mFragmentAdminHomeBinding.layoutSearch,
+            mFragmentAdminHomeBinding.edtSearchName,
+            mFragmentAdminHomeBinding.imgClear
         )
     }
 }

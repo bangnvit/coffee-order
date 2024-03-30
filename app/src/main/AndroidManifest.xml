@@ -4,20 +4,20 @@
     package="com.bangnv.cafeorder">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.DIAL" />
-    <!--    <uses-permission android:name="android.permission.CALL_PHONE"-->
-    <!--        tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />-->
-
+    <uses-permission android:name="android.permission.DIAL" /> <!-- <uses-permission android:name="android.permission.CALL_PHONE" -->
+    <!-- tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" /> -->
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
+
             <category android:name="android.intent.category.DEFAULT" />
+
             <data android:scheme="https" />
         </intent>
     </queries>
 
     <application
-        android:name="com.bangnv.cafeorder.ControllerApplication"
+        android:name=".ControllerApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -26,7 +26,10 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.bangnv.cafeorder.activity.SplashActivity"
+            android:name=".activity.AdminOrderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
@@ -37,52 +40,59 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.bangnv.cafeorder.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.bangnv.cafeorder.activity.FoodDetailActivity"
+            android:name=".activity.FoodDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.bangnv.cafeorder.activity.SignUpActivity"
+            android:name=".activity.SignUpActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.bangnv.cafeorder.activity.SignInActivity"
+            android:name=".activity.SignInActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.bangnv.cafeorder.activity.ForgotPasswordActivity"
+            android:name=".activity.ForgotPasswordActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.bangnv.cafeorder.activity.ChangePasswordActivity"
+            android:name=".activity.ChangePasswordActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.bangnv.cafeorder.activity.AdminMainActivity"
+            android:name=".activity.AdminMainActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.bangnv.cafeorder.activity.OrderHistoryActivity"
+            android:name=".activity.OrderHistoryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <activity
+            android:name=".activity.OrderHistoryDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <activity
+            android:name=".activity.AdminAddFoodActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.bangnv.cafeorder.activity.AdminAddFoodActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name="com.bangnv.cafeorder.activity.AdminReportActivity"
+            android:name=".activity.AdminReportActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

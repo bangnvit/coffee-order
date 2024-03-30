@@ -11,6 +11,7 @@ import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.adapter.RevenueAdapter
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.constant.GlobalFunction.showDatePicker
 import com.bangnv.cafeorder.databinding.ActivityAdminReportBinding
 import com.bangnv.cafeorder.listener.IGetDateListener
@@ -87,7 +88,7 @@ class AdminReportActivity : AppCompatActivity() {
         if (order == null) {
             return false
         }
-        if (order.status != 35) {
+        if (order.status != Constant.CODE_COMPLETED) {
             return false
         }
         val strDateFrom = mActivityAdminReportBinding!!.tvDateFrom.text.toString()
@@ -120,7 +121,7 @@ class AdminReportActivity : AppCompatActivity() {
         mActivityAdminReportBinding!!.rcvOrderHistory.adapter = revenueAdapter
 
         // Calculate total
-        val strTotalValue: String = "" + getTotalValues(list) + Constant.CURRENCY
+        val strTotalValue: String = formatNumberWithPeriods(getTotalValues(list)) + Constant.CURRENCY
         mActivityAdminReportBinding!!.tvTotalValue.text = strTotalValue
     }
 

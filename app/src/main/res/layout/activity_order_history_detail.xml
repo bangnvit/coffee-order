@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="@string/str_empty_data"
+            android:textSize="@dimen/text_size_normal" />
+
+    </FrameLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/layout_order_detail_wrap"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_time_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/define_dimen_16"
+                android:background="@drawable/bg_color_white_border_divider_radius_12"
+                android:padding="@dimen/define_dimen_16"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/textview1"
+                    style="@style/TextViewSecondaryNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    android:text="@string/str_to_client_address" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/define_dimen_12"
+                    app:layout_constraintTop_toBottomOf="@id/textview1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/img_address_title"
+                        android:layout_width="@dimen/define_dimen_50"
+                        android:layout_height="@dimen/define_dimen_50"
+                        android:background="@drawable/bg_color_white_border_divider_circle"
+                        android:padding="@dimen/define_dimen_12"
+                        android:src="@drawable/ic_location_light"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_16"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/img_address_title"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints">
+
+                        <TextView
+                            android:id="@+id/tv_address_common"
+                            style="@style/TextViewPrimaryNormal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Nhà" />
+
+                        <TextView
+                            android:id="@+id/tv_address"
+                            style="@style/TextViewSecondarySmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/define_dimen_12"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_address_common"
+                            tools:text="701 7th Ave, New York, NY10036, USA" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_order_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/define_dimen_16"
+                android:background="@drawable/bg_color_white_border_divider_radius_12"
+                android:padding="@dimen/define_dimen_16"
+                app:layout_constraintTop_toBottomOf="@id/layout_time_address"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/tv_order_detail_title"
+                    style="@style/TextViewPrimaryNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_detail"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    android:background="@color/secondDividerColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_order_detail_title"
+                    tools:ignore="MissingConstraints" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_list_food"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view1" />
+
+                <TextView
+                    android:id="@+id/tv_foods"
+                    style="@style/TextViewPrimaryNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    app:layout_constraintTop_toBottomOf="@id/rcv_list_food"
+                    tools:text="List menu demo" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    android:background="@color/secondDividerColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_foods"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/tv_note_title"
+                    style="@style/TextViewSecondaryNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    android:text="@string/notes"
+                    app:layout_constraintTop_toBottomOf="@id/view2" />
+
+                <TextView
+                    android:id="@+id/tv_note"
+                    style="@style/TextViewPrimaryNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/define_dimen_10"
+                    app:layout_constraintTop_toBottomOf="@id/tv_note_title"
+                    tools:text="Thêm đường nhé shop!" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_delivery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/define_dimen_16"
+                android:background="@drawable/bg_color_white_border_divider_radius_12"
+                android:padding="@dimen/define_dimen_16"
+                app:layout_constraintTop_toBottomOf="@id/layout_order_detail"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/tv_delivery_title"
+                    style="@style/TextViewPrimaryNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delivery"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    android:background="@color/secondDividerColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_delivery_title"
+                    tools:ignore="MissingConstraints" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    app:layout_constraintTop_toBottomOf="@id/view3">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/img_delivery"
+                        android:layout_width="@dimen/define_dimen_50"
+                        android:layout_height="@dimen/define_dimen_50"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints"
+                        tools:src="@drawable/ic_launcher_background" />
+
+                    <TextView
+                        android:id="@+id/tv_delivery"
+                        style="@style/TextViewPrimaryNormal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/define_dimen_16"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/img_delivery"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Tiền mặt" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/define_dimen_16"
+                android:background="@drawable/bg_color_white_border_divider_radius_12"
+                android:padding="@dimen/define_dimen_16"
+                app:layout_constraintTop_toBottomOf="@id/layout_delivery"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/tv_payment_title"
+                    style="@style/TextViewPrimaryNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/payment_detail"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    android:background="@color/secondDividerColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_payment_title"
+                    tools:ignore="MissingConstraints" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_sub_order_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    app:layout_constraintTop_toBottomOf="@id/view4">
+
+                    <TextView
+                        android:id="@+id/tv_subtotal_title"
+                        style="@style/TextViewSecondarySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/str_subtotal"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_subtotal"
+                        style="@style/TextViewPrimarySmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_5"
+                        android:gravity="end"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_subtotal_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_subtotal_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_subtotal_title"
+                        tools:text="56 000 VNĐ" />
+
+                    <TextView
+                        android:id="@+id/tv_service_fee_title"
+                        style="@style/TextViewSecondarySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/define_dimen_12"
+                        android:text="@string/str_service_fee"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_subtotal_title" />
+
+                    <TextView
+                        android:id="@+id/tv_service_fee"
+                        style="@style/TextViewPrimarySmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_5"
+                        android:gravity="end"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_service_fee_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_service_fee_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_service_fee_title"
+                        tools:text="3 000 VNĐ" />
+
+                    <TextView
+                        android:id="@+id/tv_delivery_fee_title"
+                        style="@style/TextViewSecondarySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/define_dimen_12"
+                        android:text="@string/str_delivery_fee"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_service_fee_title" />
+
+                    <TextView
+                        android:id="@+id/tv_delivery_fee"
+                        style="@style/TextViewPrimarySmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_5"
+                        android:gravity="end"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_delivery_fee_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_delivery_fee_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_delivery_fee_title"
+                        tools:text="15 000 VNĐ" />
+
+                    <View
+                        android:id="@+id/view5"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/define_dimen_16"
+                        android:background="@color/secondDividerColor"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_delivery_fee_title"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/tv_total_fee_title"
+                        style="@style/TextViewSecondarySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/define_dimen_16"
+                        android:text="@string/str_total_fee"
+                        app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+                    <TextView
+                        android:id="@+id/tv_total_fee"
+                        style="@style/TextViewPrimarySmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_5"
+                        android:gravity="end"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_total_fee_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_total_fee_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_total_fee_title"
+                        tools:text="74 000 VNĐ" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_transaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/define_dimen_16"
+                android:background="@drawable/bg_color_white_border_divider_radius_12"
+                android:padding="@dimen/define_dimen_16"
+                app:layout_constraintBottom_toTopOf="@+id/tv_track_driver"
+                app:layout_constraintTop_toBottomOf="@id/layout_payment"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/tv_transaction_title"
+                    style="@style/TextViewPrimaryNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/transaction_detail"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    android:background="@color/secondDividerColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_transaction_title"
+                    tools:ignore="MissingConstraints" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_sub_transaction_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/define_dimen_16"
+                    app:layout_constraintTop_toBottomOf="@id/view6">
+
+                    <TextView
+                        android:id="@+id/tv_amount_title"
+                        style="@style/TextViewSecondarySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/str_total_fee"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_amount"
+                        style="@style/TextViewPrimarySmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_5"
+                        android:gravity="end"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_amount_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_amount_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_amount_title"
+                        tools:text="74 000 VNĐ" />
+
+                    <TextView
+                        android:id="@+id/tv_payment_method_title"
+                        style="@style/TextViewSecondarySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/define_dimen_12"
+                        android:text="@string/payment_method"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_amount" />
+
+                    <TextView
+                        android:id="@+id/tv_payment_method"
+                        style="@style/TextViewPrimarySmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_5"
+                        android:gravity="end"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_payment_method_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_payment_method_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_payment_method_title"
+                        tools:text="COD" />
+
+                    <TextView
+                        android:id="@+id/tv_status_title"
+                        style="@style/TextViewSecondarySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/define_dimen_12"
+                        android:text="@string/str_status"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_payment_method_title" />
+
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_5"
+                        android:background="@drawable/bg_green_main_shape_corner_8"
+                        android:gravity="end"
+                        android:paddingHorizontal="@dimen/define_dimen_10"
+                        android:paddingVertical="@dimen/define_dimen_5"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_size_xsmall"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_status_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@+id/tv_status_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_status_title"
+                        tools:text="Chờ xác nhận" />
+
+                    <TextView
+                        android:id="@+id/tv_date_title"
+                        style="@style/TextViewSecondarySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/define_dimen_10"
+                        android:text="@string/str_date"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_status_title" />
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        style="@style/TextViewPrimarySmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_5"
+                        android:gravity="end"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_date_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_date_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_date_title"
+                        tools:text="18/03/2024" />
+
+                    <TextView
+                        android:id="@+id/tv_time_title"
+                        style="@style/TextViewSecondarySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/define_dimen_12"
+                        android:text="@string/str_time"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_date_title" />
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        style="@style/TextViewPrimarySmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_5"
+                        android:gravity="end"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_time_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_time_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_time_title"
+                        tools:text="12:00 PM" />
+
+                    <TextView
+                        android:id="@+id/tv_order_id_title"
+                        style="@style/TextViewSecondarySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/define_dimen_12"
+                        android:text="@string/str_order_id"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_time" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_copy_order_id"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_order_id_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_order_id_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_order_id_title">
+
+                        <TextView
+                            android:id="@+id/tv_order_id"
+                            style="@style/TextViewPrimarySmall"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="end"
+                            android:padding="@dimen/define_dimen_4"
+                            app:layout_constraintEnd_toStartOf="@+id/img_copy_order_id"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:text="1711504444214" />
+
+                        <ImageView
+                            android:id="@+id/img_copy_order_id"
+                            android:layout_width="@dimen/define_dimen_18"
+                            android:layout_height="@dimen/define_dimen_18"
+                            android:src="@drawable/ic_copy"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_order_id"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/tv_order_id" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/tv_transition_id_title"
+                        style="@style/TextViewSecondarySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/define_dimen_12"
+                        android:text="@string/str_transaction_id"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_order_id_title" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_copy_transition_id"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_transition_id_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_transition_id_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_transition_id_title">
+
+                        <TextView
+                            android:id="@+id/tv_transition_id"
+                            style="@style/TextViewPrimarySmall"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="end"
+                            android:padding="@dimen/define_dimen_4"
+                            app:layout_constraintEnd_toStartOf="@+id/img_copy_transition_id"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="0dp"
+                            tools:text="1711504446745" />
+
+                        <ImageView
+                            android:id="@+id/img_copy_transition_id"
+                            android:layout_width="@dimen/define_dimen_18"
+                            android:layout_height="@dimen/define_dimen_18"
+                            android:src="@drawable/ic_copy"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_transition_id"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/tv_transition_id"
+                            app:layout_constraintTop_toTopOf="@+id/tv_transition_id" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_cancel_by"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/define_dimen_12"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_transition_id_title">
+
+                        <TextView
+                            android:id="@+id/tv_cancel_by_title"
+                            style="@style/TextViewSecondarySmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_cancel_by"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_cancel_by"
+                            style="@style/TextViewPrimarySmall"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/tv_cancel_by_title"
+                            tools:text="abc@gmail.com" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_track_driver"
+                style="@style/MyTextViewButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/define_dimen_16"
+                android:layout_marginTop="@dimen/define_dimen_20"
+                android:layout_marginBottom="@dimen/define_dimen_20"
+                android:background="@drawable/bg_green_main_shape_corner_circle"
+                android:text="@string/str_track_driver"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/tv_cancel_order"
+                app:layout_constraintTop_toBottomOf="@+id/layout_transaction"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_cancel_order"
+                style="@style/MyTextViewButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/define_dimen_16"
+                android:layout_marginTop="@dimen/define_dimen_20"
+                android:layout_marginBottom="@dimen/define_dimen_20"
+                android:background="@drawable/bg_green_main_shape_corner_circle"
+                android:text="@string/label_cancel_order"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_track_driver"
+                tools:ignore="MissingConstraints" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

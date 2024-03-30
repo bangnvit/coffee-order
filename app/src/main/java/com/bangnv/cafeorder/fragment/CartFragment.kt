@@ -15,7 +15,10 @@ import com.bangnv.cafeorder.activity.MainActivity
 import com.bangnv.cafeorder.adapter.CartAdapter
 import com.bangnv.cafeorder.adapter.CartAdapter.IClickListener
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.GlobalFunction
+import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
+import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionDoneListener
 import com.bangnv.cafeorder.constant.GlobalFunction.showToastMessage
 import com.bangnv.cafeorder.database.FoodDatabase.Companion.getInstance
 import com.bangnv.cafeorder.databinding.FragmentCartBinding
@@ -51,6 +54,10 @@ class CartFragment : BaseFragment() {
         }
         displayListFoodInCart()
         mFragmentCartBinding!!.tvOrderCart.setOnClickListener { onClickOrderCart() }
+
+        setupTouchOtherToClearAllFocus()
+        setupLayoutEditTextNoteListener()
+
         return mFragmentCartBinding!!.root
     }
 
@@ -88,7 +95,15 @@ class CartFragment : BaseFragment() {
                 calculateTotalPrice()
             }
         })
+
+        mFragmentCartBinding!!.rcvFoodCart.itemAnimator = null
         mFragmentCartBinding!!.rcvFoodCart.adapter = mCartAdapter
+
+        if (mCartAdapter!!.itemCount == 0) {
+            mFragmentCartBinding!!.layoutCartWrap.visibility = View.GONE
+        } else {
+            mFragmentCartBinding!!.layoutCartWrap.visibility = View.VISIBLE
+        }
         calculateTotalPrice()
     }
 
@@ -102,7 +117,7 @@ class CartFragment : BaseFragment() {
     private fun calculateTotalPrice() {
         val listFoodCart = getInstance(requireActivity())!!.foodDAO()!!.listFoodCart
         if (listFoodCart == null || listFoodCart.isEmpty()) {
-            val strZero: String = "" + 0 + Constant.CURRENCY
+            val strZero: String = formatNumberWithPeriods(0) + Constant.CURRENCY
             mFragmentCartBinding!!.tvTotalPrice.text = strZero
             mAmount = 0
             return
@@ -111,7 +126,7 @@ class CartFragment : BaseFragment() {
         for (food in listFoodCart) {
             totalPrice += food.totalPrice
         }
-        val strTotalPrice: String = "" + totalPrice + Constant.CURRENCY
+        val strTotalPrice: String = formatNumberWithPeriods(totalPrice) + Constant.CURRENCY
         mFragmentCartBinding!!.tvTotalPrice.text = strTotalPrice
         mAmount = totalPrice
     }
@@ -124,6 +139,11 @@ class CartFragment : BaseFragment() {
                 getInstance(requireActivity())!!.foodDAO()!!.deleteFood(food)
                 mListFoodCart?.removeAt(position)
                 mCartAdapter!!.notifyItemRemoved(position)
+                if (mCartAdapter!!.itemCount == 0) {
+                    mFragmentCartBinding!!.layoutCartWrap.visibility = View.GONE
+                } else {
+                    mFragmentCartBinding!!.layoutCartWrap.visibility = View.VISIBLE
+                }
                 calculateTotalPrice()
             }
             .setNegativeButton(getString(R.string.dialog_cancel)) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
@@ -162,6 +182,7 @@ class CartFragment : BaseFragment() {
             val strName = edtNameOrder.text.toString().trim { it <= ' ' }
             val strPhone = edtPhoneOrder.text.toString().trim { it <= ' ' }
             val strAddress = edtAddressOrder.text.toString().trim { it <= ' ' }
+            val strNote = getStringNoteOrder()
             if (isEmpty(strName) || isEmpty(strPhone) || isEmpty(strAddress)) {
                 showToastMessage(activity, getString(R.string.message_enter_infor_order))
             } else {
@@ -169,7 +190,8 @@ class CartFragment : BaseFragment() {
                 val strEmail = user!!.email
                 val order = Order(
                     id, strName, strEmail, strPhone, strAddress,
-                    mAmount, getStringListFoodsOrder(), Constant.TYPE_PAYMENT_CASH, 31
+                    mAmount, getStringListFoodsOrder(), Constant.TYPE_PAYMENT_COD,
+                    strNote, Constant.CODE_NEW_ORDER
                 )
                 ControllerApplication[requireActivity()].bookingDatabaseReference
                     .child(id.toString())
@@ -177,6 +199,7 @@ class CartFragment : BaseFragment() {
                         showToastMessage(activity, getString(R.string.msg_order_success))
                         hideSoftKeyboard(requireActivity())
                         bottomSheetDialog.dismiss()
+                        mFragmentCartBinding!!.edtNote.setText("")
                         getInstance(requireActivity())!!.foodDAO()!!.deleteAllFood()
                         clearCart()
                     }
@@ -192,17 +215,43 @@ class CartFragment : BaseFragment() {
         var result = ""
         for (food in mListFoodCart!!) {
             result = if (isEmpty(result)) {
-                ("- " + food.name + " (" + food.realPrice + Constant.CURRENCY + ") "
+                ("- " + food.name + " (" + formatNumberWithPeriods(food.realPrice) + Constant.CURRENCY + ") "
                         + "- " + getString(R.string.quantity) + " " + food.count)
             } else {
-                (result + "\n" + ("- " + food.name + " (" + food.realPrice + Constant.CURRENCY + ") "
+                (result + "\n" + ("- " + food.name + " (" + formatNumberWithPeriods(food.realPrice) + Constant.CURRENCY + ") "
                         + "- " + getString(R.string.quantity) + " " + food.count))
-
             }
         }
         return result
     }
 
+    private fun getStringNoteOrder(): String {
+        val note = if (mFragmentCartBinding!!.edtNote.text.toString().isNotBlank()) {
+            mFragmentCartBinding!!.edtNote.text.toString()
+        } else {
+            getString(R.string.str_no_note)
+        }
+        return note
+    }
+
+    private fun setupTouchOtherToClearAllFocus() {
+        mFragmentCartBinding!!.layoutWrap.setOnClickListener {
+            hideSoftKeyboard(requireActivity())
+            mFragmentCartBinding!!.edtNote.clearFocus()
+        }
+    }
+
+    private fun setupLayoutEditTextNoteListener() {
+        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
+            mFragmentCartBinding!!.layoutNote,
+            mFragmentCartBinding!!.edtNote,
+            mFragmentCartBinding!!.imgClearNote
+        )
+        mFragmentCartBinding!!.edtNote.setOnActionDoneListener(
+            { hideSoftKeyboard(requireActivity()) },
+            { mFragmentCartBinding!!.edtNote.clearFocus() }
+        )
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: ReloadListCartEvent?) {

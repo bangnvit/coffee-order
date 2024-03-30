@@ -110,6 +110,7 @@ class SignUpActivity : BaseActivity() {
         mActivitySignUpBinding!!.layoutWrap.setOnClickListener {
             hideSoftKeyboard(this@SignUpActivity)
             mActivitySignUpBinding!!.edtEmail.clearFocus()
+            mActivitySignUpBinding!!.edtUserName.clearFocus()
             mActivitySignUpBinding!!.edtPassword.clearFocus()
         }
     }
@@ -121,6 +122,12 @@ class SignUpActivity : BaseActivity() {
             mActivitySignUpBinding!!.edtEmail,
             mActivitySignUpBinding!!.imgClear
         )
+//        //Layout UserName: Listener focus, clear text icon
+//        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
+//            mActivitySignUpBinding!!.layoutUserName,
+//            mActivitySignUpBinding!!.edtUserName,
+//            mActivitySignUpBinding!!.imgClearUserName
+//        )
         //Layout Password: Listener focus
         GlobalFunction.setupLayoutPasswordListeners(
             mActivitySignUpBinding!!.layoutPassword,

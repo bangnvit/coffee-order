@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_status"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/define_dimen_38"
+        android:layout_marginHorizontal="@dimen/define_dimen_16"
+        android:layout_marginTop="@dimen/define_dimen_16"
+        android:background="@drawable/bg_tab_layout"
+        android:overScrollMode="never"
+        app:tabGravity="fill"
+        app:tabIndicator="@drawable/bg_tab_layout_indicator_active"
+        app:tabIndicatorColor="@color/colorPrimaryDark"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorGravity="stretch"
+        app:tabInlineLabel="true"
+        app:tabMode="scrollable"
+        app:tabRippleColor="@null"
+        app:tabTextAppearance="@style/TabTextStyle"
+        app:tabTextColor="@color/custom_tab_layout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_order"

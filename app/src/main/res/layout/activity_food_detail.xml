@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    app:aspectRatio="0.56"
+                    app:aspectRatio="0.7"
                     app:aspectRatioEnabled="true"
                     app:dominantMeasurement="Width" />
 
@@ -147,14 +147,15 @@
 
             <TextView
                 android:id="@+id/tv_add_to_cart"
-                style="@style/MyTextViewStyle"
+                style="@style/MyTextViewButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/define_dimen_16"
                 android:layout_marginTop="@dimen/define_dimen_20"
                 android:layout_marginBottom="@dimen/define_dimen_20"
                 android:background="@drawable/bg_green_main_shape_corner_circle"
-                android:text="@string/add_to_cart" />
+                android:text="@string/add_to_cart"
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

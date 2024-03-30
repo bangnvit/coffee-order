@@ -5,6 +5,8 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -21,6 +23,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.bangnv.cafeorder.R
@@ -30,6 +33,7 @@ import com.bangnv.cafeorder.listener.IGetDateListener
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.utils.StringUtil.getDoubleNumber
 import com.bangnv.cafeorder.utils.StringUtil.isEmpty
+import com.google.android.material.tabs.TabLayout
 import java.text.Normalizer
 import java.util.Calendar
 import java.util.regex.Pattern
@@ -313,5 +317,27 @@ object GlobalFunction {
             { hideSoftKeyboard(activity) },
             { edtPassword.clearFocus() }
         )
+    }
+
+    fun TabLayout.addMyTabs(vararg texts: String, selectedTab: String) {
+        texts.forEachIndexed { _, text ->
+            val tab = this.newTab().setText(text)
+            this.addTab(tab, text == selectedTab)
+        }
+    }
+
+    fun View.setOnClickCopyTextToClipboard(textView: TextView, context: Context) {
+        this.setOnClickListener {
+            val textToCopy = textView.text.toString()
+            val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("text", textToCopy)
+            clipboardManager.setPrimaryClip(clipData)
+            Toast.makeText(context, "Đã sao chép vào Clipboard", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun formatNumberWithPeriods(number: Int): String {
+        val formatter = java.text.DecimalFormat("#,###")
+        return formatter.format(number.toLong())
     }
 }

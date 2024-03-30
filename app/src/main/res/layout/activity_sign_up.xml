@@ -38,12 +38,10 @@
             android:orientation="horizontal">
 
             <TextView
+                style="@style/TextViewPrimaryLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_up_create_account"
-                android:textColor="@color/color_212121"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
+                android:text="@string/sign_up_create_account" />
 
             <ImageView
                 android:layout_width="@dimen/define_dimen_32"
@@ -53,22 +51,19 @@
         </LinearLayout>
 
         <TextView
+            style="@style/TextViewSecondarySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_10"
-            android:text="@string/sign_up_invitation"
-            android:textColor="@color/color_212121"
-            android:textSize="@dimen/text_size_small" />
+            android:text="@string/sign_up_invitation" />
 
 
         <TextView
+            style="@style/TextViewPrimaryNormal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_30"
-            android:text="@string/str_email"
-            android:textColor="@color/color252525"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="bold" />
+            android:text="@string/str_email" />
 
 
         <LinearLayout
@@ -92,16 +87,14 @@
 
             <EditText
                 android:id="@+id/edt_email"
+                style="@style/EditTextPrimary"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/define_dimen_48"
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="@string/hint_email"
                 android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/text_size_small" />
+                android:inputType="textEmailAddress" />
 
             <ImageView
                 android:id="@+id/img_clear"
@@ -118,10 +111,63 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_20"
-            android:text="@string/str_password"
+            android:text="@string/str_user_name"
             android:textColor="@color/color252525"
             android:textSize="@dimen/text_size_small"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:id="@+id/layout_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/define_dimen_10"
+            android:background="@drawable/bg_edittext_inactive"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/define_dimen_5"
+            android:visibility="gone"
+            android:weightSum="1">
+
+            <ImageView
+                android:id="@+id/img_user_name"
+                android:layout_width="@dimen/define_dimen_24"
+                android:layout_height="@dimen/define_dimen_24"
+                android:layout_marginHorizontal="@dimen/define_dimen_5"
+                android:padding="@dimen/define_dimen_4"
+                android:src="@drawable/ic_nav_account" />
+
+            <EditText
+                android:id="@+id/edt_user_name"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/define_dimen_48"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/hint_user_name_sign_up"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/text_size_small" />
+
+            <ImageView
+                android:id="@+id/img_clear_user_name"
+                android:layout_width="@dimen/define_dimen_30"
+                android:layout_height="@dimen/define_dimen_30"
+                android:layout_marginStart="@dimen/define_dimen_5"
+                android:padding="@dimen/define_dimen_10"
+                android:src="@drawable/ic_clear_no_bg"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/TextViewPrimaryNormal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/define_dimen_20"
+            android:text="@string/str_password" />
 
         <LinearLayout
             android:id="@+id/layout_password"
@@ -144,16 +190,14 @@
 
             <EditText
                 android:id="@+id/edt_password"
+                style="@style/EditTextPrimary"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/define_dimen_48"
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="@string/hint_password"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/text_size_small" />
+                android:inputType="textPassword" />
 
             <ImageView
                 android:id="@+id/img_password_show_hide"

@@ -43,7 +43,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/define_dimen_10"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/bg_reduce_border_right_radius_8"
                     android:padding="@dimen/define_dimen_2"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_xxsmall"
@@ -57,7 +57,7 @@
             android:layout_marginStart="@dimen/define_dimen_10"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/define_dimen_5"
-            android:layout_toStartOf="@+id/layout_button"
+            android:layout_toStartOf="@+id/layout_accept_refuse"
             android:layout_toEndOf="@+id/layout_image"
             android:orientation="vertical">
 
@@ -113,7 +113,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_button"
+            android:id="@+id/layout_accept_refuse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

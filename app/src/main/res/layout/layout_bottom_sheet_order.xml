@@ -57,7 +57,7 @@
         android:layout_marginTop="@dimen/define_dimen_5"
         android:background="@drawable/bg_white_shape_border_gray_3"
         android:padding="@dimen/define_dimen_12"
-        android:text="@string/payment_method_cash"
+        android:text="@string/payment_method_cod"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_small" />
 
@@ -127,7 +127,7 @@
 
         <TextView
             android:id="@+id/tv_cancel_order"
-            style="@style/MyTextViewStyle"
+            style="@style/MyTextViewButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/define_dimen_10"
@@ -138,7 +138,7 @@
 
         <TextView
             android:id="@+id/tv_create_order"
-            style="@style/MyTextViewStyle"
+            style="@style/MyTextViewButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

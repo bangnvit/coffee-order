@@ -32,12 +32,10 @@
             android:orientation="horizontal">
 
             <TextView
+                style="@style/TextViewPrimaryLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_in_hello"
-                android:textColor="@color/color_212121"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
+                android:text="@string/sign_in_hello" />
 
             <ImageView
                 android:layout_width="@dimen/define_dimen_32"
@@ -47,21 +45,18 @@
         </LinearLayout>
 
         <TextView
+            style="@style/TextViewSecondarySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_10"
-            android:text="@string/sign_in_request"
-            android:textColor="@color/color_212121"
-            android:textSize="@dimen/text_size_small" />
+            android:text="@string/sign_in_request" />
 
         <TextView
+            style="@style/TextViewPrimaryNormal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_30"
-            android:text="@string/str_email"
-            android:textColor="@color/color252525"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="bold" />
+            android:text="@string/str_email" />
 
 
         <LinearLayout
@@ -85,16 +80,14 @@
 
             <EditText
                 android:id="@+id/edt_email"
+                style="@style/EditTextPrimary"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/define_dimen_48"
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="@string/hint_email"
                 android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/text_size_small" />
+                android:inputType="textEmailAddress" />
 
             <ImageView
                 android:id="@+id/img_clear"
@@ -109,13 +102,11 @@
 
 
         <TextView
+            style="@style/TextViewPrimaryNormal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_20"
-            android:text="@string/str_password"
-            android:textColor="@color/color252525"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="bold" />
+            android:text="@string/str_password" />
 
         <LinearLayout
             android:id="@+id/layout_password"
@@ -138,16 +129,14 @@
 
             <EditText
                 android:id="@+id/edt_password"
+                style="@style/EditTextPrimary"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/define_dimen_48"
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="@string/hint_password"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/text_size_small" />
+                android:inputType="textPassword" />
 
             <ImageView
                 android:id="@+id/img_password_show_hide"
@@ -172,7 +161,6 @@
             android:textSize="@dimen/text_size_small"
             android:textStyle="bold" />
 
-
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -184,14 +172,16 @@
                 android:id="@+id/rdb_admin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/admin" />
+                android:text="@string/admin"
+                android:textColor="@color/textColorPrimary" />
 
             <RadioButton
                 android:id="@+id/rdb_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/define_dimen_20"
-                android:text="@string/user" />
+                android:text="@string/user"
+                android:textColor="@color/textColorPrimary" />
         </RadioGroup>
 
         <LinearLayout

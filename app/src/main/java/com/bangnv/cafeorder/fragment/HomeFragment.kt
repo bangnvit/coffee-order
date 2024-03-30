@@ -19,7 +19,6 @@ import com.bangnv.cafeorder.adapter.FoodGridAdapter
 import com.bangnv.cafeorder.adapter.FoodPopularAdapter
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
-import com.bangnv.cafeorder.constant.GlobalFunction.getTextSearch
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
 import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionSearchListener
 import com.bangnv.cafeorder.constant.GlobalFunction.showToastMessage
@@ -31,39 +30,60 @@ import com.bangnv.cafeorder.utils.StringUtil
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import java.util.Locale
 
 class HomeFragment : BaseFragment() {
 
-    private var mFragmentHomeBinding: FragmentHomeBinding? = null
-    private var mListFood: MutableList<Food>? = null
-    private var mListFoodPopular: MutableList<Food>? = null
+    private lateinit var mFragmentHomeBinding: FragmentHomeBinding
+    private var mListFood: MutableList<Food> = mutableListOf()
+    private var mListFoodPopular: MutableList<Food> = mutableListOf()
+    private var displayFood: MutableList<Food> = mutableListOf()
     private val mHandlerBanner = Handler(Looper.getMainLooper())
+    private lateinit var mFoodGridAdapter: FoodGridAdapter
+    private lateinit var gridLayoutManager: GridLayoutManager
+
     private val mRunnableBanner = Runnable {
-        if (mListFoodPopular == null || mListFoodPopular!!.isEmpty()) {
+        if (mListFoodPopular.isEmpty()) {
             return@Runnable
         }
-        if (mFragmentHomeBinding!!.viewpager2.currentItem == mListFoodPopular!!.size - 1) {
-            mFragmentHomeBinding!!.viewpager2.currentItem = 0
+        if (mFragmentHomeBinding.viewpager2.currentItem == mListFoodPopular.size - 1) {
+            mFragmentHomeBinding.viewpager2.currentItem = 0
             return@Runnable
         }
-        mFragmentHomeBinding!!.viewpager2.currentItem =
-            mFragmentHomeBinding!!.viewpager2.currentItem + 1
+        mFragmentHomeBinding.viewpager2.currentItem =
+            mFragmentHomeBinding.viewpager2.currentItem + 1
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (mFragmentHomeBinding.edtSearchName.text.isNotEmpty()) {
+            outState.putSerializable("displayFood", ArrayList(displayFood))
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (mFragmentHomeBinding.edtSearchName.text.isNotEmpty()) {
+            if (savedInstanceState != null) {
+                val savedDisplayFood =
+                    savedInstanceState.getSerializable("displayFood") as? ArrayList<Food>
+                savedDisplayFood?.let {
+                    displayFood.clear()
+                    displayFood.addAll(it)
+                }
+            }
+        }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         mFragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false)
-        getListFoodFromFirebase("")
+        initView()
+        getListFoodFromFirebase()
         initListener()
-
         setupTouchOtherToClearAllFocus()
         setupLayoutSearchListener()
-
-        return mFragmentHomeBinding!!.root
+        return mFragmentHomeBinding.root
     }
 
     override fun initToolbar() {
@@ -72,35 +92,44 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun initView() {
+        if (activity == null) {
+            return
+        }
+        gridLayoutManager = GridLayoutManager(activity, 2)
+        mFragmentHomeBinding.rcvFood.layoutManager = gridLayoutManager
+        mListFood = mutableListOf()
+        mFoodGridAdapter =
+            FoodGridAdapter(requireContext(), mListFood, object : IOnClickFoodItemListener {
+                override fun onClickItemFood(food: Food) {
+                    goToFoodDetail(food)
+                }
+            })
+        mFragmentHomeBinding.rcvFood.adapter = mFoodGridAdapter
+    }
 
-    private fun getListFoodFromFirebase(key: String) {
+
+    private fun getListFoodFromFirebase() {
         if (activity == null) {
             return
         }
         ControllerApplication[requireContext()].foodDatabaseReference.addValueEventListener(object :
             ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
-                mFragmentHomeBinding!!.layoutContent.visibility = View.VISIBLE
-                mListFood = ArrayList()
-                mListFoodPopular = ArrayList()
+                mFragmentHomeBinding.layoutContent.visibility = View.VISIBLE
                 for (dataSnapshot in snapshot.children) {
                     val food = dataSnapshot.getValue(Food::class.java) ?: continue
                     if (food.isPopular) {
-                        mListFoodPopular?.add(food)
+                        mListFoodPopular.add(food)
                     }
-                    mListFood?.add(food)
-                }
-                // Nếu có từ khóa tìm kiếm, lọc danh sách đồ ăn
-                if (key.isNotEmpty()) {
-                    mListFood = mListFood?.filter { food ->
-                        getTextSearch(food.name)
-                            .toLowerCase(Locale.getDefault())
-                            .trim { it <= ' ' }
-                            .contains(getTextSearch(key).toLowerCase(Locale.getDefault()))
-                    }?.toMutableList()
+                    mListFood.add(food)
                 }
                 displayListFoodPopular()
-                displayListFoodSuggest()
+                mFoodGridAdapter.updateData(mListFood)
+                if (displayFood.size < mListFood.size && mFragmentHomeBinding.edtSearchName.text.isNotEmpty()) {
+                    mFoodGridAdapter.updateData(displayFood)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -116,9 +145,9 @@ class HomeFragment : BaseFragment() {
                     goToFoodDetail(food)
                 }
             })
-        mFragmentHomeBinding!!.viewpager2.adapter = mFoodPopularAdapter
-        mFragmentHomeBinding!!.indicator3.setViewPager(mFragmentHomeBinding!!.viewpager2)
-        mFragmentHomeBinding!!.viewpager2.registerOnPageChangeCallback(object :
+        mFragmentHomeBinding.viewpager2.adapter = mFoodPopularAdapter
+        mFragmentHomeBinding.indicator3.setViewPager(mFragmentHomeBinding.viewpager2)
+        mFragmentHomeBinding.viewpager2.registerOnPageChangeCallback(object :
             OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -128,81 +157,51 @@ class HomeFragment : BaseFragment() {
         })
     }
 
-    private fun displayListFoodSuggest() {
-        val gridLayoutManager = GridLayoutManager(activity, 2)
-        mFragmentHomeBinding!!.rcvFood.layoutManager = gridLayoutManager
-        val mFoodGridAdapter = FoodGridAdapter(mListFood, object : IOnClickFoodItemListener {
-            override fun onClickItemFood(food: Food) {
-                goToFoodDetail(food)
-            }
-        })
-        mFragmentHomeBinding!!.rcvFood.adapter = mFoodGridAdapter
-    }
-
-    private fun getListFoodPopular(): MutableList<Food>? {
+    private fun getListFoodPopular(): MutableList<Food> {
         mListFoodPopular = ArrayList()
-        if (mListFood == null || mListFood!!.isEmpty()) {
+        if (mListFood.isEmpty()) {
             return mListFoodPopular
         }
-        for (food in mListFood!!) {
+        for (food in mListFood) {
             if (food.isPopular) {
-                mListFoodPopular?.add(food)
+                mListFoodPopular.add(food)
             }
         }
         return mListFoodPopular
     }
 
     private fun initListener() {
-        mFragmentHomeBinding!!.edtSearchName.addTextChangedListener(object : TextWatcher {
+        mFragmentHomeBinding.edtSearchName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable) {
-                filterFoodList(mFragmentHomeBinding!!.edtSearchName.text.toString())
+                filterFoodList(mFragmentHomeBinding.edtSearchName.text.toString())
             }
         })
 
-        mFragmentHomeBinding!!.imgSearch.setOnClickListener {
-            searchFood()
+        mFragmentHomeBinding.imgSearch.setOnClickListener {
             hideSoftKeyboard(requireActivity())
-            mFragmentHomeBinding!!.edtSearchName.clearFocus()
+            mFragmentHomeBinding.edtSearchName.clearFocus()
         }
-        mFragmentHomeBinding!!.edtSearchName.setOnActionSearchListener(
-            { searchFood() },
+        mFragmentHomeBinding.edtSearchName.setOnActionSearchListener(
             { hideSoftKeyboard(requireActivity()) },
-            { mFragmentHomeBinding!!.edtSearchName.clearFocus() }
+            { mFragmentHomeBinding.edtSearchName.clearFocus() }
         )
-
-    }
-
-    private fun searchFood() {
-        val strKey = mFragmentHomeBinding!!.edtSearchName.text.toString().trim { it <= ' ' }
-        filterFoodList(strKey)
     }
 
     private fun filterFoodList(key: String) {
-        val filteredList = if (key.isEmpty()) {
+        displayFood = if (key.trim().isEmpty()) {
             mListFood  // if there is no search keyword, display the original data
         } else {
             val normalizedKey = StringUtil.normalizeEnglishString(key)
-            mListFood?.filter { food ->
-                val normalizedFoodName = StringUtil.normalizeEnglishString(food.name ?: "")
+            mListFood.filter { food ->
+                val normalizedFoodName = StringUtil.normalizeEnglishString(food.name ?: "").trim()
                 normalizedFoodName.contains(normalizedKey)
-            }
+            }.toMutableList()
         }
-        if (filteredList != null) {
-            displayFilteredFoodList(filteredList)
-        }
-    }
-
-    private fun displayFilteredFoodList(filteredList: List<Food>) {
-        val mFoodGridAdapter = FoodGridAdapter(filteredList, object : IOnClickFoodItemListener {
-            override fun onClickItemFood(food: Food) {
-                goToFoodDetail(food)
-            }
-        })
-        mFragmentHomeBinding!!.rcvFood.adapter = mFoodGridAdapter
+        mFoodGridAdapter.updateData(displayFood)
     }
 
     private fun goToFoodDetail(food: Food) {
@@ -213,14 +212,14 @@ class HomeFragment : BaseFragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupTouchOtherToClearAllFocus() {
-        mFragmentHomeBinding!!.layoutContent.setOnClickListener {
+        mFragmentHomeBinding.layoutContent.setOnClickListener {
             hideSoftKeyboard(requireActivity())
-            mFragmentHomeBinding!!.edtSearchName.clearFocus()
+            mFragmentHomeBinding.edtSearchName.clearFocus()
         }
         // NestedScrollView
-        mFragmentHomeBinding!!.layoutChild.setOnTouchListener { _, _ ->
+        mFragmentHomeBinding.layoutChild.setOnTouchListener { _, _ ->
             hideSoftKeyboard(requireActivity())
-            mFragmentHomeBinding!!.edtSearchName.clearFocus()
+            mFragmentHomeBinding.edtSearchName.clearFocus()
             false
         }
     }
@@ -228,9 +227,9 @@ class HomeFragment : BaseFragment() {
     private fun setupLayoutSearchListener() {
         //Layout Search: Listener focus, clear text icon
         GlobalFunction.setupLayoutEditTextWithIconClearListeners(
-            mFragmentHomeBinding!!.layoutSearch,
-            mFragmentHomeBinding!!.edtSearchName,
-            mFragmentHomeBinding!!.imgClear
+            mFragmentHomeBinding.layoutSearch,
+            mFragmentHomeBinding.edtSearchName,
+            mFragmentHomeBinding.imgClear
         )
     }
 

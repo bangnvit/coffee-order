@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bangnv.cafeorder.adapter.CartAdapter.CartViewHolder
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.databinding.ItemCartBinding
 import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.utils.GlideUtils.loadUrl
@@ -26,9 +27,9 @@ class CartAdapter(private val mListFoods: MutableList<Food>?,
         val food = mListFoods!![position]
         loadUrl(food.image, holder.mItemCartBinding.imgFoodCart)
         holder.mItemCartBinding.tvFoodNameCart.text = food.name
-        var strFoodPriceCart: String? = "" + food.price + Constant.CURRENCY
+        var strFoodPriceCart: String? = formatNumberWithPeriods(food.price) + Constant.CURRENCY
         if (food.sale > 0) {
-            strFoodPriceCart = "" + food.realPrice + Constant.CURRENCY
+            strFoodPriceCart = formatNumberWithPeriods(food.realPrice) + Constant.CURRENCY
         }
         holder.mItemCartBinding.tvFoodPriceCart.text = strFoodPriceCart
         holder.mItemCartBinding.tvCount.text = java.lang.String.valueOf(food.count)

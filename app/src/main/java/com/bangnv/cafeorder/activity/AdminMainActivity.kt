@@ -50,8 +50,7 @@ class AdminMainActivity : BaseActivity() {
             }
             true
         }
-        val TAG = "MAINQUANGQUE"
-        Log.d(TAG, "Test Log Main, đã chạy qua đây");
+//        Log.d("AdminActivityMain", "Test Log, đã chạy qua AdminActivityMain");
     }
 
     override fun onBackPressed() {

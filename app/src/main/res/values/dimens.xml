@@ -22,6 +22,8 @@
     <dimen name="define_dimen_30">30dp</dimen>
     <dimen name="define_dimen_32">32dp</dimen>
     <dimen name="define_dimen_35">35dp</dimen>
+    <dimen name="define_dimen_36">36dp</dimen>
+    <dimen name="define_dimen_38">38dp</dimen>
     <dimen name="define_dimen_40">40dp</dimen>
     <dimen name="define_dimen_42">42dp</dimen>
     <dimen name="define_dimen_45">45dp</dimen>

@@ -2,20 +2,29 @@ package com.bangnv.cafeorder.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.adapter.AdminOrderAdapter.AdminOrderViewHolder
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.databinding.ItemAdminOrderBinding
 import com.bangnv.cafeorder.model.Order
 import com.bangnv.cafeorder.utils.DateTimeUtils.convertTimeStampToDate
 
 class AdminOrderAdapter(private var mContext: Context?, private val mListOrder: List<Order>?,
-                        private val mIUpdateStatusListener: IUpdateStatusListener) : RecyclerView.Adapter<AdminOrderViewHolder>() {
+                        private val mIClickAdminOrderListener: IClickAdminOrderListener) : RecyclerView.Adapter<AdminOrderViewHolder>() {
 
-    interface IUpdateStatusListener {
-        fun updateStatus(order: Order)
+    interface IClickAdminOrderListener {
+        fun acceptOrder(order: Order)
+
+        fun refuseOrder(order: Order)
+
+        fun sendOrder(order: Order)
+
+        fun onClickItemAdminOrder(order: Order)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminOrderViewHolder {
@@ -26,32 +35,59 @@ class AdminOrderAdapter(private var mContext: Context?, private val mListOrder: 
 
     override fun onBindViewHolder(holder: AdminOrderViewHolder, position: Int) {
         val order = mListOrder!![position]
-        if (order.status == 35) { //status: 35: Completed
-            holder.mItemAdminOrderBinding.layoutItem.setBackgroundResource(R.drawable.bg_color_overlay_border_radius_12)
-        } else {
-            holder.mItemAdminOrderBinding.layoutItem.setBackgroundResource(R.drawable.bg_color_white_border_divider_radius_12)
+        when (order.status) {
+            Constant.CODE_NEW_ORDER -> { //30
+                holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.VISIBLE
+                holder.mItemAdminOrderBinding.tvSendOrder.visibility = View.GONE
+                holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_NEW_ORDER
+                holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_primary_radius_8)
+                holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.colorPrimaryDark))
+            }
+            Constant.CODE_PREPARING -> { //31
+                holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.GONE
+                holder.mItemAdminOrderBinding.tvSendOrder.visibility = View.VISIBLE
+                holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_PREPARING
+                holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_primary_radius_8)
+                holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.colorPrimaryDark))
+            }
+            Constant.CODE_SHIPPING -> { //32
+                holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.GONE
+                holder.mItemAdminOrderBinding.tvSendOrder.visibility = View.GONE
+                holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_SHIPPING
+                holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_primary_radius_8)
+                holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.colorPrimaryDark))
+            }
+            Constant.CODE_COMPLETED -> { //33
+                holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.GONE
+                holder.mItemAdminOrderBinding.tvSendOrder.visibility = View.GONE
+                holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_COMPLETED
+                holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_primary_radius_8)
+                holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.colorPrimaryDark))
+            }
+            Constant.CODE_CANCELLED -> { //34
+                holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.GONE
+                holder.mItemAdminOrderBinding.tvSendOrder.visibility = View.GONE
+                holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_CANCELLED
+                holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_red_radius_8)
+                holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.color_red))
+            }
+            else -> { // 35: CODE_FAILED | or any other unexpected status
+                holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.GONE
+                holder.mItemAdminOrderBinding.tvSendOrder.visibility = View.GONE
+                holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_FAILED
+                holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_red_radius_8)
+                holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.color_red))
+            }
         }
-//        holder.mItemAdminOrderBinding.chbStatus.isChecked = order.status
-//        holder.mItemAdminOrderBinding.chbStatus.setOnClickListener { mIUpdateStatusListener.updateStatus(order) }
-//        changed to:
-        holder.mItemAdminOrderBinding.chbStatus.setOnClickListener { mIUpdateStatusListener.updateStatus(order) } // Đang bị lỗi
-        // Cần thay Checkbox sang Button/TextView, Khi bấm vào thì đưa sang AdminOrderFragment xử lý ở bên (có nói bên đó là cần dialog hỏi..)
-
+        holder.mItemAdminOrderBinding.tvAcceptOrder.setOnClickListener { mIClickAdminOrderListener.acceptOrder(order) }
+        holder.mItemAdminOrderBinding.tvRefuseOrder.setOnClickListener { mIClickAdminOrderListener.refuseOrder(order) }
+        holder.mItemAdminOrderBinding.tvSendOrder.setOnClickListener { mIClickAdminOrderListener.sendOrder(order) }
+        holder.mItemAdminOrderBinding.layoutItem.setOnClickListener { mIClickAdminOrderListener.onClickItemAdminOrder(order) }
 
         holder.mItemAdminOrderBinding.tvId.text = order.id.toString()
-        holder.mItemAdminOrderBinding.tvEmail.text = order.email
-        holder.mItemAdminOrderBinding.tvName.text = order.name
-        holder.mItemAdminOrderBinding.tvPhone.text = order.phone
-        holder.mItemAdminOrderBinding.tvAddress.text = order.address
-        holder.mItemAdminOrderBinding.tvMenu.text = order.foods
         holder.mItemAdminOrderBinding.tvDate.text = convertTimeStampToDate(order.id)
-        val strAmount: String = "" + order.amount + Constant.CURRENCY
-        holder.mItemAdminOrderBinding.tvTotalAmount.text = strAmount
-        var paymentMethod = ""
-        if (Constant.TYPE_PAYMENT_CASH == order.payment) {
-            paymentMethod = Constant.PAYMENT_METHOD_CASH
-        }
-        holder.mItemAdminOrderBinding.tvPayment.text = paymentMethod
+        val strAmount: String = formatNumberWithPeriods(order.amount) + Constant.CURRENCY
+                    holder . mItemAdminOrderBinding . tvTotalAmount . text = strAmount
     }
 
     override fun getItemCount(): Int {

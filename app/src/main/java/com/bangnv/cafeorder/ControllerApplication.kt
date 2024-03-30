@@ -26,6 +26,9 @@ class ControllerApplication : Application() {
     val bookingDatabaseReference: DatabaseReference
         get() = mFirebaseDatabase!!.getReference("/booking")
 
+    val testDatabaseReference: DatabaseReference
+        get() = mFirebaseDatabase!!.getReference("/test")
+
     companion object {
         @JvmStatic
         operator fun get(context: Context): ControllerApplication {

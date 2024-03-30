@@ -1,9 +1,9 @@
 package com.bangnv.cafeorder.model
 
+import com.bangnv.cafeorder.constant.Constant
 import java.io.Serializable
 
 class Order : Serializable {
-
     var id: Long = 0
     var name: String? = null
     var email: String? = null
@@ -12,20 +12,35 @@ class Order : Serializable {
     var amount = 0
     var foods: String? = null
     var payment = 0
-    //    var isComplete  = false // đã sửa thành status
-    var status : Int = 31
-            //31 (PendingConfirmation)  User, Admin
-            //32 (Confirmed)            Admin
-            //33 (Processing)           User, Admin
-            //34 (Shipping)             User, Admin
-            //35 (Completed)            User, Admin
-            //36 (Cancelled)            User, Admin
-            // Ngoài ra còn có bên Vận chuyển...
+    var note: String? = null
+    var status: Int = Constant.CODE_NEW_ORDER
+
+    var cancelBy: String? = null
+
+    // Nếu có thời gian (thay cho foods đang là string), sẽ phải sửa lại nhiều, mất nhiều thời gian (lin quan rất nhiều chỗ)
+//    var orderItems: List<OrderItem>? = null
+    //OrderItem: (model)
+    //    var id: Long = 0
+    //    var name: String? = null
+    //    var image: String? = null
+    //    var price = 0
+    //    var sale = 0
+    //    var count = 0
+    //    var totalPrice = 0
+    //    vả note: String? = null
+        //    val realPrice: Int
+        //        get() = if (sale <= 0) {
+        //            price
+        //        } else price - price * sale / 100
+
+
 
     constructor() {}
 
-    constructor(id: Long, name: String?, email: String?, phone: String?,
-                address: String?, amount: Int, foods: String?, payment: Int, status: Int) {
+    constructor(
+        id: Long, name: String?, email: String?, phone: String?,
+        address: String?, amount: Int, foods: String?, payment: Int, note: String?, status: Int
+    ) {
         this.id = id
         this.name = name
         this.email = email
@@ -34,6 +49,7 @@ class Order : Serializable {
         this.amount = amount
         this.foods = foods
         this.payment = payment
+        this.note = note
         this.status = status
     }
 }

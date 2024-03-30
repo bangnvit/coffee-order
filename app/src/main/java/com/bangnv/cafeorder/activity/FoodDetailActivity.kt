@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.adapter.MoreImageAdapter
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.database.FoodDatabase.Companion.getInstance
 import com.bangnv.cafeorder.databinding.ActivityFoodDetailBinding
 import com.bangnv.cafeorder.event.ReloadListCartEvent
@@ -57,17 +58,17 @@ class FoodDetailActivity : BaseActivity() {
         if (mFood!!.sale <= 0) {
             mActivityFoodDetailBinding!!.tvSaleOff.visibility = View.GONE
             mActivityFoodDetailBinding!!.tvPrice.visibility = View.GONE
-            val strPrice: String = "" + mFood!!.price + Constant.CURRENCY
+            val strPrice: String = formatNumberWithPeriods(mFood!!.price) + Constant.CURRENCY
             mActivityFoodDetailBinding!!.tvPriceSale.text = strPrice
         } else {
             mActivityFoodDetailBinding!!.tvSaleOff.visibility = View.VISIBLE
             mActivityFoodDetailBinding!!.tvPrice.visibility = View.VISIBLE
             val strSale = "Giảm " + mFood!!.sale + "%"
             mActivityFoodDetailBinding!!.tvSaleOff.text = strSale
-            val strPriceOld: String = "" + mFood!!.price + Constant.CURRENCY
+            val strPriceOld: String = formatNumberWithPeriods(mFood!!.price) + Constant.CURRENCY
             mActivityFoodDetailBinding!!.tvPrice.text = strPriceOld
             mActivityFoodDetailBinding!!.tvPrice.paintFlags = mActivityFoodDetailBinding!!.tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            val strRealPrice: String = "" + mFood!!.realPrice + Constant.CURRENCY
+            val strRealPrice: String = formatNumberWithPeriods(mFood!!.realPrice) + Constant.CURRENCY
             mActivityFoodDetailBinding!!.tvPriceSale.text = strRealPrice
         }
         mActivityFoodDetailBinding!!.tvFoodName.text = mFood!!.name
@@ -130,7 +131,7 @@ class FoodDetailActivity : BaseActivity() {
         loadUrl(mFood!!.image, imgFoodCart)
         tvFoodNameCart.text = mFood!!.name
         val totalPrice = mFood!!.realPrice
-        val strTotalPrice: String = "" + totalPrice + Constant.CURRENCY
+        val strTotalPrice: String = formatNumberWithPeriods(totalPrice) + Constant.CURRENCY
         tvFoodPriceCart.text = strTotalPrice
         mFood!!.count = 1
         mFood!!.totalPrice = totalPrice
@@ -142,7 +143,7 @@ class FoodDetailActivity : BaseActivity() {
             val newCount = tvCount.text.toString().toInt() - 1
             tvCount.text = newCount.toString()
             val totalPrice1 = mFood!!.realPrice * newCount
-            val strTotalPrice1: String = "" + totalPrice1 + Constant.CURRENCY
+            val strTotalPrice1: String = formatNumberWithPeriods(totalPrice1) + Constant.CURRENCY
             tvFoodPriceCart.text = strTotalPrice1
             mFood!!.count = newCount
             mFood!!.totalPrice = totalPrice1
@@ -151,7 +152,7 @@ class FoodDetailActivity : BaseActivity() {
             val newCount = tvCount.text.toString().toInt() + 1
             tvCount.text = newCount.toString()
             val totalPrice2 = mFood!!.realPrice * newCount
-            val strTotalPrice2: String = "" + totalPrice2 + Constant.CURRENCY
+            val strTotalPrice2: String = formatNumberWithPeriods(totalPrice2) + Constant.CURRENCY
             tvFoodPriceCart.text = strTotalPrice2
             mFood!!.count = newCount
             mFood!!.totalPrice = totalPrice2
