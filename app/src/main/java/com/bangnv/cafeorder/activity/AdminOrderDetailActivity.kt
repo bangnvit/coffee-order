@@ -43,12 +43,13 @@ class AdminOrderDetailActivity : AppCompatActivity() {
 
     private fun getDataIntent():Long {
         val bundle = intent.extras
-        if (bundle != null) {
+        return if (bundle != null) {
             idOrderBundle = bundle[Constant.KEY_INTENT_ADMIN_ORDER_OBJECT] as Long
             Log.d("AdminOrderDetail: ", idOrderBundle.toString())
-            return idOrderBundle
+            idOrderBundle
         } else {
-            return -1
+            mActivityAdminOrderDetailBinding.layoutOrderDetailWrap.visibility = View.GONE
+            -1
         }
     }
 
@@ -135,8 +136,8 @@ class AdminOrderDetailActivity : AppCompatActivity() {
         when (mOrder.status) {
             Constant.CODE_NEW_ORDER -> { //30
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.VISIBLE
-                mActivityAdminOrderDetailBinding.layoutScroll.post {
-                    mActivityAdminOrderDetailBinding.layoutScroll.fullScroll(View.FOCUS_DOWN)
+                mActivityAdminOrderDetailBinding.layoutOrderDetailWrap.post {
+                    mActivityAdminOrderDetailBinding.layoutOrderDetailWrap.fullScroll(View.FOCUS_DOWN)
                 }
                 mActivityAdminOrderDetailBinding.tvSendOrder.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvStatus.text = Constant.TEXT_NEW_ORDER
@@ -145,8 +146,8 @@ class AdminOrderDetailActivity : AppCompatActivity() {
             Constant.CODE_PREPARING -> { //31
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvSendOrder.visibility = View.VISIBLE
-                mActivityAdminOrderDetailBinding.layoutScroll.post {
-                    mActivityAdminOrderDetailBinding.layoutScroll.fullScroll(View.FOCUS_DOWN)
+                mActivityAdminOrderDetailBinding.layoutOrderDetailWrap.post {
+                    mActivityAdminOrderDetailBinding.layoutOrderDetailWrap.fullScroll(View.FOCUS_DOWN)
                 }
                 mActivityAdminOrderDetailBinding.tvStatus.text = Constant.TEXT_PREPARING
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)

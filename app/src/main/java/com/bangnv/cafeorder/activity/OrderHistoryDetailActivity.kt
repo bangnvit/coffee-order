@@ -3,10 +3,10 @@ package com.bangnv.cafeorder.activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.constant.Constant
@@ -16,95 +16,169 @@ import com.bangnv.cafeorder.databinding.ActivityOrderHistoryDetailBinding
 import com.bangnv.cafeorder.model.Order
 import com.bangnv.cafeorder.utils.DateTimeUtils.convertTimeStampToDate_2
 import com.bangnv.cafeorder.utils.DateTimeUtils.convertTimeStampToDate_3
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import kotlin.properties.Delegates
 
 class OrderHistoryDetailActivity : AppCompatActivity() {
 
-    private var mActivityOrderHistoryDetailBinding: ActivityOrderHistoryDetailBinding? = null
-    private var mOrder: Order? = null
+    private lateinit var mActivityOrderHistoryDetailBinding: ActivityOrderHistoryDetailBinding
+    private  var mOrder: Order = Order()
+    private var idOrderBundle by Delegates.notNull<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivityOrderHistoryDetailBinding =
             ActivityOrderHistoryDetailBinding.inflate(layoutInflater)
-        setContentView(mActivityOrderHistoryDetailBinding!!.root)
+        setContentView(mActivityOrderHistoryDetailBinding.root)
 
         getDataIntent()
         initToolbar()
+        getOrderDetailFirebase()
 
-        setOrderDetail()
-        mActivityOrderHistoryDetailBinding!!.tvTrackDriver.setOnClickListener { handleTrackDriver(mOrder!!) }
-        mActivityOrderHistoryDetailBinding!!.tvCancelOrder.setOnClickListener { handleCancelOrder(mOrder!!) }
+        mActivityOrderHistoryDetailBinding.tvTrackDriver.setOnClickListener { handleTrackDriver(mOrder) }
+        mActivityOrderHistoryDetailBinding.tvCancelOrder.setOnClickListener { handleCancelOrder(mOrder) }
         copyFieldsClickListener()
     }
 
-    private fun getDataIntent() {
+    private fun getDataIntent():Long {
         val bundle = intent.extras
-        if (bundle != null) {
-            mOrder = bundle[Constant.KEY_INTENT_ORDER_OBJECT] as Order?
+        return if (bundle != null) {
+            idOrderBundle = bundle[Constant.KEY_INTENT_ORDER_OBJECT] as Long
+            Log.d("OrderHistoryDetail: ", idOrderBundle.toString())
+            idOrderBundle
         } else {
-            mOrder = Order()
-            mActivityOrderHistoryDetailBinding!!.layoutOrderDetailWrap.visibility = View.GONE
+            mActivityOrderHistoryDetailBinding.layoutOrderDetailWrap.visibility = View.GONE
+            -1
         }
     }
 
     private fun initToolbar() {
-        mActivityOrderHistoryDetailBinding!!.toolbar.imgBack.visibility = View.VISIBLE
-        mActivityOrderHistoryDetailBinding!!.toolbar.tvTitle.text =
+        mActivityOrderHistoryDetailBinding.toolbar.imgBack.visibility = View.VISIBLE
+        mActivityOrderHistoryDetailBinding.toolbar.tvTitle.text =
             getString(R.string.order_detail_title)
-        mActivityOrderHistoryDetailBinding!!.toolbar.imgBack.setOnClickListener { onBackPressed() }
+        mActivityOrderHistoryDetailBinding.toolbar.imgBack.setOnClickListener { onBackPressed() }
+    }
+
+    private fun getOrderDetailFirebase() {
+        ControllerApplication[this].bookingDatabaseReference
+            .child(idOrderBundle.toString()).addListenerForSingleValueEvent(
+                object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            mOrder.id = snapshot.child("id").getValue(Long::class.java) ?: 0
+                            mOrder.name = snapshot.child("name").getValue(String::class.java)
+                            mOrder.email = snapshot.child("email").getValue(String::class.java)
+                            mOrder.phone = snapshot.child("phone").getValue(String::class.java)
+                            mOrder.address = snapshot.child("address").getValue(String::class.java)
+                            mOrder.amount = (snapshot.child("amount").getValue(Long::class.java) ?: 0).toInt()
+                            mOrder.foods = snapshot.child("foods").getValue(String::class.java)
+                            mOrder.payment = (snapshot.child("payment").getValue(Int::class.java) ?: 0)
+                            mOrder.note = snapshot.child("note").getValue(String::class.java)
+                            setOrderDetail()
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) { }
+                }
+            )
+
+        ControllerApplication[this].bookingDatabaseReference
+            .child(idOrderBundle.toString()).child("status").addValueEventListener(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val status = snapshot.getValue(Int::class.java)
+                    mOrder.status = status ?: Constant.CODE_NEW_ORDER
+                    checkStatusListener()
+                }
+
+                override fun onCancelled(error: DatabaseError) { }
+            })
+
+        ControllerApplication[this].bookingDatabaseReference
+            .child(idOrderBundle.toString()).child("cancel_by").addValueEventListener(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val cancelBy = snapshot.getValue(String::class.java)
+                    mOrder.cancelBy = cancelBy
+                    Log.d("Cancel_BY: ", cancelBy.toString())
+                    if (mOrder.cancelBy == null) {
+                        mActivityOrderHistoryDetailBinding.layoutCancelBy.visibility = View.GONE
+                    } else {
+                        mActivityOrderHistoryDetailBinding.layoutCancelBy.visibility = View.VISIBLE
+                        mActivityOrderHistoryDetailBinding.tvCancelBy.text = cancelBy
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) { }
+            })
+
     }
 
     private fun setOrderDetail() {
-        mActivityOrderHistoryDetailBinding!!.tvAddress.text = mOrder!!.address
-        mActivityOrderHistoryDetailBinding!!.tvFoods.text = mOrder!!.foods
-        mActivityOrderHistoryDetailBinding!!.tvNote.text = mOrder!!.note
+        mActivityOrderHistoryDetailBinding.tvAddress.text = mOrder.address
+        mActivityOrderHistoryDetailBinding.tvFoods.text = mOrder.foods
+        mActivityOrderHistoryDetailBinding.tvNote.text = mOrder.note
         val strPayment =
-            if (mOrder!!.payment == Constant.TYPE_PAYMENT_COD) Constant.PAYMENT_METHOD_COD else Constant.PAYMENT_METHOD_WALLET
-        mActivityOrderHistoryDetailBinding!!.tvPaymentMethod.text = strPayment
+            if (mOrder.payment == Constant.TYPE_PAYMENT_COD) Constant.PAYMENT_METHOD_COD else Constant.PAYMENT_METHOD_WALLET
+        mActivityOrderHistoryDetailBinding.tvPaymentMethod.text = strPayment
 
-        mActivityOrderHistoryDetailBinding!!.tvDate.text = convertTimeStampToDate_2(mOrder!!.id)
-        mActivityOrderHistoryDetailBinding!!.tvTime.text = convertTimeStampToDate_3(mOrder!!.id)
-        mActivityOrderHistoryDetailBinding!!.tvOrderId.text = mOrder!!.id.toString()
-        val strAmount: String = formatNumberWithPeriods(mOrder!!.amount) + Constant.CURRENCY
-        mActivityOrderHistoryDetailBinding!!.tvSubtotal.text = strAmount
+        mActivityOrderHistoryDetailBinding.tvDate.text =
+            convertTimeStampToDate_2(mOrder.id)
+        mActivityOrderHistoryDetailBinding.tvTime.text =
+            convertTimeStampToDate_3(mOrder.id)
+        mActivityOrderHistoryDetailBinding.tvOrderId.text = mOrder.id.toString()
+        val strAmount: String = formatNumberWithPeriods(mOrder.amount) + Constant.CURRENCY
+        mActivityOrderHistoryDetailBinding.tvSubtotal.text = strAmount
 
-                //when status
-        when (mOrder!!.status) {
+        checkStatusListener()
+    }
+
+    private fun checkStatusListener() {
+        //when status
+        when (mOrder.status) {
             Constant.CODE_NEW_ORDER -> { //30
-                mActivityOrderHistoryDetailBinding!!.tvTrackDriver.visibility = View.GONE
-                mActivityOrderHistoryDetailBinding!!.tvCancelOrder.visibility = View.VISIBLE
-                mActivityOrderHistoryDetailBinding!!.tvStatus.text = Constant.TEXT_NEW_ORDER
-                mActivityOrderHistoryDetailBinding!!.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.VISIBLE
+                mActivityOrderHistoryDetailBinding.layoutOrderDetailWrap.post {
+                    mActivityOrderHistoryDetailBinding.layoutOrderDetailWrap.fullScroll(View.FOCUS_DOWN)
+                }
+                mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_NEW_ORDER
+                mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
             }
             Constant.CODE_PREPARING -> { //31
-                mActivityOrderHistoryDetailBinding!!.tvTrackDriver.visibility = View.GONE
-                mActivityOrderHistoryDetailBinding!!.tvCancelOrder.visibility = View.GONE
-                mActivityOrderHistoryDetailBinding!!.tvStatus.text = Constant.TEXT_PREPARING
-                mActivityOrderHistoryDetailBinding!!.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_PREPARING
+                mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
             }
             Constant.CODE_SHIPPING -> { //32
-                mActivityOrderHistoryDetailBinding!!.tvTrackDriver.visibility = View.VISIBLE
-                mActivityOrderHistoryDetailBinding!!.tvCancelOrder.visibility = View.GONE
-                mActivityOrderHistoryDetailBinding!!.tvStatus.text = Constant.TEXT_SHIPPING
-                mActivityOrderHistoryDetailBinding!!.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.VISIBLE
+                mActivityOrderHistoryDetailBinding.layoutOrderDetailWrap.post {
+                    mActivityOrderHistoryDetailBinding.layoutOrderDetailWrap.fullScroll(View.FOCUS_DOWN)
+                }
+                mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_SHIPPING
+                mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
             }
             Constant.CODE_COMPLETED -> { //33
-                mActivityOrderHistoryDetailBinding!!.tvTrackDriver.visibility = View.GONE
-                mActivityOrderHistoryDetailBinding!!.tvCancelOrder.visibility = View.GONE
-                mActivityOrderHistoryDetailBinding!!.tvStatus.text = Constant.TEXT_COMPLETED
-                mActivityOrderHistoryDetailBinding!!.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_COMPLETED
+                mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
             }
             Constant.CODE_CANCELLED -> { //34
-                mActivityOrderHistoryDetailBinding!!.tvTrackDriver.visibility = View.GONE
-                mActivityOrderHistoryDetailBinding!!.tvCancelOrder.visibility = View.GONE
-                mActivityOrderHistoryDetailBinding!!.tvStatus.text = Constant.TEXT_CANCELLED
-                mActivityOrderHistoryDetailBinding!!.tvStatus.setBackgroundResource(R.drawable.bg_red_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_CANCELLED
+                mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_red_main_shape_corner_8)
             }
             else -> { // 35: CODE_FAILED | or any other unexpected status
-                mActivityOrderHistoryDetailBinding!!.tvTrackDriver.visibility = View.GONE
-                mActivityOrderHistoryDetailBinding!!.tvCancelOrder.visibility = View.GONE
-                mActivityOrderHistoryDetailBinding!!.tvStatus.text = Constant.TEXT_FAILED
-                mActivityOrderHistoryDetailBinding!!.tvStatus.setBackgroundResource(R.drawable.bg_red_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_FAILED
+                mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_red_main_shape_corner_8)
             }
         }
     }
@@ -134,12 +208,12 @@ class OrderHistoryDetailActivity : AppCompatActivity() {
     }
 
     private fun copyFieldsClickListener() {
-        mActivityOrderHistoryDetailBinding!!.layoutCopyOrderId.setOnClickCopyTextToClipboard(
-            mActivityOrderHistoryDetailBinding!!.tvOrderId,
+        mActivityOrderHistoryDetailBinding.layoutCopyOrderId.setOnClickCopyTextToClipboard(
+            mActivityOrderHistoryDetailBinding.tvOrderId,
             this
         )
-        mActivityOrderHistoryDetailBinding!!.layoutCopyTransitionId.setOnClickCopyTextToClipboard(
-            mActivityOrderHistoryDetailBinding!!.tvTransitionId,
+        mActivityOrderHistoryDetailBinding.layoutCopyTransitionId.setOnClickCopyTextToClipboard(
+            mActivityOrderHistoryDetailBinding.tvTransitionId,
             this
         )
     }

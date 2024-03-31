@@ -39,7 +39,7 @@ class OrderHistoryActivity : BaseActivity() {
     private lateinit var mActivityOrderHistoryBinding: ActivityOrderHistoryBinding
     private lateinit var mOrderAdapter: OrderAdapter
     private var mListOrder: MutableList<Order> = mutableListOf()        // Full Data
-    private var displayedOrders: MutableList<Order> = mutableListOf()   // display Data
+    private var displayedOrders: MutableList<Order> = mutableListOf()   // display Data filtered
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,10 +103,11 @@ class OrderHistoryActivity : BaseActivity() {
                             }
 
                             override fun onClickItemOrder(order: Order) {
-                                goToOrderHistoryDetail(order)
+                                goToOrderHistoryDetail(order.id)
                             }
                         })
                     mActivityOrderHistoryBinding.rcvOrderHistory.adapter = mOrderAdapter
+                    updateDisplayedOrders()
                 }
 
                 override fun onCancelled(error: DatabaseError) {}
@@ -165,8 +166,6 @@ class OrderHistoryActivity : BaseActivity() {
     }
 
     private fun filterOrdersByTab(status: Int) {
-
-//        mListOrder
         displayedOrders = if (status == -1) {
             mListOrder // Hiển thị tất cả các đơn hàng nếu không có trạng thái được chỉ định
         } else {
@@ -175,9 +174,15 @@ class OrderHistoryActivity : BaseActivity() {
         mOrderAdapter.updateData(displayedOrders)
     }
 
-    private fun goToOrderHistoryDetail(order: Order) {
+    private fun updateDisplayedOrders() {
+        val selectedTabPosition = mActivityOrderHistoryBinding.tabLayoutStatus.selectedTabPosition
+        val status = getStatusForTab(selectedTabPosition)
+        filterOrdersByTab(status)
+    }
+
+    private fun goToOrderHistoryDetail(id: Long) {
         val bundle = Bundle()
-        bundle.putSerializable(Constant.KEY_INTENT_ORDER_OBJECT, order)
+        bundle.putSerializable(Constant.KEY_INTENT_ORDER_OBJECT, id)
         startActivity(this@OrderHistoryActivity, OrderHistoryDetailActivity::class.java, bundle)
     }
 

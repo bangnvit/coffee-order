@@ -16,11 +16,13 @@ import com.bangnv.cafeorder.activity.AdminOrderDetailActivity
 import com.bangnv.cafeorder.adapter.AdminOrderAdapter
 import com.bangnv.cafeorder.adapter.AdminOrderAdapter.IClickAdminOrderListener
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.GlobalFunction.addMyTabs
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentAdminOrderBinding
 import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.model.Order
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -28,9 +30,10 @@ import java.util.*
 
 class AdminOrderFragment : BaseFragment() {
 
-    private var mFragmentAdminOrderBinding: FragmentAdminOrderBinding? = null
-    private var mAdminOrderAdapter: AdminOrderAdapter? = null
-    private var mListOrder: MutableList<Order>? = null
+    private lateinit var mFragmentAdminOrderBinding: FragmentAdminOrderBinding
+    private lateinit var mAdminOrderAdapter: AdminOrderAdapter
+    private var mListOrder: MutableList<Order> = mutableListOf()        // Full Data
+    private var displayedOrders: MutableList<Order> = mutableListOf()   // display Data filtered
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,8 +42,10 @@ class AdminOrderFragment : BaseFragment() {
         mFragmentAdminOrderBinding = FragmentAdminOrderBinding.inflate(inflater, container, false)
 
         initView()
+        initTabLayout()
         getListOrders()
-        return mFragmentAdminOrderBinding!!.root
+        tabLayoutTabSelectedListener()
+        return mFragmentAdminOrderBinding.root
     }
 
     override fun initToolbar() {
@@ -54,7 +59,7 @@ class AdminOrderFragment : BaseFragment() {
             return
         }
         val linearLayoutManager = LinearLayoutManager(activity)
-        mFragmentAdminOrderBinding!!.rcvOrder.layoutManager = linearLayoutManager
+        mFragmentAdminOrderBinding.rcvOrder.layoutManager = linearLayoutManager
         mListOrder = ArrayList()
         mAdminOrderAdapter =
             AdminOrderAdapter(activity, mListOrder, object : IClickAdminOrderListener {
@@ -74,7 +79,20 @@ class AdminOrderFragment : BaseFragment() {
                     goToAdminOrderDetail(order.id)
                 }
             })
-        mFragmentAdminOrderBinding!!.rcvOrder.adapter = mAdminOrderAdapter
+        mFragmentAdminOrderBinding.rcvOrder.adapter = mAdminOrderAdapter
+    }
+
+    private fun initTabLayout() {
+        mFragmentAdminOrderBinding.tabLayoutStatus.addMyTabs(
+            Constant.TEXT_ALL_ORDER,
+            Constant.TEXT_NEW_ORDER,
+            Constant.TEXT_PREPARING,
+            Constant.TEXT_SHIPPING,
+            Constant.TEXT_COMPLETED,
+            Constant.TEXT_CANCELLED,
+            Constant.TEXT_FAILED,
+            selectedTab = Constant.TEXT_ALL_ORDER
+        )
     }
 
     private fun getListOrders() {
@@ -85,42 +103,42 @@ class AdminOrderFragment : BaseFragment() {
             .addChildEventListener(object : ChildEventListener {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-                    val order = dataSnapshot.getValue(Order::class.java)
-                    if (order == null || mListOrder == null || mAdminOrderAdapter == null) {
-                        return
-                    }
-                    mListOrder!!.add(0, order)
-                    mAdminOrderAdapter!!.notifyDataSetChanged()
+                    val order = dataSnapshot.getValue(Order::class.java) ?: return
+                    mListOrder.add(0, order)
+                    mAdminOrderAdapter.notifyDataSetChanged()
+                    updateDisplayedOrders()
                 }
 
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
                     val order = dataSnapshot.getValue(Order::class.java)
-                    if (order == null || mListOrder == null || mListOrder!!.isEmpty() || mAdminOrderAdapter == null) {
+                    if (order == null || mListOrder.isEmpty()) {
                         return
                     }
-                    for (i in mListOrder!!.indices) {
-                        if (order.id == mListOrder!![i].id) {
-                            mListOrder!![i] = order
+                    for (i in mListOrder.indices) {
+                        if (order.id == mListOrder[i].id) {
+                            mListOrder[i] = order
                             break
                         }
                     }
-                    mAdminOrderAdapter!!.notifyDataSetChanged()
+                    mAdminOrderAdapter.notifyDataSetChanged()
+                    updateDisplayedOrders()
                 }
 
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {
                     val order = dataSnapshot.getValue(Order::class.java)
-                    if (order == null || mListOrder == null || mListOrder!!.isEmpty() || mAdminOrderAdapter == null) {
+                    if (order == null || mListOrder.isEmpty()) {
                         return
                     }
-                    for (orderObject in mListOrder!!) {
+                    for (orderObject in mListOrder) {
                         if (order.id == orderObject.id) {
-                            mListOrder!!.remove(orderObject)
+                            mListOrder.remove(orderObject)
                             break
                         }
                     }
-                    mAdminOrderAdapter!!.notifyDataSetChanged()
+                    mAdminOrderAdapter.notifyDataSetChanged()
+                    updateDisplayedOrders()
                 }
 
                 override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
@@ -168,6 +186,48 @@ class AdminOrderFragment : BaseFragment() {
         Log.d("AdminOrderFragment: ", "Viết hàm gửi lên cho bên vận chuyển. Đã set trạng thái rồi")
     }
 
+    private fun tabLayoutTabSelectedListener() {
+        mFragmentAdminOrderBinding.tabLayoutStatus.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.let {
+                    val status = getStatusForTab(it.position)
+                    filterOrdersByTab(status)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
+    }
+
+    private fun getStatusForTab(tabPosition: Int): Int {
+        return when (tabPosition) {
+            1 -> Constant.CODE_NEW_ORDER
+            2 -> Constant.CODE_PREPARING
+            3 -> Constant.CODE_SHIPPING
+            4 -> Constant.CODE_COMPLETED
+            5 -> Constant.CODE_CANCELLED
+            6 -> Constant.CODE_FAILED
+            else -> -1 // Default case, should not occur
+        }
+    }
+
+    private fun filterOrdersByTab(status: Int) {
+        displayedOrders = if (status == -1) {
+            mListOrder // Hiển thị tất cả các đơn hàng nếu không có trạng thái được chỉ định
+        } else {
+            mListOrder.filter { it.status == status }.toMutableList()
+        }
+        mAdminOrderAdapter.updateData(displayedOrders)
+    }
+
+    private fun updateDisplayedOrders() {
+        val selectedTabPosition = mFragmentAdminOrderBinding.tabLayoutStatus.selectedTabPosition
+        val status = getStatusForTab(selectedTabPosition)
+        filterOrdersByTab(status)
+    }
+
     private fun goToAdminOrderDetail(id: Long) {
         val bundle = Bundle()
         bundle.putSerializable(Constant.KEY_INTENT_ADMIN_ORDER_OBJECT, id)
@@ -176,8 +236,6 @@ class AdminOrderFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        if (mAdminOrderAdapter != null) {
-            mAdminOrderAdapter!!.release()
-        }
+        mAdminOrderAdapter.release()
     }
 }
