@@ -18,7 +18,8 @@
             android:layout_width="@dimen/define_dimen_100"
             android:layout_height="@dimen/define_dimen_80"
             android:layout_centerVertical="true"
-            app:cardCornerRadius="@dimen/define_dimen_6">
+            app:cardCornerRadius="@dimen/define_dimen_10"
+            app:cardElevation="0dp">
 
             <ImageView
                 android:id="@+id/img_food_cart"
@@ -98,7 +99,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/define_dimen_30"
-        android:layout_marginBottom="@dimen/define_dimen_10"
+        android:layout_marginBottom="@dimen/define_dimen_4"
         android:layout_below="@+id/layout_infor"
         android:orientation="horizontal">
 

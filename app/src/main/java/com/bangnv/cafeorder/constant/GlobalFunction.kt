@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -11,13 +12,18 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
@@ -340,4 +346,12 @@ object GlobalFunction {
         val formatter = java.text.DecimalFormat("#,###")
         return formatter.format(number.toLong())
     }
+
+    fun customizeDialog(viewDialog: Dialog) {
+        viewDialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        viewDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        viewDialog.window?.attributes?.windowAnimations = R.style.DiaLogAnimation
+        viewDialog.window?.setGravity(Gravity.BOTTOM)
+    }
+
 }

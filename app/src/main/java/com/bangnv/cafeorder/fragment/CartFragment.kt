@@ -2,11 +2,16 @@ package com.bangnv.cafeorder.fragment
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangnv.cafeorder.ControllerApplication
@@ -16,6 +21,7 @@ import com.bangnv.cafeorder.adapter.CartAdapter
 import com.bangnv.cafeorder.adapter.CartAdapter.IClickListener
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
+import com.bangnv.cafeorder.constant.GlobalFunction.customizeDialog
 import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
 import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionDoneListener
@@ -27,8 +33,6 @@ import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.model.Order
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.utils.StringUtil.isEmpty
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import org.greenrobot.eventbus.EventBus
@@ -150,6 +154,7 @@ class CartFragment : BaseFragment() {
             .show()
     }
 
+    @SuppressLint("ResourceType", "InflateParams")
     private fun onClickOrderCart() {
         if (activity == null) {
             return
@@ -157,11 +162,11 @@ class CartFragment : BaseFragment() {
         if (mListFoodCart == null || mListFoodCart!!.isEmpty()) {
             return
         }
-        @SuppressLint("InflateParams") val viewDialog =
-            layoutInflater.inflate(R.layout.layout_bottom_sheet_order, null)
-        val bottomSheetDialog = BottomSheetDialog(requireActivity())
-        bottomSheetDialog.setContentView(viewDialog)
-        bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+
+        //Init Custom Dialog
+        val viewDialog = Dialog(requireContext())
+        viewDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        viewDialog.setContentView(R.layout.layout_bottom_sheet_order)
 
         // init ui
         val tvFoodsOrder = viewDialog.findViewById<TextView>(R.id.tv_foods_order)
@@ -177,7 +182,7 @@ class CartFragment : BaseFragment() {
         tvPriceOrder.text = mFragmentCartBinding!!.tvTotalPrice.text.toString()
 
         // Set listener
-        tvCancelOrder.setOnClickListener { bottomSheetDialog.dismiss() }
+        tvCancelOrder.setOnClickListener { viewDialog.dismiss() }
         tvCreateOrder.setOnClickListener {
             val strName = edtNameOrder.text.toString().trim { it <= ' ' }
             val strPhone = edtPhoneOrder.text.toString().trim { it <= ' ' }
@@ -198,14 +203,18 @@ class CartFragment : BaseFragment() {
                     .setValue(order) { _: DatabaseError?, _: DatabaseReference? ->
                         showToastMessage(activity, getString(R.string.msg_order_success))
                         hideSoftKeyboard(requireActivity())
-                        bottomSheetDialog.dismiss()
+                        viewDialog.dismiss()
+
                         mFragmentCartBinding!!.edtNote.setText("")
                         getInstance(requireActivity())!!.foodDAO()!!.deleteAllFood()
                         clearCart()
                     }
             }
         }
-        bottomSheetDialog.show()
+
+        // Show dialog + set Customize
+        viewDialog.show()
+        customizeDialog(viewDialog)
     }
 
     private fun getStringListFoodsOrder(): String {
@@ -226,9 +235,7 @@ class CartFragment : BaseFragment() {
     }
 
     private fun getStringNoteOrder(): String {
-        val note = if (mFragmentCartBinding!!.edtNote.text.toString().isNotBlank()) {
-            mFragmentCartBinding!!.edtNote.text.toString()
-        } else {
+        val note = mFragmentCartBinding!!.edtNote.text.toString().ifBlank {
             getString(R.string.str_no_note)
         }
         return note

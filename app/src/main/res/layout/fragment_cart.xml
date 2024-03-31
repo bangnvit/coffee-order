@@ -24,7 +24,6 @@
         android:id="@+id/layout_cart_wrap"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -43,23 +42,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/layout_bottom"
-            android:layout_marginHorizontal="@dimen/define_dimen_16"
-            android:layout_marginTop="@dimen/define_dimen_6"
             android:orientation="vertical">
+
+            <View
+                android:id="@+id/view_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:background="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/tv_note_title"
                 style="@style/TextViewPrimarySmall"
                 android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/define_dimen_10"
+                android:layout_marginHorizontal="@dimen/define_dimen_16"
                 android:layout_height="wrap_content"
                 android:text="@string/notes" />
 
             <LinearLayout
                 android:id="@+id/layout_note"
                 android:layout_width="match_parent"
+                android:layout_marginHorizontal="@dimen/define_dimen_16"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/define_dimen_10"
-                android:layout_marginBottom="@dimen/define_dimen_10"
+                android:layout_marginTop="@dimen/define_dimen_5"
+                android:layout_marginBottom="@dimen/define_dimen_16"
                 android:background="@drawable/bg_edittext_inactive"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -75,7 +81,7 @@
                     android:hint="@string/notes"
                     android:imeOptions="actionDone"
                     android:inputType="text"
-                    android:paddingStart="@dimen/define_dimen_16" />
+                    android:paddingHorizontal="@dimen/define_dimen_16"/>
 
                 <ImageView
                     android:id="@+id/img_clear_note"
@@ -98,10 +104,11 @@
             android:orientation="vertical">
 
             <View
-                android:id="@+id/view_divider"
+                android:id="@+id/view2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorPrimary" />
+                android:layout_marginHorizontal="@dimen/define_dimen_16"
+                android:background="@color/secondDividerColor" />
 
             <RelativeLayout
                 android:id="@+id/layout_order_control"

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_dialog"
     android:orientation="vertical"
-    android:padding="@dimen/define_dimen_10"
+    android:padding="@dimen/define_dimen_16"
     tools:ignore="Autofill,LabelFor"
     tools:viewBindingIgnore="true">
 
@@ -122,7 +122,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/define_dimen_30"
-        android:layout_marginBottom="@dimen/define_dimen_10"
+        android:layout_marginBottom="@dimen/define_dimen_4"
         android:orientation="horizontal">
 
         <TextView
@@ -131,10 +131,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/define_dimen_10"
-            android:textColor="@color/colorPrimaryDark"
             android:layout_weight="1"
             android:background="@drawable/bg_green_light_cancel_shape_corner_circle"
-            android:text="@string/cancel" />
+            android:text="@string/cancel"
+            android:textColor="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/tv_create_order"
