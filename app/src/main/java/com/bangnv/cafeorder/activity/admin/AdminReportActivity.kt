@@ -9,7 +9,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
-import com.bangnv.cafeorder.adapter.RevenueAdapter
+import com.bangnv.cafeorder.adapter.admin.RevenueAdapter
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.constant.GlobalFunction.showDatePicker

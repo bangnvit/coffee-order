@@ -1,9 +1,9 @@
-package com.bangnv.cafeorder.adapter
+package com.bangnv.cafeorder.adapter.admin
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bangnv.cafeorder.adapter.RevenueAdapter.RevenueViewHolder
+import com.bangnv.cafeorder.adapter.admin.RevenueAdapter.RevenueViewHolder
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.databinding.ItemRevenueBinding

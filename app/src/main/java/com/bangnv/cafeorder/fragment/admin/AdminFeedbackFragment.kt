@@ -11,7 +11,7 @@ import com.google.firebase.database.ValueEventListener
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.admin.AdminMainActivity
-import com.bangnv.cafeorder.adapter.FeedbackAdapter
+import com.bangnv.cafeorder.adapter.admin.FeedbackAdapter
 import com.bangnv.cafeorder.databinding.FragmentAdminFeedbackBinding
 import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.model.Feedback
