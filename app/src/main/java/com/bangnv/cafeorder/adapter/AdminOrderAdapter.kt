@@ -1,5 +1,6 @@
 package com.bangnv.cafeorder.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,7 @@ import com.bangnv.cafeorder.databinding.ItemAdminOrderBinding
 import com.bangnv.cafeorder.model.Order
 import com.bangnv.cafeorder.utils.DateTimeUtils.convertTimeStampToDate
 
-class AdminOrderAdapter(private var mContext: Context?, private val mListOrder: List<Order>?,
+class AdminOrderAdapter(private var mContext: Context?, private var mListOrder: List<Order>,
                         private val mIClickAdminOrderListener: IClickAdminOrderListener) : RecyclerView.Adapter<AdminOrderViewHolder>() {
 
     interface IClickAdminOrderListener {
@@ -34,7 +35,7 @@ class AdminOrderAdapter(private var mContext: Context?, private val mListOrder: 
     }
 
     override fun onBindViewHolder(holder: AdminOrderViewHolder, position: Int) {
-        val order = mListOrder!![position]
+        val order = mListOrder[position]
         when (order.status) {
             Constant.CODE_NEW_ORDER -> { //30
                 holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.VISIBLE
@@ -91,7 +92,13 @@ class AdminOrderAdapter(private var mContext: Context?, private val mListOrder: 
     }
 
     override fun getItemCount(): Int {
-        return mListOrder?.size ?: 0
+        return mListOrder.size
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(newOrders: MutableList<Order>) {
+        mListOrder = newOrders
+        notifyDataSetChanged()
     }
 
     fun release() {

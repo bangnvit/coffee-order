@@ -97,7 +97,6 @@ class OrderAdapter(private var mContext: Context?, private var mListOrder: Mutab
         notifyDataSetChanged()
     }
 
-
     fun release() {
         mContext = null
     }
