@@ -1,10 +1,11 @@
-package com.bangnv.cafeorder.activity
+package com.bangnv.cafeorder.activity.auth
 
 import android.os.Bundle
 import android.widget.Toast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.bangnv.cafeorder.R
+import com.bangnv.cafeorder.activity.BaseActivity
 import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.databinding.ActivityChangePasswordBinding
 import com.bangnv.cafeorder.prefs.DataStoreManager

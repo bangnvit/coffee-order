@@ -1,4 +1,4 @@
-package com.bangnv.cafeorder.adapter
+package com.bangnv.cafeorder.adapter.admin
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bangnv.cafeorder.R
-import com.bangnv.cafeorder.adapter.AdminOrderAdapter.AdminOrderViewHolder
+import com.bangnv.cafeorder.adapter.admin.AdminOrderAdapter.AdminOrderViewHolder
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.databinding.ItemAdminOrderBinding

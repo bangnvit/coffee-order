@@ -1,8 +1,9 @@
-package com.bangnv.cafeorder.activity
+package com.bangnv.cafeorder.activity.auth
 
 import android.os.Bundle
 import android.widget.Toast
 import com.bangnv.cafeorder.R
+import com.bangnv.cafeorder.activity.BaseActivity
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.gotoMainActivity

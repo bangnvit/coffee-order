@@ -32,7 +32,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.bangnv.cafeorder.R
-import com.bangnv.cafeorder.activity.AdminMainActivity
+import com.bangnv.cafeorder.activity.admin.AdminMainActivity
 import com.bangnv.cafeorder.activity.MainActivity
 import com.bangnv.cafeorder.listener.IGetDateListener
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user

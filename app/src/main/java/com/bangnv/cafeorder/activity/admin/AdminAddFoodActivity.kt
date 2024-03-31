@@ -1,4 +1,4 @@
-package com.bangnv.cafeorder.activity
+package com.bangnv.cafeorder.activity.admin
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
+import com.bangnv.cafeorder.activity.BaseActivity
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard

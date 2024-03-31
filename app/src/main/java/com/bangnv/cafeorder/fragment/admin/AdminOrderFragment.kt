@@ -1,4 +1,4 @@
-package com.bangnv.cafeorder.fragment
+package com.bangnv.cafeorder.fragment.admin
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -11,15 +11,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
-import com.bangnv.cafeorder.activity.AdminMainActivity
-import com.bangnv.cafeorder.activity.AdminOrderDetailActivity
-import com.bangnv.cafeorder.adapter.AdminOrderAdapter
-import com.bangnv.cafeorder.adapter.AdminOrderAdapter.IClickAdminOrderListener
+import com.bangnv.cafeorder.activity.admin.AdminMainActivity
+import com.bangnv.cafeorder.activity.admin.AdminOrderDetailActivity
+import com.bangnv.cafeorder.adapter.admin.AdminOrderAdapter
+import com.bangnv.cafeorder.adapter.admin.AdminOrderAdapter.IClickAdminOrderListener
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction.addMyTabs
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentAdminOrderBinding
+import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.model.Order
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.ChildEventListener

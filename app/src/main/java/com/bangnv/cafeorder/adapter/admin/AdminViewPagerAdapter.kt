@@ -1,12 +1,12 @@
-package com.bangnv.cafeorder.adapter
+package com.bangnv.cafeorder.adapter.admin
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.bangnv.cafeorder.fragment.AdminAccountFragment
-import com.bangnv.cafeorder.fragment.AdminFeedbackFragment
-import com.bangnv.cafeorder.fragment.AdminHomeFragment
-import com.bangnv.cafeorder.fragment.AdminOrderFragment
+import com.bangnv.cafeorder.fragment.admin.AdminAccountFragment
+import com.bangnv.cafeorder.fragment.admin.AdminFeedbackFragment
+import com.bangnv.cafeorder.fragment.admin.AdminHomeFragment
+import com.bangnv.cafeorder.fragment.admin.AdminOrderFragment
 
 class AdminViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
 

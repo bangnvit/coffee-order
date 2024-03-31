@@ -1,4 +1,4 @@
-package com.bangnv.cafeorder.fragment
+package com.bangnv.cafeorder.fragment.admin
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -17,15 +17,16 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
-import com.bangnv.cafeorder.activity.AdminAddFoodActivity
-import com.bangnv.cafeorder.activity.AdminMainActivity
-import com.bangnv.cafeorder.adapter.AdminFoodAdapter
+import com.bangnv.cafeorder.activity.admin.AdminAddFoodActivity
+import com.bangnv.cafeorder.activity.admin.AdminMainActivity
+import com.bangnv.cafeorder.adapter.admin.AdminFoodAdapter
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
 import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionSearchListener
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentAdminHomeBinding
+import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.listener.IOnManagerFoodListener
 import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.utils.StringUtil

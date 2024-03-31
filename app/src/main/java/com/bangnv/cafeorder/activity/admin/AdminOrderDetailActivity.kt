@@ -1,4 +1,4 @@
-package com.bangnv.cafeorder.activity
+package com.bangnv.cafeorder.activity.admin
 
 import android.app.AlertDialog
 import android.content.DialogInterface

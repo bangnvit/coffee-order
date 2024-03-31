@@ -1,4 +1,4 @@
-package com.bangnv.cafeorder.fragment
+package com.bangnv.cafeorder.fragment.admin
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
-import com.bangnv.cafeorder.activity.AdminMainActivity
+import com.bangnv.cafeorder.activity.admin.AdminMainActivity
 import com.bangnv.cafeorder.adapter.FeedbackAdapter
 import com.bangnv.cafeorder.databinding.FragmentAdminFeedbackBinding
+import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.model.Feedback
 import java.util.*
 

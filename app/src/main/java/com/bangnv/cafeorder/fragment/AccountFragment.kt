@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.bangnv.cafeorder.R
-import com.bangnv.cafeorder.activity.ChangePasswordActivity
+import com.bangnv.cafeorder.activity.auth.ChangePasswordActivity
 import com.bangnv.cafeorder.activity.MainActivity
 import com.bangnv.cafeorder.activity.OrderHistoryActivity
-import com.bangnv.cafeorder.activity.SignInActivity
+import com.bangnv.cafeorder.activity.auth.SignInActivity
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentAccountBinding
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user

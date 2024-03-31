@@ -1,4 +1,4 @@
-package com.bangnv.cafeorder.activity
+package com.bangnv.cafeorder.activity.admin
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -8,7 +8,7 @@ import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.BaseActivity
-import com.bangnv.cafeorder.adapter.AdminViewPagerAdapter
+import com.bangnv.cafeorder.adapter.admin.AdminViewPagerAdapter
 import com.bangnv.cafeorder.databinding.ActivityAdminMainBinding
 
 class AdminMainActivity : BaseActivity() {
