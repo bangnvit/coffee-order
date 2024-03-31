@@ -1,4 +1,4 @@
-package com.bangnv.cafeorder.fragment.admin
+package com.bangnv.cafeorder.fragment
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -20,7 +20,6 @@ import com.bangnv.cafeorder.constant.GlobalFunction.addMyTabs
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentAdminOrderBinding
-import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.model.Order
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.ChildEventListener
@@ -91,7 +90,7 @@ class AdminOrderFragment : BaseFragment() {
             Constant.TEXT_COMPLETED,
             Constant.TEXT_CANCELLED,
             Constant.TEXT_FAILED,
-            selectedTab = Constant.TEXT_ALL_ORDER
+            selectedTab = Constant.TEXT_NEW_ORDER
         )
     }
 
