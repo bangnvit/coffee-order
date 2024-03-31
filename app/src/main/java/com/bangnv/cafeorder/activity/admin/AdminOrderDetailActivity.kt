@@ -136,9 +136,6 @@ class AdminOrderDetailActivity : AppCompatActivity() {
         when (mOrder.status) {
             Constant.CODE_NEW_ORDER -> { //30
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.VISIBLE
-                mActivityAdminOrderDetailBinding.layoutOrderDetailWrap.post {
-                    mActivityAdminOrderDetailBinding.layoutOrderDetailWrap.fullScroll(View.FOCUS_DOWN)
-                }
                 mActivityAdminOrderDetailBinding.tvSendOrder.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvStatus.text = Constant.TEXT_NEW_ORDER
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
@@ -146,9 +143,6 @@ class AdminOrderDetailActivity : AppCompatActivity() {
             Constant.CODE_PREPARING -> { //31
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvSendOrder.visibility = View.VISIBLE
-                mActivityAdminOrderDetailBinding.layoutOrderDetailWrap.post {
-                    mActivityAdminOrderDetailBinding.layoutOrderDetailWrap.fullScroll(View.FOCUS_DOWN)
-                }
                 mActivityAdminOrderDetailBinding.tvStatus.text = Constant.TEXT_PREPARING
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
             }

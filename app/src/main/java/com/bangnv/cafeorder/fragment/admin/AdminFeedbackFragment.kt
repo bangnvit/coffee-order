@@ -19,15 +19,15 @@ import java.util.*
 
 class AdminFeedbackFragment : BaseFragment() {
 
-    private var mFragmentAdminFeedbackBinding: FragmentAdminFeedbackBinding? = null
-    private var mListFeedback: MutableList<Feedback>? = null
-    private var mFeedbackAdapter: FeedbackAdapter? = null
+    private lateinit var mFragmentAdminFeedbackBinding: FragmentAdminFeedbackBinding
+    private var mListFeedback: MutableList<Feedback> = mutableListOf()
+    private lateinit var mFeedbackAdapter: FeedbackAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mFragmentAdminFeedbackBinding = FragmentAdminFeedbackBinding.inflate(inflater, container, false)
         initView()
         getListFeedback()
-        return mFragmentAdminFeedbackBinding!!.root
+        return mFragmentAdminFeedbackBinding.root
     }
 
     override fun initToolbar() {
@@ -41,29 +41,25 @@ class AdminFeedbackFragment : BaseFragment() {
             return
         }
         val linearLayoutManager = LinearLayoutManager(activity)
-        mFragmentAdminFeedbackBinding!!.rcvFeedback.layoutManager = linearLayoutManager
+        mFragmentAdminFeedbackBinding.rcvFeedback.layoutManager = linearLayoutManager
     }
 
     fun getListFeedback() {
         if (activity == null) {
             return
         }
-        ControllerApplication[activity!!].feedbackDatabaseReference
+        ControllerApplication[requireActivity()].feedbackDatabaseReference
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        if (mListFeedback != null) {
-                            mListFeedback!!.clear()
-                        } else {
-                            mListFeedback = ArrayList()
-                        }
+                        mListFeedback.clear()
                         for (dataSnapshot in snapshot.children) {
                             val feedback = dataSnapshot.getValue(Feedback::class.java)
                             if (feedback != null) {
-                                mListFeedback!!.add(0, feedback)
+                                mListFeedback.add(0, feedback)
                             }
                         }
                         mFeedbackAdapter = FeedbackAdapter(mListFeedback)
-                        mFragmentAdminFeedbackBinding!!.rcvFeedback.adapter = mFeedbackAdapter
+                        mFragmentAdminFeedbackBinding.rcvFeedback.adapter = mFeedbackAdapter
                     }
 
                     override fun onCancelled(error: DatabaseError) {}

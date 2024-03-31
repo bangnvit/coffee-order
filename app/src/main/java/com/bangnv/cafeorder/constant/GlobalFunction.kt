@@ -30,7 +30,10 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.admin.AdminMainActivity
 import com.bangnv.cafeorder.activity.MainActivity
@@ -351,6 +354,33 @@ object GlobalFunction {
         viewDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         viewDialog.window?.attributes?.windowAnimations = R.style.DiaLogAnimation
         viewDialog.window?.setGravity(Gravity.BOTTOM)
+    }
+
+    // Not Good: No fragments management
+//    fun replaceFragment(activity: AppCompatActivity, fragment: Fragment) {
+//        activity.supportFragmentManager.beginTransaction()
+//            .replace(R.id.fragmentContainer, fragment)
+//            .addToBackStack(null) // Add to backstack if needed
+//            .commit()
+//    }
+
+    fun replaceFragment(activity: AppCompatActivity, fragment: Fragment) {
+        val fragmentTag = fragment::class.java.simpleName
+        val fragmentManager = activity.supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+
+        val existingFragment = fragmentManager.findFragmentByTag(fragmentTag)
+        if (existingFragment != null) {
+            fragmentTransaction.show(existingFragment)
+        } else {
+            fragmentTransaction.add(R.id.fragmentContainer, fragment, fragmentTag)
+        }
+        val fragments = fragmentManager.fragments
+        for (f in fragments) {
+            if (f != existingFragment) { fragmentTransaction.hide(f) }
+        }
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 
 }

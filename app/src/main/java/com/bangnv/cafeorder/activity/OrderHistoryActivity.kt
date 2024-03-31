@@ -190,4 +190,9 @@ class OrderHistoryActivity : BaseActivity() {
         super.onDestroy()
         mOrderAdapter.release()
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
 }

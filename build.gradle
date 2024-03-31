@@ -1,3 +1,4 @@
+import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
@@ -43,7 +44,7 @@ def convertDimens() {
     def xmlFile720 = "${rootProject.projectDir}/app/src/main/res/values-sw720dp/dimens.xml"
     def xmlFile800 = "${rootProject.projectDir}/app/src/main/res/values-sw800dp/dimens.xml"
 
-    def xmlOriginal = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFileDefault)
+    def xmlOriginal = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFileDefault)
 
     def xml360 = xmlOriginal.cloneNode(true)
     def xml480 = xmlOriginal.cloneNode(true)
@@ -70,7 +71,7 @@ def convertDimens() {
     writeXml(xmlFile800, xml800)
 }
 
-def modifyDimens(xml, dp) {
+static def modifyDimens(xml, dp) {
     def dimens = xml.childNodes.item(0).childNodes
     for (int i = 0; i < dimens.length; i++) {
         def dimen = dimens.item(i)

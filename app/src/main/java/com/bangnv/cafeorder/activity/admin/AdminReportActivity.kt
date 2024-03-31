@@ -135,4 +135,9 @@ class AdminReportActivity : AppCompatActivity() {
         }
         return total
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
 }

@@ -176,4 +176,9 @@ class FoodDetailActivity : BaseActivity() {
         viewDialog.show()
         customizeDialog(viewDialog)
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
 }
