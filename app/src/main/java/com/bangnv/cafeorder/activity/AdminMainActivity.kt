@@ -1,13 +1,13 @@
 package com.bangnv.cafeorder.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bangnv.cafeorder.R
+import com.bangnv.cafeorder.activity.BaseActivity
 import com.bangnv.cafeorder.adapter.AdminViewPagerAdapter
 import com.bangnv.cafeorder.databinding.ActivityAdminMainBinding
 

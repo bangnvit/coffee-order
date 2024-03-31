@@ -1,4 +1,4 @@
-package com.bangnv.cafeorder.fragment.admin
+package com.bangnv.cafeorder.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,6 @@ import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.AdminMainActivity
 import com.bangnv.cafeorder.adapter.FeedbackAdapter
 import com.bangnv.cafeorder.databinding.FragmentAdminFeedbackBinding
-import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.model.Feedback
 import java.util.*
 

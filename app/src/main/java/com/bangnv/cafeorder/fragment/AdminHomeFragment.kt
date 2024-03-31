@@ -1,4 +1,4 @@
-package com.bangnv.cafeorder.fragment.admin
+package com.bangnv.cafeorder.fragment
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -26,7 +26,6 @@ import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
 import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionSearchListener
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentAdminHomeBinding
-import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.listener.IOnManagerFoodListener
 import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.utils.StringUtil

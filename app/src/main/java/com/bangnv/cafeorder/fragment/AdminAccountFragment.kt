@@ -1,4 +1,4 @@
-package com.bangnv.cafeorder.fragment.admin
+package com.bangnv.cafeorder.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import com.bangnv.cafeorder.activity.ChangePasswordActivity
 import com.bangnv.cafeorder.activity.SignInActivity
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentAdminAccountBinding
-import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 
 class AdminAccountFragment : BaseFragment() {
