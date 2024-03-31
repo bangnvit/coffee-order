@@ -7,6 +7,19 @@
         <item name="titleColorInactive">@color/title_inactive_color</item>
     </style>
 
+    <!--    BottomSheetDialog Custom (youtube)-->
+    <style name="DiaLogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+
+
+<!--    <style name="CustomBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">-->
+    <style name="CustomBottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:background">@drawable/bg_dialog</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
 <!--    Tablayout Custom-->
     <style name="TabTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
         <item name="android:textSize">@dimen/text_size_small</item>

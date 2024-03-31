@@ -59,4 +59,5 @@
     <color name="color_red">#F85555</color>
 
     <color name="bg_tab_layout_inactive">#F5F6F5</color>
+    <color name="color_transparent">#00FFFFFF</color>
 </resources>

@@ -1,17 +1,19 @@
 package com.bangnv.cafeorder.activity
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.adapter.MoreImageAdapter
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.GlobalFunction.customizeDialog
 import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.database.FoodDatabase.Companion.getInstance
 import com.bangnv.cafeorder.databinding.ActivityFoodDetailBinding
@@ -113,13 +115,17 @@ class FoodDetailActivity : BaseActivity() {
         mActivityFoodDetailBinding!!.toolbar.imgCart.setOnClickListener { onClickAddToCart() }
     }
 
+    @SuppressLint("ResourceType", "InflateParams")
     private fun onClickAddToCart() {
         if (isFoodInCart()) {
             return
         }
-        @SuppressLint("InflateParams") val viewDialog = layoutInflater.inflate(R.layout.layout_bottom_sheet_cart, null)
-        val bottomSheetDialog = BottomSheetDialog(this)
-        bottomSheetDialog.setContentView(viewDialog)
+
+        //Init Custom Dialog
+        val viewDialog = Dialog(this@FoodDetailActivity)
+        viewDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        viewDialog.setContentView(R.layout.layout_bottom_sheet_cart)
+
         val imgFoodCart = viewDialog.findViewById<ImageView>(R.id.img_food_cart)
         val tvFoodNameCart = viewDialog.findViewById<TextView>(R.id.tv_food_name_cart)
         val tvFoodPriceCart = viewDialog.findViewById<TextView>(R.id.tv_food_price_cart)
@@ -135,10 +141,11 @@ class FoodDetailActivity : BaseActivity() {
         tvFoodPriceCart.text = strTotalPrice
         mFood!!.count = 1
         mFood!!.totalPrice = totalPrice
+
+        // Set listener
         tvSubtractCount.setOnClickListener {
             val count = tvCount.text.toString().toInt()
-            if (count <= 1) {
-                return@setOnClickListener
+            if (count <= 1) {                return@setOnClickListener
             }
             val newCount = tvCount.text.toString().toInt() - 1
             tvCount.text = newCount.toString()
@@ -157,13 +164,16 @@ class FoodDetailActivity : BaseActivity() {
             mFood!!.count = newCount
             mFood!!.totalPrice = totalPrice2
         }
-        tvCancel.setOnClickListener { bottomSheetDialog.dismiss() }
+        tvCancel.setOnClickListener { viewDialog.dismiss() }
         tvAddCart.setOnClickListener {
             getInstance(this@FoodDetailActivity)!!.foodDAO()!!.insertFood(mFood)
-            bottomSheetDialog.dismiss()
+            viewDialog.dismiss()
             setStatusButtonAddToCart()
             EventBus.getDefault().post(ReloadListCartEvent())
         }
-        bottomSheetDialog.show()
+
+        // Show dialog + set Customize
+        viewDialog.show()
+        customizeDialog(viewDialog)
     }
 }
