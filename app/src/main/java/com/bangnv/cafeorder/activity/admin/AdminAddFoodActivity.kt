@@ -245,4 +245,9 @@ class AdminAddFoodActivity : BaseActivity() {
         //Layout Discount: Listener focus, NO clear text icon
         mActivityAdminAddFoodBinding!!.edtDiscount.setBackgroundOnEditTextFocusChange( mActivityAdminAddFoodBinding!!.layoutDiscount)
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
 }

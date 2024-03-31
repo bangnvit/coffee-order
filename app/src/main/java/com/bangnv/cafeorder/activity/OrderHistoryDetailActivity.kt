@@ -141,9 +141,6 @@ class OrderHistoryDetailActivity : AppCompatActivity() {
             Constant.CODE_NEW_ORDER -> { //30
                 mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.GONE
                 mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.VISIBLE
-                mActivityOrderHistoryDetailBinding.layoutOrderDetailWrap.post {
-                    mActivityOrderHistoryDetailBinding.layoutOrderDetailWrap.fullScroll(View.FOCUS_DOWN)
-                }
                 mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_NEW_ORDER
                 mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
             }
@@ -155,9 +152,6 @@ class OrderHistoryDetailActivity : AppCompatActivity() {
             }
             Constant.CODE_SHIPPING -> { //32
                 mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.VISIBLE
-                mActivityOrderHistoryDetailBinding.layoutOrderDetailWrap.post {
-                    mActivityOrderHistoryDetailBinding.layoutOrderDetailWrap.fullScroll(View.FOCUS_DOWN)
-                }
                 mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.GONE
                 mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_SHIPPING
                 mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
@@ -216,5 +210,10 @@ class OrderHistoryDetailActivity : AppCompatActivity() {
             mActivityOrderHistoryDetailBinding.tvTransitionId,
             this
         )
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }

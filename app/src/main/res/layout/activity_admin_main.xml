@@ -8,10 +8,17 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/layout_toolbar"/>
+        layout="@layout/layout_toolbar" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager_2"
+<!--    <androidx.viewpager2.widget.ViewPager2-->
+<!--        android:id="@+id/viewpager_2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_above="@+id/bottom_navigation"-->
+<!--        android:layout_below="@+id/toolbar" />-->
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_navigation"

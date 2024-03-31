@@ -33,11 +33,11 @@ class AdminAccountFragment : BaseFragment() {
     }
 
     private fun onClickReport() {
-        startActivity(activity!!, AdminReportActivity::class.java)
+        startActivity(requireActivity(), AdminReportActivity::class.java)
     }
 
     private fun onClickChangePassword() {
-        startActivity(activity!!, ChangePasswordActivity::class.java)
+        startActivity(requireActivity(), ChangePasswordActivity::class.java)
     }
 
     private fun onClickSignOut() {
@@ -46,7 +46,7 @@ class AdminAccountFragment : BaseFragment() {
         }
         FirebaseAuth.getInstance().signOut()
         user = null
-        startActivity(activity!!, SignInActivity::class.java)
-        activity!!.finishAffinity()
+        startActivity(requireActivity(), SignInActivity::class.java)
+        requireActivity().finishAffinity()
     }
 }
