@@ -16,36 +16,28 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.CategoryActivity
-import com.bangnv.cafeorder.activity.FoodDetailActivity
+import com.bangnv.cafeorder.activity.SearchActivity
 import com.bangnv.cafeorder.adapter.CategoryAdapter
 import com.bangnv.cafeorder.adapter.FoodGridAdapter
 import com.bangnv.cafeorder.adapter.FoodPopularAdapter
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
-import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
-import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionSearchListener
 import com.bangnv.cafeorder.constant.GlobalFunction.showToastMessage
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentHomeBinding
 import com.bangnv.cafeorder.listener.IOnClickFoodItemListener
 import com.bangnv.cafeorder.model.Category
 import com.bangnv.cafeorder.model.Food
-import com.bangnv.cafeorder.utils.StringUtil
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 class HomeFragment : Fragment() {
 
-    // Cái này có tìm kiếm ở trang chủ (có xử lý logic khi chuyển đi chuyển lại giữa các fragment sao cho hợp lý rồi.
-    // Ngon quá nên lưu lại đây, nhỡ may sau này cần.
-    // Giờ thì làm app với logic bấm vào layout tìm kiếm sẽ nhảy qua SearchActivity riêng
-
     private lateinit var mFragmentHomeBinding: FragmentHomeBinding
     private var mListCategory: MutableList<Category> = mutableListOf()
     private var mListFood: MutableList<Food> = mutableListOf()
     private var mListFoodPopular: MutableList<Food> = mutableListOf()
-    private var displayFood: MutableList<Food> = mutableListOf()
     private val mHandlerBanner = Handler(Looper.getMainLooper())
     private lateinit var mFoodGridAdapter: FoodGridAdapter
     private lateinit var gridLayoutManager: GridLayoutManager
@@ -62,27 +54,6 @@ class HomeFragment : Fragment() {
             mFragmentHomeBinding.viewpager2.currentItem + 1
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (mFragmentHomeBinding.edtSearchName.text.isNotEmpty()) {
-            outState.putSerializable("displayFood", ArrayList(displayFood))
-        }
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        if (mFragmentHomeBinding.edtSearchName.text.isNotEmpty()) {
-            if (savedInstanceState != null) {
-                val savedDisplayFood =
-                    savedInstanceState.getSerializable("displayFood") as? ArrayList<Food>
-                savedDisplayFood?.let {
-                    displayFood.clear()
-                    displayFood.addAll(it)
-                }
-            }
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -91,10 +62,9 @@ class HomeFragment : Fragment() {
         initView()
         getListFoodFromFirebase()
         getListCategory()
+
         initListener()
 
-        setupTouchOtherToClearAllFocus()
-        setupLayoutSearchListener()
         return mFragmentHomeBinding.root
     }
 
@@ -135,9 +105,6 @@ class HomeFragment : Fragment() {
                         }
                         displayListFoodPopular()
                         mFoodGridAdapter.updateData(mListFood)
-                        if (displayFood.size < mListFood.size && mFragmentHomeBinding.edtSearchName.text.isNotEmpty()) {
-                            mFoodGridAdapter.updateData(displayFood)
-                        }
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -179,37 +146,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun initListener() {
-        mFragmentHomeBinding.edtSearchName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable) {
-                filterFoodList(mFragmentHomeBinding.edtSearchName.text.toString())
-            }
-        })
-
-        mFragmentHomeBinding.imgSearch.setOnClickListener {
-            hideSoftKeyboard(requireActivity())
-            mFragmentHomeBinding.edtSearchName.clearFocus()
+        mFragmentHomeBinding!!.layoutSearch.setOnClickListener {
+            startActivity(requireContext(), SearchActivity::class.java)
         }
-        mFragmentHomeBinding.edtSearchName.setOnActionSearchListener(
-            { hideSoftKeyboard(requireActivity()) },
-            { mFragmentHomeBinding.edtSearchName.clearFocus() }
-        )
-    }
-
-    private fun filterFoodList(key: String) {
-        displayFood = if (key.trim().isEmpty()) {
-            mListFood  // if there is no search keyword, display the original data
-        } else {
-            val normalizedKey = StringUtil.normalizeEnglishTextSearch(key)
-            mListFood.filter { food ->
-                val normalizedFoodName = StringUtil.normalizeEnglishTextSearch(food.name ?: "").trim()
-                normalizedFoodName.contains(normalizedKey)
-            }.toMutableList()
-        }
-        mFoodGridAdapter.updateData(displayFood)
     }
 
     private fun getListCategory() {
@@ -244,29 +183,6 @@ class HomeFragment : Fragment() {
             }
         })
         mFragmentHomeBinding.rcvCategory.adapter = categoryAdapter
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private fun setupTouchOtherToClearAllFocus() {
-        mFragmentHomeBinding.layoutContent.setOnClickListener {
-            hideSoftKeyboard(requireActivity())
-            mFragmentHomeBinding.edtSearchName.clearFocus()
-        }
-        // NestedScrollView
-        mFragmentHomeBinding.layoutChild.setOnTouchListener { _, _ ->
-            hideSoftKeyboard(requireActivity())
-            mFragmentHomeBinding.edtSearchName.clearFocus()
-            false
-        }
-    }
-
-    private fun setupLayoutSearchListener() {
-        //Layout Search: Listener focus, clear text icon
-        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
-            mFragmentHomeBinding.layoutSearch,
-            mFragmentHomeBinding.edtSearchName,
-            mFragmentHomeBinding.imgClear
-        )
     }
 
     override fun onPause() {
