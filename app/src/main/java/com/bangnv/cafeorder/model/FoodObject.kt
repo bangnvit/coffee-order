@@ -13,11 +13,13 @@ class FoodObject : Serializable {
     var banner: String? = null
     var isPopular = false
     var images: List<Image>? = null
+    var categoryId: Long = 0
+    var categoryName: String? = null
 
     constructor() {}
 
     constructor(id: Long, name: String?, description: String?, price: Int, sale: Int,
-                image: String?, banner: String?, popular: Boolean) {
+                image: String?, banner: String?, popular: Boolean, categoryId: Long, categoryName: String?) {
         this.id = id
         this.name = name
         this.description = description
@@ -25,6 +27,8 @@ class FoodObject : Serializable {
         this.sale = sale
         this.image = image
         this.banner = banner
-        isPopular = popular
+        this.isPopular = popular
+        this.categoryId = categoryId
+        this.categoryName = categoryName
     }
 }

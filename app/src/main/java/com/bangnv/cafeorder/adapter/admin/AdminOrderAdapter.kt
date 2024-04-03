@@ -15,7 +15,7 @@ import com.bangnv.cafeorder.databinding.ItemAdminOrderBinding
 import com.bangnv.cafeorder.model.Order
 import com.bangnv.cafeorder.utils.DateTimeUtils.convertTimeStampToDate
 
-class AdminOrderAdapter(private var mContext: Context?, private var mListOrder: List<Order>,
+class AdminOrderAdapter(private var mContext: Context?, private var mListOrder: MutableList<Order>,
                         private val mIClickAdminOrderListener: IClickAdminOrderListener
 ) : RecyclerView.Adapter<AdminOrderViewHolder>() {
 

@@ -45,6 +45,7 @@ class AdminFoodAdapter(private val mContext: Context, private var mListFoods: Mu
             holder.mItemAdminFoodBinding.tvPriceSale.text = strRealPrice
         }
         holder.mItemAdminFoodBinding.tvFoodName.text = food.name
+        holder.mItemAdminFoodBinding.tvCategory.text = food.categoryName
         holder.mItemAdminFoodBinding.tvFoodDescription.text = food.description
         if (food.isPopular) {
             holder.mItemAdminFoodBinding.tvPopular.text = mContext.getString(R.string.text_popular_yes)

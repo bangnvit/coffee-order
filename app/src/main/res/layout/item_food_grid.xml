@@ -13,7 +13,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/define_dimen_10"
+        app:cardCornerRadius="@dimen/define_dimen_12"
         app:cardElevation="0dp">
 
         <RelativeLayout
@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                tools:src="@drawable/ic_launcher_background"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -52,29 +53,26 @@
 
         <TextView
             android:id="@+id/tv_food_name"
+            style="@style/TextViewPrimaryNormal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="bold" />
+            tools:text="@string/app_name" />
 
         <TextView
             android:id="@+id/tv_price"
+            style="@style/TextViewBoldSecondaryXSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_2"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/text_size_xsmall"
-            android:textStyle="bold" />
+            tools:text="50.000 VNĐ" />
 
         <TextView
             android:id="@+id/tv_price_sale"
+            style="@style/TextViewAppPrimarySmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_2"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="bold" />
+            tools:text="45.000 VNĐ" />
     </LinearLayout>
 
 </LinearLayout>

@@ -60,4 +60,5 @@
 
     <color name="bg_tab_layout_inactive">#F5F6F5</color>
     <color name="color_transparent">#00FFFFFF</color>
+    <color name="color_cosplay_hint_edittext">#9B9B9B</color>
 </resources>

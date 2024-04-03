@@ -8,6 +8,7 @@
     <dimen name="define_dimen_8">8dp</dimen>
     <dimen name="define_dimen_9">9dp</dimen>
     <dimen name="define_dimen_10">10dp</dimen>
+    <dimen name="define_dimen_11">11dp</dimen>
     <dimen name="define_dimen_12">12dp</dimen>
     <dimen name="define_dimen_14">14dp</dimen>
     <dimen name="define_dimen_15">15dp</dimen>
@@ -32,14 +33,18 @@
     <dimen name="define_dimen_56">56dp</dimen>
     <dimen name="define_dimen_60">60dp</dimen>
     <dimen name="define_dimen_70">70dp</dimen>
+    <dimen name="define_dimen_76">76dp</dimen>
     <dimen name="define_dimen_80">80dp</dimen>
+    <dimen name="define_dimen_84">84dp</dimen>
     <dimen name="define_dimen_90">90dp</dimen>
     <dimen name="define_dimen_100">100dp</dimen>
     <dimen name="define_dimen_106">106dp</dimen>
     <dimen name="define_dimen_110">110dp</dimen>
     <dimen name="define_dimen_120">120dp</dimen>
+    <dimen name="define_dimen_130">130dp</dimen>
     <dimen name="define_dimen_140">140dp</dimen>
     <dimen name="define_dimen_150">150dp</dimen>
+    <dimen name="define_dimen_154">154dp</dimen>
     <dimen name="define_dimen_160">160dp</dimen>
     <dimen name="define_dimen_180">180dp</dimen>
     <dimen name="define_dimen_200">200dp</dimen>

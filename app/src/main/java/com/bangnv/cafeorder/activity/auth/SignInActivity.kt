@@ -20,36 +20,31 @@ import com.google.firebase.auth.FirebaseAuth
 
 class SignInActivity : BaseActivity() {
 
-    private var mActivitySignInBinding: ActivitySignInBinding? = null
+    private lateinit var mActivitySignInBinding: ActivitySignInBinding
     private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivitySignInBinding = ActivitySignInBinding.inflate(layoutInflater)
-        setContentView(mActivitySignInBinding!!.root)
-        mActivitySignInBinding!!.rdbUser.isChecked = true
-        mActivitySignInBinding!!.layoutSignUp.setOnClickListener {
-            startActivity(
-                this@SignInActivity,
-                SignUpActivity::class.java
-            )
+        setContentView(mActivitySignInBinding.root)
+        mActivitySignInBinding.rdbUser.isChecked = true
+        mActivitySignInBinding.layoutSignUp.setOnClickListener {
+            startActivity(this@SignInActivity, SignUpActivity::class.java)
         }
-        mActivitySignInBinding!!.btnSignIn.setOnClickListener { onClickValidateSignIn() }
-        mActivitySignInBinding!!.tvForgotPassword.setOnClickListener { onClickForgotPassword() }
+        mActivitySignInBinding.btnSignIn.setOnClickListener { onClickValidateSignIn() }
+        mActivitySignInBinding.tvForgotPassword.setOnClickListener { onClickForgotPassword() }
 
         setupTouchOtherToClearAllFocus()
         setupLayoutEmailAndPasswordListener()
-
     }
-
 
     private fun onClickForgotPassword() {
         startActivity(this, ForgotPasswordActivity::class.java)
     }
 
     private fun onClickValidateSignIn() {
-        val strEmail = mActivitySignInBinding!!.edtEmail.text.toString().trim { it <= ' ' }
-        val strPassword = mActivitySignInBinding!!.edtPassword.text.toString().trim { it <= ' ' }
+        val strEmail = mActivitySignInBinding.edtEmail.text.toString().trim { it <= ' ' }
+        val strPassword = mActivitySignInBinding.edtPassword.text.toString().trim { it <= ' ' }
         if (isEmpty(strEmail)) {
             Toast.makeText(
                 this@SignInActivity,
@@ -69,7 +64,7 @@ class SignInActivity : BaseActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         } else {
-            if (mActivitySignInBinding!!.rdbAdmin.isChecked) {
+            if (mActivitySignInBinding.rdbAdmin.isChecked) {
                 if (!strEmail.contains(Constant.ADMIN_EMAIL_FORMAT)) {
                     Toast.makeText(
                         this@SignInActivity,
@@ -120,35 +115,34 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun setupTouchOtherToClearAllFocus() {
-        mActivitySignInBinding!!.layoutWrap.setOnClickListener {
+        mActivitySignInBinding.layoutWrap.setOnClickListener {
             hideSoftKeyboard(this@SignInActivity)
-            mActivitySignInBinding!!.edtEmail.clearFocus()
-            mActivitySignInBinding!!.edtPassword.clearFocus()
+            mActivitySignInBinding.edtEmail.clearFocus()
+            mActivitySignInBinding.edtPassword.clearFocus()
         }
     }
 
     private fun setupLayoutEmailAndPasswordListener() {
         //Layout Email: Listener focus, clear text icon
         GlobalFunction.setupLayoutEditTextWithIconClearListeners(
-            mActivitySignInBinding!!.layoutEmail,
-            mActivitySignInBinding!!.edtEmail,
-            mActivitySignInBinding!!.imgClear
+            mActivitySignInBinding.layoutEmail,
+            mActivitySignInBinding.edtEmail,
+            mActivitySignInBinding.imgClear
         )
         //Layout Password: Listener focus
         GlobalFunction.setupLayoutPasswordListeners(
-            mActivitySignInBinding!!.layoutPassword,
-            mActivitySignInBinding!!.edtPassword,
+            mActivitySignInBinding.layoutPassword,
+            mActivitySignInBinding.edtPassword,
             this@SignInActivity
         )
         //IconHideShow: Hide/show password + change icon when click
-        mActivitySignInBinding!!.imgPasswordShowHide.setOnClickListener {
+        mActivitySignInBinding.imgPasswordShowHide.setOnClickListener {
             GlobalFunction.setPasswordVisibility(
                 isPasswordVisible,
-                mActivitySignInBinding!!.edtPassword,
-                mActivitySignInBinding!!.imgPasswordShowHide
+                mActivitySignInBinding.edtPassword,
+                mActivitySignInBinding.imgPasswordShowHide
             )
             isPasswordVisible = !isPasswordVisible
         }
     }
-
 }

@@ -11,24 +11,20 @@ class DataStoreManager {
 
     companion object {
         private const val PREF_USER_INFOR = "PREF_USER_INFOR"
-        private var instance: DataStoreManager? = null
+        private lateinit var instance: DataStoreManager
         fun init(context: Context?) {
             instance = DataStoreManager()
-            instance!!.sharedPreferences = MySharedPreferences(context)
+            instance.sharedPreferences = MySharedPreferences(context)
         }
 
-        fun getInstance(): DataStoreManager? {
-            return if (instance != null) {
-                instance
-            } else {
-                throw IllegalStateException("Not initialized")
-            }
+        fun getInstance(): DataStoreManager {
+            return instance
         }
 
         @JvmStatic
         var user: User?
             get() {
-                val jsonUser = getInstance()!!.sharedPreferences!!.getStringValue(PREF_USER_INFOR)
+                val jsonUser = getInstance().sharedPreferences!!.getStringValue(PREF_USER_INFOR)
                 return if (!isEmpty(jsonUser)) {
                     Gson().fromJson(jsonUser, User::class.java)
                 } else User()
@@ -38,7 +34,7 @@ class DataStoreManager {
                 if (user != null) {
                     jsonUser = user.toJSon()
                 }
-                getInstance()!!.sharedPreferences!!.putStringValue(PREF_USER_INFOR, jsonUser)
+                getInstance().sharedPreferences!!.putStringValue(PREF_USER_INFOR, jsonUser)
             }
     }
 }

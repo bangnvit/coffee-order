@@ -1,30 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_wrap"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/layout_wrap"
     android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        tools:ignore="ContentDescription">
+
+        <TextView
+            android:id="@+id/tv_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/cart"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xnormal" />
+
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_toolbar">
 
-        <TextView
-            android:id="@+id/tvEmpty"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center_vertical"
-            android:textSize="@dimen/text_size_normal"
-            android:text="@string/str_empty_cart"/>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/define_dimen_16"
+                android:text="@string/str_empty_cart"
+                android:textSize="@dimen/text_size_normal" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/btn_go_to_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="@dimen/define_dimen_16"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="@string/str_add_food"
+                android:textColor="@color/white"
+                app:elevation="0dp"
+                app:icon="@drawable/ic_add_no_circle"
+                app:iconTint="@color/white" />
+
+
+        </RelativeLayout>
+
     </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/layout_cart_wrap"
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_toolbar"
+        android:background="@color/white"
+        android:visibility="gone">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_food_cart"
@@ -54,16 +99,16 @@
                 android:id="@+id/tv_note_title"
                 style="@style/TextViewPrimarySmall"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/define_dimen_10"
-                android:layout_marginHorizontal="@dimen/define_dimen_16"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/define_dimen_16"
+                android:layout_marginTop="@dimen/define_dimen_10"
                 android:text="@string/notes" />
 
             <LinearLayout
                 android:id="@+id/layout_note"
                 android:layout_width="match_parent"
-                android:layout_marginHorizontal="@dimen/define_dimen_16"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/define_dimen_16"
                 android:layout_marginTop="@dimen/define_dimen_5"
                 android:layout_marginBottom="@dimen/define_dimen_16"
                 android:background="@drawable/bg_edittext_inactive"
@@ -81,7 +126,7 @@
                     android:hint="@string/notes"
                     android:imeOptions="actionDone"
                     android:inputType="text"
-                    android:paddingHorizontal="@dimen/define_dimen_16"/>
+                    android:paddingHorizontal="@dimen/define_dimen_16" />
 
                 <ImageView
                     android:id="@+id/img_clear_note"

@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/define_dimen_2"
-                android:background="@drawable/bg_white_corner_6_border_gray">
+                android:background="@drawable/bg_white_corner_12_border_gray">
 
                 <TextView
                     android:id="@+id/tv_date_from"
@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/define_dimen_2"
-                android:background="@drawable/bg_white_corner_6_border_gray">
+                android:background="@drawable/bg_white_corner_12_border_gray">
 
                 <TextView
                     android:id="@+id/tv_date_to"

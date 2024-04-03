@@ -29,23 +29,23 @@ class AdminMainActivity : BaseActivity() {
         mActivityAdminMainBinding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-//                    replaceFragment(this, AdminHomeFragment())
+                    replaceFragment(this, AdminHomeFragment())
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.nav_category -> {
-//                    replaceFragment(this,AdminCategoryFragment())
+                    replaceFragment(this,AdminCategoryFragment())
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.nav_order -> {
-//                    replaceFragment(this,AdminOrderFragment())
+                    replaceFragment(this,AdminOrderFragment())
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.nav_feedback -> {
-//                    replaceFragment(this,AdminFeedbackFragment())
+                    replaceFragment(this,AdminFeedbackFragment())
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.nav_account -> {
-//                    replaceFragment(this,AdminAccountFragment())
+                    replaceFragment(this,AdminAccountFragment())
                     return@setOnNavigationItemSelectedListener true
                 }
                 else -> false
@@ -111,10 +111,5 @@ class AdminMainActivity : BaseActivity() {
                 .negativeText(getString(R.string.action_cancel))
                 .cancelable(false)
                 .show()
-    }
-
-    fun setToolBar(title: String?) {
-        mActivityAdminMainBinding.toolbar.layoutToolbar.visibility = View.VISIBLE
-        mActivityAdminMainBinding.toolbar.tvTitle.text = title
     }
 }

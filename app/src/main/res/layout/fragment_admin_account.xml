@@ -7,12 +7,30 @@
     android:orientation="vertical"
     tools:ignore="ContentDescription, UseCompoundDrawables">
 
+    <RelativeLayout
+        android:id="@+id/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        tools:ignore="ContentDescription">
+
+        <TextView
+            android:id="@+id/tv_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/account"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xnormal" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/define_dimen_16"
         android:layout_marginTop="@dimen/define_dimen_16"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <ImageView
@@ -22,12 +40,11 @@
 
         <TextView
             android:id="@+id/tv_email"
-            android:layout_width="match_parent"
+            style="@style/TextViewAppPrimaryNormal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_5"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="bold" />
+            tools:text="abc@admin.com" />
 
     </LinearLayout>
 

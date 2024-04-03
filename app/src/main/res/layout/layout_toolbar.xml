@@ -36,6 +36,5 @@
         android:padding="@dimen/define_dimen_6"
         android:src="@drawable/ic_cart_white_36"
         android:visibility="gone" />
-
 </RelativeLayout>
 

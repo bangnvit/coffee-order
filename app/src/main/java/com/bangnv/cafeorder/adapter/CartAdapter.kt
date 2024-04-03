@@ -10,11 +10,11 @@ import com.bangnv.cafeorder.databinding.ItemCartBinding
 import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.utils.GlideUtils.loadUrl
 
-class CartAdapter(private val mListFoods: MutableList<Food>?,
+class CartAdapter(private val mListFoods: MutableList<Food>,
                   private val iClickListener: IClickListener) : RecyclerView.Adapter<CartViewHolder>() {
 
     interface IClickListener {
-        fun clickDeteteFood(food: Food?, position: Int)
+        fun clickDeleteFood(food: Food?, position: Int)
         fun updateItemFood(food: Food?, position: Int)
     }
 
@@ -24,7 +24,7 @@ class CartAdapter(private val mListFoods: MutableList<Food>?,
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        val food = mListFoods!![position]
+        val food = mListFoods[position]
         loadUrl(food.image, holder.mItemCartBinding.imgFoodCart)
         holder.mItemCartBinding.tvFoodNameCart.text = food.name
         var strFoodPriceCart: String? = formatNumberWithPeriods(food.price) + Constant.CURRENCY
@@ -54,11 +54,11 @@ class CartAdapter(private val mListFoods: MutableList<Food>?,
             food.totalPrice = totalPrice
             iClickListener.updateItemFood(food, holder.adapterPosition)
         }
-        holder.mItemCartBinding.imgDelete.setOnClickListener { iClickListener.clickDeteteFood(food, holder.adapterPosition) }
+        holder.mItemCartBinding.imgDelete.setOnClickListener { iClickListener.clickDeleteFood(food, holder.adapterPosition) }
     }
 
     override fun getItemCount(): Int {
-        return mListFoods?.size ?: 0
+        return mListFoods.size
     }
 
     class CartViewHolder(val mItemCartBinding: ItemCartBinding) : RecyclerView.ViewHolder(mItemCartBinding.root)

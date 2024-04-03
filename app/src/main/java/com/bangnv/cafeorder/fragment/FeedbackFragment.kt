@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.MainActivity
@@ -18,9 +19,9 @@ import com.bangnv.cafeorder.utils.StringUtil.isEmpty
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 
-class FeedbackFragment : BaseFragment() {
+class FeedbackFragment : Fragment() {
 
-    private var mFragmentFeedbackBinding: FragmentFeedbackBinding? = null
+    private lateinit var mFragmentFeedbackBinding: FragmentFeedbackBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,19 +29,13 @@ class FeedbackFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         mFragmentFeedbackBinding = FragmentFeedbackBinding.inflate(inflater, container, false)
-        mFragmentFeedbackBinding!!.edtEmail.setText(user!!.email)
-        mFragmentFeedbackBinding!!.btnSendFeedback.setOnClickListener { onClickSendFeedback() }
+        mFragmentFeedbackBinding.edtEmail.setText(user!!.email)
+        mFragmentFeedbackBinding.btnSendFeedback.setOnClickListener { onClickSendFeedback() }
 
         setupTouchOtherToClearAllFocus()
         setupLayoutEditTextsListener()
 
-        return mFragmentFeedbackBinding!!.root
-    }
-
-    override fun initToolbar() {
-        if (activity != null) {
-            (activity as MainActivity?)!!.setToolBar(false, getString(R.string.feedback))
-        }
+        return mFragmentFeedbackBinding.root
     }
 
     private fun onClickSendFeedback() {
@@ -48,18 +43,14 @@ class FeedbackFragment : BaseFragment() {
             return
         }
         val activity = activity as MainActivity?
-        val strName = mFragmentFeedbackBinding!!.edtName.text.toString()
-        val strPhone = mFragmentFeedbackBinding!!.edtPhone.text.toString()
-        val strEmail = mFragmentFeedbackBinding!!.edtEmail.text.toString()
-        val strComment = mFragmentFeedbackBinding!!.edtComment.text.toString()
+        val strName = mFragmentFeedbackBinding.edtName.text.toString()
+        val strPhone = mFragmentFeedbackBinding.edtPhone.text.toString()
+        val strEmail = mFragmentFeedbackBinding.edtEmail.text.toString()
+        val strComment = mFragmentFeedbackBinding.edtComment.text.toString()
         when {
-            isEmpty(strName) -> {
-                showToastMessage(activity, getString(R.string.name_require))
-            }
+            isEmpty(strName) -> { showToastMessage(activity, getString(R.string.name_require)) }
 
-            isEmpty(strComment) -> {
-                showToastMessage(activity, getString(R.string.comment_require))
-            }
+            isEmpty(strComment) -> { showToastMessage(activity, getString(R.string.comment_require)) }
 
             else -> {
                 activity!!.showProgressDialog(true)
@@ -77,19 +68,18 @@ class FeedbackFragment : BaseFragment() {
     private fun sendFeedbackSuccess() {
         hideSoftKeyboard(requireActivity())
         showToastMessage(activity, getString(R.string.send_feedback_success))
-        mFragmentFeedbackBinding!!.edtName.setText("")
-        mFragmentFeedbackBinding!!.edtPhone.setText("")
-        mFragmentFeedbackBinding!!.edtComment.setText("")
+        mFragmentFeedbackBinding.edtName.setText("")
+        mFragmentFeedbackBinding.edtPhone.setText("")
+        mFragmentFeedbackBinding.edtComment.setText("")
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupTouchOtherToClearAllFocus() {
-        mFragmentFeedbackBinding!!.layoutWrap.setOnTouchListener { _, _ ->
+        mFragmentFeedbackBinding.layoutWrap.setOnTouchListener { _, _ ->
             hideSoftKeyboard(requireActivity())
-            mFragmentFeedbackBinding!!.edtName.clearFocus()
-            mFragmentFeedbackBinding!!.edtPhone.clearFocus()
-            mFragmentFeedbackBinding!!.edtComment.clearFocus()
+            mFragmentFeedbackBinding.edtName.clearFocus()
+            mFragmentFeedbackBinding.edtPhone.clearFocus()
+            mFragmentFeedbackBinding.edtComment.clearFocus()
             false
         }
     }
@@ -98,23 +88,22 @@ class FeedbackFragment : BaseFragment() {
     private fun setupLayoutEditTextsListener() {
         //Layout Name: Listener focus, clear text icon
         GlobalFunction.setupLayoutEditTextWithIconClearListeners(
-            mFragmentFeedbackBinding!!.layoutName,
-            mFragmentFeedbackBinding!!.edtName,
-            mFragmentFeedbackBinding!!.imgClearName
+            mFragmentFeedbackBinding.layoutName,
+            mFragmentFeedbackBinding.edtName,
+            mFragmentFeedbackBinding.imgClearName
         )
         //Layout Phone: Listener focus, clear text icon
         GlobalFunction.setupLayoutEditTextWithIconClearListeners(
-            mFragmentFeedbackBinding!!.layoutPhone,
-            mFragmentFeedbackBinding!!.edtPhone,
-            mFragmentFeedbackBinding!!.imgClearPhone
+            mFragmentFeedbackBinding.layoutPhone,
+            mFragmentFeedbackBinding.edtPhone,
+            mFragmentFeedbackBinding.imgClearPhone
         )
 
         //Layout Comment: Listener focus, clear text icon
         GlobalFunction.setupLayoutEditTextWithIconClearListeners(
-            mFragmentFeedbackBinding!!.layoutComment,
-            mFragmentFeedbackBinding!!.edtComment,
-            mFragmentFeedbackBinding!!.imgClearComment
+            mFragmentFeedbackBinding.layoutComment,
+            mFragmentFeedbackBinding.edtComment,
+            mFragmentFeedbackBinding.imgClearComment
         )
     }
-
 }

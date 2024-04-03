@@ -6,10 +6,12 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -18,7 +20,6 @@ import com.google.firebase.database.DatabaseReference
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.admin.AdminAddFoodActivity
-import com.bangnv.cafeorder.activity.admin.AdminMainActivity
 import com.bangnv.cafeorder.adapter.admin.AdminFoodAdapter
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
@@ -26,13 +27,12 @@ import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
 import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionSearchListener
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentAdminHomeBinding
-import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.listener.IOnManagerFoodListener
 import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.utils.StringUtil
 import java.util.*
 
-class AdminHomeFragment : BaseFragment() {
+class AdminHomeFragment : Fragment() {
 
     private lateinit var mFragmentAdminHomeBinding: FragmentAdminHomeBinding
     private var mListFood: MutableList<Food> = mutableListOf()
@@ -46,13 +46,8 @@ class AdminHomeFragment : BaseFragment() {
         getListFood()
         setupTouchOtherToClearAllFocus()
         setupLayoutSearchListener()
+        Log.d("TEST_REPLACE_FRAGMENT: ", "Admin Home")
         return mFragmentAdminHomeBinding.root
-    }
-
-    override fun initToolbar() {
-        if (activity != null) {
-            (activity as AdminMainActivity?)!!.setToolBar(getString(R.string.home))
-        }
     }
 
     private fun initView() {
@@ -123,19 +118,6 @@ class AdminHomeFragment : BaseFragment() {
                 .show()
     }
 
-    private fun filterFoodList(key: String) {
-        displayFood = if (key.isEmpty()) {
-            mListFood  // if there is no search keyword, display the original data
-        } else {
-            val normalizedKey = StringUtil.normalizeEnglishString(key)
-            mListFood.filter { food ->
-                val normalizedFoodName = StringUtil.normalizeEnglishString(food.name ?: "")
-                normalizedFoodName.contains(normalizedKey)
-            }.toMutableList()
-        }
-        mAdminFoodAdapter.updateData(displayFood)
-    }
-
     private fun getListFood() {
         if (activity == null) {
             return
@@ -182,6 +164,19 @@ class AdminHomeFragment : BaseFragment() {
                     override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
                     override fun onCancelled(databaseError: DatabaseError) {}
                 })
+    }
+
+    private fun filterFoodList(key: String) {
+        displayFood = if (key.isEmpty()) {
+            mListFood  // if there is no search keyword, display the original data
+        } else {
+            val normalizedKey = StringUtil.normalizeEnglishTextSearch(key)
+            mListFood.filter { food ->
+                val normalizedFoodName = StringUtil.normalizeEnglishTextSearch(food.name ?: "")
+                normalizedFoodName.contains(normalizedKey)
+            }.toMutableList()
+        }
+        mAdminFoodAdapter.updateData(displayFood)
     }
 
     @SuppressLint("ClickableViewAccessibility")

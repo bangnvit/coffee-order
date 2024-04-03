@@ -157,6 +157,17 @@
                 android:text="@string/add_to_cart"
                 android:textColor="@color/white" />
 
+            <TextView
+                android:id="@+id/tv_go_to_cart"
+                style="@style/MyTextViewButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/define_dimen_16"
+                android:layout_marginBottom="@dimen/define_dimen_20"
+                android:background="@drawable/bg_green_main_shape_corner_circle"
+                android:text="@string/add_go_cart"
+                android:textColor="@color/white" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

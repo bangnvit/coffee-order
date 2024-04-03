@@ -36,8 +36,11 @@ android {
     }
 }
 
-dependencies {
+repositories {
+    maven { url 'https://jitpack.io' }
+}
 
+dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -46,8 +49,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+//    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.1'
+//    implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
+//    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
 
     // Circle Imageview
     implementation 'de.hdodenhof:circleimageview:3.0.0'
@@ -68,4 +72,18 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     // Indicator
     implementation 'me.relex:circleindicator:2.1.6'
+    // Flowlayout for category
+    implementation 'com.wefika:flowlayout:0.4.1'
+
+    // Chart: unused
+//    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+}
+
+// Mấu chốt vấn đề nằm ở đây:
+// Fix Error: Duplicate class org.intellij.lang.annotations.Identifier
+    // found in modules jetified-annotations-12.0 (com.intellij:annotations:12.0) and
+    // jetified-annotations-13.0 (org.jetbrains:annotations:13.0)
+configurations {
+    cleanedAnnotations
+    compile.exclude group: 'org.jetbrains' , module:'annotations'
 }

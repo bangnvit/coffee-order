@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:id="@+id/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        tools:ignore="ContentDescription">
+
+        <TextView
+            android:id="@+id/tv_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/feedback"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xnormal" />
+
+    </RelativeLayout>
+
     <ScrollView
         android:id="@+id/layout_wrap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/btn_send_feedback"
+        android:layout_below="@+id/layout_toolbar"
         tools:ignore="Autofill,LabelFor,UselessParent">
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
-            android:padding="@dimen/define_dimen_16">
+            android:paddingHorizontal="@dimen/define_dimen_16"
+            android:paddingTop="@dimen/define_dimen_16">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -183,14 +203,20 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_send_feedback"
-                style="@style/MyButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/define_dimen_30"
-                android:text="@string/send_feedback"
-                app:backgroundTint="@color/colorPrimaryDark" />
         </LinearLayout>
+
     </ScrollView>
-</LinearLayout>
+
+    <Button
+        android:id="@+id/btn_send_feedback"
+        style="@style/MyButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="@dimen/define_dimen_16"
+        android:layout_marginTop="@dimen/define_dimen_30"
+        android:layout_marginBottom="@dimen/define_dimen_20"
+        android:text="@string/send_feedback"
+        app:backgroundTint="@color/colorPrimaryDark" />
+
+</RelativeLayout>

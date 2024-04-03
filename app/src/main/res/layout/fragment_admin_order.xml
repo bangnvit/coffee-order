@@ -6,6 +6,23 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/tv_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/order"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xnormal" />
+
+    </RelativeLayout>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout_status"
         android:layout_width="match_parent"
