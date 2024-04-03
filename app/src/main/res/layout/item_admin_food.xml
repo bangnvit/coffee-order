@@ -11,7 +11,9 @@
     android:background="@drawable/bg_color_white_border_divider_radius_12"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="@dimen/define_dimen_16">
+    android:paddingVertical="@dimen/define_dimen_16"
+    android:paddingStart="@dimen/define_dimen_16"
+    android:paddingEnd="@dimen/define_dimen_11">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,11 +28,11 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/define_dimen_90">
+                android:layout_height="@dimen/define_dimen_84">
 
                 <ImageView
                     android:id="@+id/img_food"
-                    android:layout_width="100dp"
+                    android:layout_width="@dimen/define_dimen_100"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/image_no_available"
@@ -54,8 +56,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/define_dimen_10"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/define_dimen_10"
             android:layout_marginEnd="@dimen/define_dimen_5"
             android:layout_toStartOf="@+id/layout_accept_refuse"
             android:layout_toEndOf="@+id/layout_image"
@@ -63,30 +65,10 @@
 
             <TextView
                 android:id="@+id/tv_food_name"
+                style="@style/TextViewPrimaryNormal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/define_dimen_2"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/text_size_xsmall"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_price_sale"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/define_dimen_2"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold" />
+                android:text="@string/app_name" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -96,11 +78,56 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/TextViewItalicSecondaryXSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/label_popular"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/text_size_small" />
+                    android:text="@string/label_category" />
+
+                <TextView
+                    android:id="@+id/tv_category"
+                    style="@style/TextViewItalicSecondaryXSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/define_dimen_5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_price_sale"
+                    style="@style/TextViewAppPrimarySmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/define_dimen_2"
+                    tools:text="57.000 VNĐ" />
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    style="@style/TextViewBoldSecondaryXSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/define_dimen_10"
+                    android:layout_marginTop="@dimen/define_dimen_2"
+                    android:layout_weight="1"
+                    tools:text="60.000 VNĐ" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_2"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextViewSecondarySmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_popular" />
 
                 <TextView
                     android:id="@+id/tv_popular"
@@ -110,6 +137,7 @@
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/text_size_small" />
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -144,6 +172,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/define_dimen_5"
+        android:layout_marginEnd="@dimen/define_dimen_16"
         android:ellipsize="end"
         android:maxLines="3"
         android:text="@string/app_name"

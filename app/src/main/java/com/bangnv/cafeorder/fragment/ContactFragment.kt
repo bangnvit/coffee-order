@@ -4,20 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangnv.cafeorder.R
-import com.bangnv.cafeorder.activity.MainActivity
 import com.bangnv.cafeorder.adapter.ContactAdapter
 import com.bangnv.cafeorder.adapter.ContactAdapter.ICallPhone
 import com.bangnv.cafeorder.constant.GlobalFunction.callPhoneNumber
 import com.bangnv.cafeorder.databinding.FragmentContactBinding
 import com.bangnv.cafeorder.model.Contact
-import java.util.*
 
-class ContactFragment : BaseFragment() {
+class ContactFragment : Fragment() {
 
-    private var mContactAdapter: ContactAdapter? = null
+    private lateinit var mContactAdapter: ContactAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val mFragmentContactBinding = FragmentContactBinding.inflate(inflater, container, false)
@@ -36,8 +34,8 @@ class ContactFragment : BaseFragment() {
         return mFragmentContactBinding.root
     }
 
-    fun getListContact(): List<Contact> {
-        val contactArrayList: MutableList<Contact> = ArrayList()
+    private fun getListContact(): List<Contact> {
+        val contactArrayList: MutableList<Contact> = mutableListOf()
         contactArrayList.add(Contact(Contact.HOTLINE, R.drawable.ic_hotline))
         contactArrayList.add(Contact(Contact.ZALO, R.drawable.ic_zalo))
         contactArrayList.add(Contact(Contact.GMAIL, R.drawable.ic_gmail))
@@ -49,12 +47,6 @@ class ContactFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mContactAdapter!!.release()
-    }
-
-    override fun initToolbar() {
-        if (activity != null) {
-            (activity as MainActivity?)!!.setToolBar(false, getString(R.string.contact))
-        }
+        mContactAdapter.release()
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardCornerRadius="@dimen/define_dimen_10"
+    app:cardCornerRadius="@dimen/define_dimen_12"
     app:cardElevation="0dp">
 
     <RelativeLayout

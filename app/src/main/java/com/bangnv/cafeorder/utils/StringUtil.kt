@@ -13,7 +13,7 @@ object StringUtil {
 
     @JvmStatic
     fun isEmpty(input: String?): Boolean {
-        return input == null || input.isEmpty() || "" == input.trim { it <= ' ' }
+        return input.isNullOrEmpty() || "" == input.trim { it <= ' ' }
     }
 
     @JvmStatic
@@ -25,7 +25,7 @@ object StringUtil {
 
     // Replace Vietnamese to English (đ -> d,..), lowercase
     @JvmStatic
-    fun normalizeEnglishString(str: String): String {
+    fun normalizeEnglishTextSearch(str: String): String {
         val normalizedStr = Normalizer.normalize(str, Normalizer.Form.NFD)
         val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
         val withoutDiacritics = pattern.matcher(normalizedStr).replaceAll("")

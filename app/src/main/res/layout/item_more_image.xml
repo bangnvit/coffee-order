@@ -7,7 +7,7 @@
     android:layout_marginHorizontal="@dimen/define_dimen_8"
     android:layout_marginTop="@dimen/define_dimen_6"
     android:layout_marginBottom="@dimen/define_dimen_10"
-    app:cardCornerRadius="@dimen/define_dimen_10"
+    app:cardCornerRadius="@dimen/define_dimen_12"
     app:cardElevation="0dp">
 
     <com.bangnv.cafeorder.widget.AspectRatioNoRadiusImageView

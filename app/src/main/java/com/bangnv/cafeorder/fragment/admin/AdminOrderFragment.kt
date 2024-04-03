@@ -8,10 +8,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
-import com.bangnv.cafeorder.activity.admin.AdminMainActivity
 import com.bangnv.cafeorder.activity.admin.AdminOrderDetailActivity
 import com.bangnv.cafeorder.adapter.admin.AdminOrderAdapter
 import com.bangnv.cafeorder.adapter.admin.AdminOrderAdapter.IClickAdminOrderListener
@@ -20,7 +20,6 @@ import com.bangnv.cafeorder.constant.GlobalFunction.addMyTabs
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentAdminOrderBinding
-import com.bangnv.cafeorder.fragment.BaseFragment
 import com.bangnv.cafeorder.model.Order
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.ChildEventListener
@@ -28,7 +27,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import java.util.*
 
-class AdminOrderFragment : BaseFragment() {
+class AdminOrderFragment : Fragment() {
 
     private lateinit var mFragmentAdminOrderBinding: FragmentAdminOrderBinding
     private lateinit var mAdminOrderAdapter: AdminOrderAdapter
@@ -45,13 +44,8 @@ class AdminOrderFragment : BaseFragment() {
         initTabLayout()
         getListOrders()
         tabLayoutTabSelectedListener()
+        Log.d("TEST_REPLACE_FRAGMENT: ", "Admin order")
         return mFragmentAdminOrderBinding.root
-    }
-
-    override fun initToolbar() {
-        if (activity != null) {
-            (activity as AdminMainActivity?)!!.setToolBar(getString(R.string.order))
-        }
     }
 
     private fun initView() {

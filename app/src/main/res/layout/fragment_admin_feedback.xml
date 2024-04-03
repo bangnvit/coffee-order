@@ -2,7 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/tv_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/feedback"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xnormal" />
+
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_feedback"
@@ -11,6 +29,6 @@
         android:layout_marginTop="@dimen/define_dimen_10"
         android:layout_marginBottom="@dimen/define_dimen_6"
         android:overScrollMode="never"
-        android:paddingHorizontal="@dimen/define_dimen_8"/>
+        android:paddingHorizontal="@dimen/define_dimen_8" />
 
 </LinearLayout>

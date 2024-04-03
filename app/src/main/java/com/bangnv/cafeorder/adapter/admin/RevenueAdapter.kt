@@ -10,16 +10,17 @@ import com.bangnv.cafeorder.databinding.ItemRevenueBinding
 import com.bangnv.cafeorder.model.Order
 import com.bangnv.cafeorder.utils.DateTimeUtils.convertTimeStampToDate_2
 
-class RevenueAdapter(private val mListOrder: List<Order>?) : RecyclerView.Adapter<RevenueViewHolder>() {
+class RevenueAdapter(private val mListOrder: List<Order>) :
+    RecyclerView.Adapter<RevenueViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RevenueViewHolder {
-        val itemRevenueBinding = ItemRevenueBinding.inflate(LayoutInflater.from(parent.context),
-                parent, false)
+        val itemRevenueBinding =
+            ItemRevenueBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return RevenueViewHolder(itemRevenueBinding)
     }
 
     override fun onBindViewHolder(holder: RevenueViewHolder, position: Int) {
-        val order = mListOrder!![position]
+        val order = mListOrder[position]
         holder.mItemRevenueBinding.tvId.text = order.id.toString()
         holder.mItemRevenueBinding.tvDate.text = convertTimeStampToDate_2(order.id)
         val strAmount: String = formatNumberWithPeriods(order.amount) + Constant.CURRENCY
@@ -27,8 +28,9 @@ class RevenueAdapter(private val mListOrder: List<Order>?) : RecyclerView.Adapte
     }
 
     override fun getItemCount(): Int {
-        return mListOrder?.size ?: 0
+        return mListOrder.size
     }
 
-    class RevenueViewHolder(val mItemRevenueBinding: ItemRevenueBinding) : RecyclerView.ViewHolder(mItemRevenueBinding.root)
+    class RevenueViewHolder(val mItemRevenueBinding: ItemRevenueBinding) :
+        RecyclerView.ViewHolder(mItemRevenueBinding.root)
 }

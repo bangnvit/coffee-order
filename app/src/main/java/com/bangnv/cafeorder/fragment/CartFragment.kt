@@ -3,16 +3,15 @@ package com.bangnv.cafeorder.fragment
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
@@ -40,35 +39,36 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 
-class CartFragment : BaseFragment() {
+class CartFragment : Fragment() {
 
-    private var mFragmentCartBinding: FragmentCartBinding? = null
-    private var mCartAdapter: CartAdapter? = null
-    private var mListFoodCart: MutableList<Food>? = null
+    private lateinit var mFragmentCartBinding: FragmentCartBinding
+    private lateinit var mCartAdapter: CartAdapter
+    private var mListFoodCart: MutableList<Food> = mutableListOf()
     private var mAmount = 0
+    private lateinit var mMainActivity: MainActivity
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainActivity) {
+            mMainActivity = context
+        }
+    }
+
+    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
         mFragmentCartBinding = FragmentCartBinding.inflate(inflater, container, false)
+
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
+
         displayListFoodInCart()
-        mFragmentCartBinding!!.tvOrderCart.setOnClickListener { onClickOrderCart() }
+        mFragmentCartBinding.tvOrderCart.setOnClickListener { onClickOrderCart() }
+        mFragmentCartBinding.btnGoToHome.setOnClickListener { mMainActivity.goToHome() }
 
         setupTouchOtherToClearAllFocus()
         setupLayoutEditTextNoteListener()
 
-        return mFragmentCartBinding!!.root
-    }
-
-    override fun initToolbar() {
-        if (activity != null) {
-            (activity as MainActivity?)!!.setToolBar(false, getString(R.string.cart))
-        }
+        return mFragmentCartBinding.root
     }
 
     private fun displayListFoodInCart() {
@@ -76,53 +76,53 @@ class CartFragment : BaseFragment() {
             return
         }
         val linearLayoutManager = LinearLayoutManager(activity)
-        mFragmentCartBinding!!.rcvFoodCart.layoutManager = linearLayoutManager
+        mFragmentCartBinding.rcvFoodCart.layoutManager = linearLayoutManager
 //        val itemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-//        mFragmentCartBinding!!.rcvFoodCart.addItemDecoration(itemDecoration)
+//        mFragmentCartBinding.rcvFoodCart.addItemDecoration(itemDecoration)
         initDataFoodCart()
     }
 
     private fun initDataFoodCart() {
-        mListFoodCart = ArrayList()
-        mListFoodCart = getInstance(requireActivity())!!.foodDAO()!!.listFoodCart
-        if (mListFoodCart == null || mListFoodCart!!.isEmpty()) {
+        mListFoodCart = mutableListOf()
+        mListFoodCart = getInstance(requireActivity())!!.foodDAO()!!.listFoodCart!!
+        if (mListFoodCart.isEmpty()) {
             return
         }
         mCartAdapter = CartAdapter(mListFoodCart, object : IClickListener {
-            override fun clickDeteteFood(food: Food?, position: Int) {
+            override fun clickDeleteFood(food: Food?, position: Int) {
                 deleteFoodFromCart(food, position)
             }
 
             override fun updateItemFood(food: Food?, position: Int) {
                 getInstance(requireActivity())!!.foodDAO()!!.updateFood(food)
-                mCartAdapter!!.notifyItemChanged(position)
+                mCartAdapter.notifyItemChanged(position)
                 calculateTotalPrice()
             }
         })
 
-        mFragmentCartBinding!!.rcvFoodCart.itemAnimator = null
-        mFragmentCartBinding!!.rcvFoodCart.adapter = mCartAdapter
+        mFragmentCartBinding.rcvFoodCart.itemAnimator = null
+        mFragmentCartBinding.rcvFoodCart.adapter = mCartAdapter
 
-        if (mCartAdapter!!.itemCount == 0) {
-            mFragmentCartBinding!!.layoutCartWrap.visibility = View.GONE
+        if (mCartAdapter.itemCount == 0) {
+            mFragmentCartBinding.layoutCartWrap.visibility = View.GONE
         } else {
-            mFragmentCartBinding!!.layoutCartWrap.visibility = View.VISIBLE
+            mFragmentCartBinding.layoutCartWrap.visibility = View.VISIBLE
         }
         calculateTotalPrice()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun clearCart() {
-        mListFoodCart?.clear()
-        mCartAdapter!!.notifyDataSetChanged()
+        mListFoodCart.clear()
+        mCartAdapter.notifyDataSetChanged()
         calculateTotalPrice()
     }
 
     private fun calculateTotalPrice() {
         val listFoodCart = getInstance(requireActivity())!!.foodDAO()!!.listFoodCart
-        if (listFoodCart == null || listFoodCart.isEmpty()) {
+        if (listFoodCart.isNullOrEmpty()) {
             val strZero: String = formatNumberWithPeriods(0) + Constant.CURRENCY
-            mFragmentCartBinding!!.tvTotalPrice.text = strZero
+            mFragmentCartBinding.tvTotalPrice.text = strZero
             mAmount = 0
             return
         }
@@ -131,7 +131,7 @@ class CartFragment : BaseFragment() {
             totalPrice += food.totalPrice
         }
         val strTotalPrice: String = formatNumberWithPeriods(totalPrice) + Constant.CURRENCY
-        mFragmentCartBinding!!.tvTotalPrice.text = strTotalPrice
+        mFragmentCartBinding.tvTotalPrice.text = strTotalPrice
         mAmount = totalPrice
     }
 
@@ -141,12 +141,12 @@ class CartFragment : BaseFragment() {
             .setMessage(getString(R.string.message_delete_food))
             .setPositiveButton(getString(R.string.delete)) { _: DialogInterface?, _: Int ->
                 getInstance(requireActivity())!!.foodDAO()!!.deleteFood(food)
-                mListFoodCart?.removeAt(position)
-                mCartAdapter!!.notifyItemRemoved(position)
-                if (mCartAdapter!!.itemCount == 0) {
-                    mFragmentCartBinding!!.layoutCartWrap.visibility = View.GONE
+                mListFoodCart.removeAt(position)
+                mCartAdapter.notifyItemRemoved(position)
+                if (mCartAdapter.itemCount == 0) {
+                    mFragmentCartBinding.layoutCartWrap.visibility = View.GONE
                 } else {
-                    mFragmentCartBinding!!.layoutCartWrap.visibility = View.VISIBLE
+                    mFragmentCartBinding.layoutCartWrap.visibility = View.VISIBLE
                 }
                 calculateTotalPrice()
             }
@@ -159,7 +159,7 @@ class CartFragment : BaseFragment() {
         if (activity == null) {
             return
         }
-        if (mListFoodCart == null || mListFoodCart!!.isEmpty()) {
+        if (mListFoodCart.isEmpty()) {
             return
         }
 
@@ -179,7 +179,7 @@ class CartFragment : BaseFragment() {
 
         // Set data
         tvFoodsOrder.text = getStringListFoodsOrder()
-        tvPriceOrder.text = mFragmentCartBinding!!.tvTotalPrice.text.toString()
+        tvPriceOrder.text = mFragmentCartBinding.tvTotalPrice.text.toString()
 
         // Set listener
         tvCancelOrder.setOnClickListener { viewDialog.dismiss() }
@@ -205,7 +205,7 @@ class CartFragment : BaseFragment() {
                         hideSoftKeyboard(requireActivity())
                         viewDialog.dismiss()
 
-                        mFragmentCartBinding!!.edtNote.setText("")
+                        mFragmentCartBinding.edtNote.setText("")
                         getInstance(requireActivity())!!.foodDAO()!!.deleteAllFood()
                         clearCart()
                     }
@@ -218,11 +218,11 @@ class CartFragment : BaseFragment() {
     }
 
     private fun getStringListFoodsOrder(): String {
-        if (mListFoodCart == null || mListFoodCart!!.isEmpty()) {
+        if (mListFoodCart.isEmpty()) {
             return ""
         }
         var result = ""
-        for (food in mListFoodCart!!) {
+        for (food in mListFoodCart) {
             result = if (isEmpty(result)) {
                 ("- " + food.name + " (" + formatNumberWithPeriods(food.realPrice) + Constant.CURRENCY + ") "
                         + "- " + getString(R.string.quantity) + " " + food.count)
@@ -235,28 +235,32 @@ class CartFragment : BaseFragment() {
     }
 
     private fun getStringNoteOrder(): String {
-        val note = mFragmentCartBinding!!.edtNote.text.toString().ifBlank {
+        val note = mFragmentCartBinding.edtNote.text.toString().ifBlank {
             getString(R.string.str_no_note)
         }
         return note
     }
 
     private fun setupTouchOtherToClearAllFocus() {
-        mFragmentCartBinding!!.layoutWrap.setOnClickListener {
+        mFragmentCartBinding.layoutWrap.setOnClickListener {
             hideSoftKeyboard(requireActivity())
-            mFragmentCartBinding!!.edtNote.clearFocus()
+            mFragmentCartBinding.edtNote.clearFocus()
+        }
+        mFragmentCartBinding.layoutCartWrap.setOnClickListener {
+            hideSoftKeyboard(requireActivity())
+            mFragmentCartBinding.edtNote.clearFocus()
         }
     }
 
     private fun setupLayoutEditTextNoteListener() {
         GlobalFunction.setupLayoutEditTextWithIconClearListeners(
-            mFragmentCartBinding!!.layoutNote,
-            mFragmentCartBinding!!.edtNote,
-            mFragmentCartBinding!!.imgClearNote
+            mFragmentCartBinding.layoutNote,
+            mFragmentCartBinding.edtNote,
+            mFragmentCartBinding.imgClearNote
         )
-        mFragmentCartBinding!!.edtNote.setOnActionDoneListener(
+        mFragmentCartBinding.edtNote.setOnActionDoneListener(
             { hideSoftKeyboard(requireActivity()) },
-            { mFragmentCartBinding!!.edtNote.clearFocus() }
+            { mFragmentCartBinding.edtNote.clearFocus() }
         )
     }
 

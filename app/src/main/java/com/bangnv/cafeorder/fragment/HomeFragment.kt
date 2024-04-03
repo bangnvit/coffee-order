@@ -9,12 +9,15 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
+import com.bangnv.cafeorder.activity.CategoryActivity
 import com.bangnv.cafeorder.activity.FoodDetailActivity
-import com.bangnv.cafeorder.activity.MainActivity
+import com.bangnv.cafeorder.adapter.CategoryAdapter
 import com.bangnv.cafeorder.adapter.FoodGridAdapter
 import com.bangnv.cafeorder.adapter.FoodPopularAdapter
 import com.bangnv.cafeorder.constant.Constant
@@ -25,15 +28,21 @@ import com.bangnv.cafeorder.constant.GlobalFunction.showToastMessage
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
 import com.bangnv.cafeorder.databinding.FragmentHomeBinding
 import com.bangnv.cafeorder.listener.IOnClickFoodItemListener
+import com.bangnv.cafeorder.model.Category
 import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.utils.StringUtil
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : Fragment() {
+
+    // Cái này có tìm kiếm ở trang chủ (có xử lý logic khi chuyển đi chuyển lại giữa các fragment sao cho hợp lý rồi.
+    // Ngon quá nên lưu lại đây, nhỡ may sau này cần.
+    // Giờ thì làm app với logic bấm vào layout tìm kiếm sẽ nhảy qua SearchActivity riêng
 
     private lateinit var mFragmentHomeBinding: FragmentHomeBinding
+    private var mListCategory: MutableList<Category> = mutableListOf()
     private var mListFood: MutableList<Food> = mutableListOf()
     private var mListFoodPopular: MutableList<Food> = mutableListOf()
     private var displayFood: MutableList<Food> = mutableListOf()
@@ -78,18 +87,15 @@ class HomeFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         mFragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false)
+
         initView()
         getListFoodFromFirebase()
+        getListCategory()
         initListener()
+
         setupTouchOtherToClearAllFocus()
         setupLayoutSearchListener()
         return mFragmentHomeBinding.root
-    }
-
-    override fun initToolbar() {
-        if (activity != null) {
-            (activity as MainActivity?)!!.setToolBar(true, getString(R.string.home))
-        }
     }
 
     private fun initView() {
@@ -102,7 +108,7 @@ class HomeFragment : BaseFragment() {
         mFoodGridAdapter =
             FoodGridAdapter(requireContext(), mListFood, object : IOnClickFoodItemListener {
                 override fun onClickItemFood(food: Food) {
-                    goToFoodDetail(food)
+                    GlobalFunction.goToFoodDetail(requireContext(), food)
                 }
             })
         mFragmentHomeBinding.rcvFood.adapter = mFoodGridAdapter
@@ -113,36 +119,38 @@ class HomeFragment : BaseFragment() {
         if (activity == null) {
             return
         }
-        ControllerApplication[requireContext()].foodDatabaseReference.addValueEventListener(object :
-            ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(snapshot: DataSnapshot) {
-                mFragmentHomeBinding.layoutContent.visibility = View.VISIBLE
-                for (dataSnapshot in snapshot.children) {
-                    val food = dataSnapshot.getValue(Food::class.java) ?: continue
-                    if (food.isPopular) {
-                        mListFoodPopular.add(food)
+        ControllerApplication[requireContext()].foodDatabaseReference
+            .addValueEventListener(
+                object : ValueEventListener {
+                    @SuppressLint("NotifyDataSetChanged")
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        mFragmentHomeBinding.layoutContent.visibility = View.VISIBLE
+                        mListFood.clear()
+                        for (dataSnapshot in snapshot.children) {
+                            val food = dataSnapshot.getValue(Food::class.java) ?: continue
+                            if (food.isPopular) {
+                                mListFoodPopular.add(food)
+                            }
+                            mListFood.add(food)
+                        }
+                        displayListFoodPopular()
+                        mFoodGridAdapter.updateData(mListFood)
+                        if (displayFood.size < mListFood.size && mFragmentHomeBinding.edtSearchName.text.isNotEmpty()) {
+                            mFoodGridAdapter.updateData(displayFood)
+                        }
                     }
-                    mListFood.add(food)
-                }
-                displayListFoodPopular()
-                mFoodGridAdapter.updateData(mListFood)
-                if (displayFood.size < mListFood.size && mFragmentHomeBinding.edtSearchName.text.isNotEmpty()) {
-                    mFoodGridAdapter.updateData(displayFood)
-                }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                showToastMessage(activity, getString(R.string.msg_get_date_error))
-            }
-        })
+                    override fun onCancelled(error: DatabaseError) {
+                        showToastMessage(activity, getString(R.string.msg_get_date_error))
+                    }
+                })
     }
 
     private fun displayListFoodPopular() {
         val mFoodPopularAdapter =
             FoodPopularAdapter(getListFoodPopular(), object : IOnClickFoodItemListener {
                 override fun onClickItemFood(food: Food) {
-                    goToFoodDetail(food)
+                    GlobalFunction.goToFoodDetail(requireContext(), food)
                 }
             })
         mFragmentHomeBinding.viewpager2.adapter = mFoodPopularAdapter
@@ -195,19 +203,47 @@ class HomeFragment : BaseFragment() {
         displayFood = if (key.trim().isEmpty()) {
             mListFood  // if there is no search keyword, display the original data
         } else {
-            val normalizedKey = StringUtil.normalizeEnglishString(key)
+            val normalizedKey = StringUtil.normalizeEnglishTextSearch(key)
             mListFood.filter { food ->
-                val normalizedFoodName = StringUtil.normalizeEnglishString(food.name ?: "").trim()
+                val normalizedFoodName = StringUtil.normalizeEnglishTextSearch(food.name ?: "").trim()
                 normalizedFoodName.contains(normalizedKey)
             }.toMutableList()
         }
         mFoodGridAdapter.updateData(displayFood)
     }
 
-    private fun goToFoodDetail(food: Food) {
-        val bundle = Bundle()
-        bundle.putSerializable(Constant.KEY_INTENT_FOOD_OBJECT, food)
-        startActivity(requireContext(), FoodDetailActivity::class.java, bundle)
+    private fun getListCategory() {
+        if (activity == null) {
+            return
+        }
+        ControllerApplication[requireContext()].categoryDatabaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                mListCategory.clear()
+                for (dataSnapshot in snapshot.children) {
+                    val category = dataSnapshot.getValue(Category::class.java)
+                    if (category != null) {
+                        mListCategory.add(0, category)
+                    }
+                }
+                displayListCategories()
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun displayListCategories() {
+        val linearLayoutManager = LinearLayoutManager(activity,
+            LinearLayoutManager.HORIZONTAL, false)
+        mFragmentHomeBinding.rcvCategory.layoutManager = linearLayoutManager
+        val categoryAdapter = CategoryAdapter(mListCategory, object : CategoryAdapter.IManagerCategoryListener {
+            override fun clickItemCategory(category: Category?) {
+                val bundle = Bundle()
+                bundle.putSerializable(Constant.KEY_INTENT_CATEGORY_OBJECT, category)
+                startActivity(requireActivity(), CategoryActivity::class.java, bundle)
+            }
+        })
+        mFragmentHomeBinding.rcvCategory.adapter = categoryAdapter
     }
 
     @SuppressLint("ClickableViewAccessibility")

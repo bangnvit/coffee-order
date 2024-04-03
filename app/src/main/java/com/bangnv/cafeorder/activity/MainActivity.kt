@@ -47,8 +47,13 @@ class MainActivity : BaseActivity() {
                 else -> false
             }
         }
-        // Set default fragment
-        mActivityMainBinding.bottomNavigation.selectedItemId = R.id.nav_home
+
+        val goToCart = intent.getBooleanExtra("goToCart", false)
+        if (goToCart) {
+            mActivityMainBinding.bottomNavigation.selectedItemId = R.id.nav_cart
+        } else {
+            mActivityMainBinding.bottomNavigation.selectedItemId = R.id.nav_home
+        }
     }
 
 //    ViewPager2: No High Performance
@@ -93,6 +98,11 @@ class MainActivity : BaseActivity() {
 //        }
 //    }
 
+    fun goToHome() {
+//        goToCart = intent.getBooleanExtra("", false)
+        mActivityMainBinding.bottomNavigation.selectedItemId = R.id.nav_home
+    }
+
     override fun onBackPressed() {
         showConfirmExitApp()
     }
@@ -106,14 +116,5 @@ class MainActivity : BaseActivity() {
                 .negativeText(getString(R.string.action_cancel))
                 .cancelable(false)
                 .show()
-    }
-
-    fun setToolBar(isHome: Boolean, title: String?) {
-        if (isHome) {
-            mActivityMainBinding.toolbar.layoutToolbar.visibility = View.GONE
-            return
-        }
-        mActivityMainBinding.toolbar.layoutToolbar.visibility = View.VISIBLE
-        mActivityMainBinding.toolbar.tvTitle.text = title
     }
 }

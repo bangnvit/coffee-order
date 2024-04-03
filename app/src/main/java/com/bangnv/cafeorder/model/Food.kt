@@ -19,6 +19,8 @@ class Food : Serializable {
     var count = 0
     var totalPrice = 0
     var isPopular = false
+    var categoryId: Long = 0
+    var categoryName: String? = null
 
     @Ignore
     var images: List<Image>? = null

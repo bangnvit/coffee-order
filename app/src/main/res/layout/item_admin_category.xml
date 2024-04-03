@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/define_dimen_8"
+    android:layout_marginTop="@dimen/define_dimen_6"
+    android:layout_marginBottom="@dimen/define_dimen_10"
+    android:background="@drawable/bg_color_white_border_divider_radius_12"
+    android:padding="@dimen/define_dimen_16">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/define_dimen_5"
+        android:layout_toStartOf="@+id/img_edit"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/layout_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/define_dimen_10"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:id="@+id/img_category"
+                android:layout_width="@dimen/define_dimen_100"
+                android:layout_height="@dimen/define_dimen_76"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/image_no_available" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_category_name"
+            style="@style/TextViewPrimarySmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/define_dimen_10"
+            tools:text="@string/app_name" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/define_dimen_5"
+        android:layout_toStartOf="@+id/img_delete"
+        android:padding="@dimen/define_dimen_5"
+        android:src="@drawable/ic_edit"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/img_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/define_dimen_5"
+        android:src="@drawable/ic_delete"
+        tools:ignore="ContentDescription" />
+
+</RelativeLayout>

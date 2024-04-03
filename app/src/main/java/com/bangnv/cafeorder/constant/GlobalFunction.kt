@@ -33,18 +33,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.bangnv.cafeorder.R
+import com.bangnv.cafeorder.activity.FoodDetailActivity
 import com.bangnv.cafeorder.activity.admin.AdminMainActivity
 import com.bangnv.cafeorder.activity.MainActivity
 import com.bangnv.cafeorder.listener.IGetDateListener
+import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.utils.StringUtil.getDoubleNumber
 import com.bangnv.cafeorder.utils.StringUtil.isEmpty
 import com.google.android.material.tabs.TabLayout
-import java.text.Normalizer
 import java.util.Calendar
-import java.util.regex.Pattern
 
 object GlobalFunction {
 
@@ -69,6 +68,12 @@ object GlobalFunction {
         } else {
             startActivity(context, MainActivity::class.java)
         }
+    }
+
+    fun goToFoodDetail(context: Context, food: Food) {
+        val bundle = Bundle()
+        bundle.putSerializable(Constant.KEY_INTENT_FOOD_OBJECT, food)
+        startActivity(context, FoodDetailActivity::class.java, bundle)
     }
 
     @JvmStatic
@@ -204,13 +209,6 @@ object GlobalFunction {
     }
 
     @JvmStatic
-    fun getTextSearch(input: String?): String {
-        val nfdNormalizedString = Normalizer.normalize(input, Normalizer.Form.NFD)
-        val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
-        return pattern.matcher(nfdNormalizedString).replaceAll("")
-    }
-
-    @JvmStatic
     fun showDatePicker(context: Context?, currentDate: String, getDateListener: IGetDateListener) {
         val mCalendar = Calendar.getInstance()
         var currentDay = mCalendar[Calendar.DATE]
@@ -265,7 +263,7 @@ object GlobalFunction {
         }
     }
 
-    fun EditText.addVisibilityClearButtonListener(clearButton: ImageView) {
+    fun EditText.addIconClearVisibilityOnTextChangedListener(clearButton: ImageView) {
         this.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 clearButton.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
@@ -275,6 +273,22 @@ object GlobalFunction {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+    }
+
+    fun EditText.addIconClearVisibilityOnFocusListener(clearButton: ImageView) {
+        this.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                val editText = v as EditText
+                val text = editText.text?.toString()
+                if (!text.isNullOrEmpty()) {
+                    clearButton.visibility = View.VISIBLE
+                } else {
+                    clearButton.visibility = View.GONE
+                }
+            } else {
+                clearButton.visibility = View.GONE
+            }
+        }
     }
 
     fun EditText.setOnActionDoneListener(vararg actions: () -> Unit) {
@@ -305,7 +319,8 @@ object GlobalFunction {
         // Change background when check focus
         editText.setBackgroundOnEditTextFocusChange(layoutEditText)
         // set visibility icon clear
-        editText.addVisibilityClearButtonListener(imgClear)
+        editText.addIconClearVisibilityOnTextChangedListener(imgClear)
+//        editText.addIconClearVisibilityOnFocusListener(imgClear)
         // Set text ""
         imgClear.setOnClickListener {
             editText.setText("")
@@ -356,7 +371,7 @@ object GlobalFunction {
         viewDialog.window?.setGravity(Gravity.BOTTOM)
     }
 
-    // Not Good: No fragments management
+//     Not Good: No fragments management
 //    fun replaceFragment(activity: AppCompatActivity, fragment: Fragment) {
 //        activity.supportFragmentManager.beginTransaction()
 //            .replace(R.id.fragmentContainer, fragment)
@@ -364,6 +379,7 @@ object GlobalFunction {
 //            .commit()
 //    }
 
+    // Đang code chay thế này chứ không dùng lib navigation (navigation đơn giản hơn)
     fun replaceFragment(activity: AppCompatActivity, fragment: Fragment) {
         val fragmentTag = fragment::class.java.simpleName
         val fragmentManager = activity.supportFragmentManager
@@ -382,5 +398,6 @@ object GlobalFunction {
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
+
 
 }

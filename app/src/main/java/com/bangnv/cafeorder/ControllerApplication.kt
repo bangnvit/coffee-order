@@ -19,6 +19,8 @@ class ControllerApplication : Application() {
         DataStoreManager.init(applicationContext)
     }
 
+    val categoryDatabaseReference: DatabaseReference
+        get() = mFirebaseDatabase!!.getReference("/category")
     val foodDatabaseReference: DatabaseReference
         get() = mFirebaseDatabase!!.getReference("/food")
     val feedbackDatabaseReference: DatabaseReference

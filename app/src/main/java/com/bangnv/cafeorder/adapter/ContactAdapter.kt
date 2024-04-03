@@ -15,7 +15,7 @@ import com.bangnv.cafeorder.constant.GlobalFunction.onClickOpenZalo
 import com.bangnv.cafeorder.databinding.ItemContactBinding
 import com.bangnv.cafeorder.model.Contact
 
-class ContactAdapter(private var context: Context?, private val listContact: List<Contact>?,
+class ContactAdapter(private var context: Context?, private val listContact: List<Contact>,
                      private val iCallPhone: ICallPhone) : RecyclerView.Adapter<ContactViewHolder>() {
 
     interface ICallPhone {
@@ -28,7 +28,7 @@ class ContactAdapter(private var context: Context?, private val listContact: Lis
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        val contact = listContact!![position]
+        val contact = listContact[position]
         holder.mItemContactBinding.imgContact.setImageResource(contact.image)
         when (contact.id) {
             Contact.FACEBOOK -> holder.mItemContactBinding.tvContact.text = context!!.getString(R.string.label_facebook)
@@ -52,7 +52,7 @@ class ContactAdapter(private var context: Context?, private val listContact: Lis
     }
 
     override fun getItemCount(): Int {
-        return listContact?.size ?: 0
+        return listContact.size
     }
 
     fun release() {

@@ -2,6 +2,7 @@ package com.bangnv.cafeorder.activity
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
@@ -25,13 +26,13 @@ import org.greenrobot.eventbus.EventBus
 
 class FoodDetailActivity : BaseActivity() {
 
-    private var mActivityFoodDetailBinding: ActivityFoodDetailBinding? = null
+    private lateinit var mActivityFoodDetailBinding: ActivityFoodDetailBinding
     private var mFood: Food? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivityFoodDetailBinding = ActivityFoodDetailBinding.inflate(layoutInflater)
-        setContentView(mActivityFoodDetailBinding!!.root)
+        setContentView(mActivityFoodDetailBinding.root)
         getDataIntent()
         initToolbar()
         setDataFoodDetail()
@@ -46,73 +47,81 @@ class FoodDetailActivity : BaseActivity() {
     }
 
     private fun initToolbar() {
-        mActivityFoodDetailBinding!!.toolbar.imgBack.visibility = View.VISIBLE
-        mActivityFoodDetailBinding!!.toolbar.imgCart.visibility = View.VISIBLE
-        mActivityFoodDetailBinding!!.toolbar.tvTitle.text = getString(R.string.food_detail_title)
-        mActivityFoodDetailBinding!!.toolbar.imgBack.setOnClickListener { onBackPressed() }
+        mActivityFoodDetailBinding.toolbar.imgBack.visibility = View.VISIBLE
+        mActivityFoodDetailBinding.toolbar.imgCart.visibility = View.VISIBLE
+        mActivityFoodDetailBinding.toolbar.tvTitle.text = getString(R.string.food_detail_title)
+        mActivityFoodDetailBinding.toolbar.imgBack.setOnClickListener { onBackPressed() }
     }
 
     private fun setDataFoodDetail() {
         if (mFood == null) {
             return
         }
-        loadUrlBanner(mFood!!.banner, mActivityFoodDetailBinding!!.imageFood)
+        loadUrlBanner(mFood!!.banner, mActivityFoodDetailBinding.imageFood)
         if (mFood!!.sale <= 0) {
-            mActivityFoodDetailBinding!!.tvSaleOff.visibility = View.GONE
-            mActivityFoodDetailBinding!!.tvPrice.visibility = View.GONE
+            mActivityFoodDetailBinding.tvSaleOff.visibility = View.GONE
+            mActivityFoodDetailBinding.tvPrice.visibility = View.GONE
             val strPrice: String = formatNumberWithPeriods(mFood!!.price) + Constant.CURRENCY
-            mActivityFoodDetailBinding!!.tvPriceSale.text = strPrice
+            mActivityFoodDetailBinding.tvPriceSale.text = strPrice
         } else {
-            mActivityFoodDetailBinding!!.tvSaleOff.visibility = View.VISIBLE
-            mActivityFoodDetailBinding!!.tvPrice.visibility = View.VISIBLE
+            mActivityFoodDetailBinding.tvSaleOff.visibility = View.VISIBLE
+            mActivityFoodDetailBinding.tvPrice.visibility = View.VISIBLE
             val strSale = "Giảm " + mFood!!.sale + "%"
-            mActivityFoodDetailBinding!!.tvSaleOff.text = strSale
+            mActivityFoodDetailBinding.tvSaleOff.text = strSale
             val strPriceOld: String = formatNumberWithPeriods(mFood!!.price) + Constant.CURRENCY
-            mActivityFoodDetailBinding!!.tvPrice.text = strPriceOld
-            mActivityFoodDetailBinding!!.tvPrice.paintFlags = mActivityFoodDetailBinding!!.tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            mActivityFoodDetailBinding.tvPrice.text = strPriceOld
+            mActivityFoodDetailBinding.tvPrice.paintFlags = mActivityFoodDetailBinding.tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             val strRealPrice: String = formatNumberWithPeriods(mFood!!.realPrice) + Constant.CURRENCY
-            mActivityFoodDetailBinding!!.tvPriceSale.text = strRealPrice
+            mActivityFoodDetailBinding.tvPriceSale.text = strRealPrice
         }
-        mActivityFoodDetailBinding!!.tvFoodName.text = mFood!!.name
-        mActivityFoodDetailBinding!!.tvFoodDescription.text = mFood!!.description
+        mActivityFoodDetailBinding.tvFoodName.text = mFood!!.name
+        mActivityFoodDetailBinding.tvFoodDescription.text = mFood!!.description
         displayListMoreImages()
         setStatusButtonAddToCart()
     }
 
     private fun displayListMoreImages() {
         if (mFood!!.images == null || mFood!!.images!!.isEmpty()) {
-            mActivityFoodDetailBinding!!.tvMoreImageLabel.visibility = View.GONE
+            mActivityFoodDetailBinding.tvMoreImageLabel.visibility = View.GONE
             return
         }
-        mActivityFoodDetailBinding!!.tvMoreImageLabel.visibility = View.VISIBLE
+        mActivityFoodDetailBinding.tvMoreImageLabel.visibility = View.VISIBLE
         val gridLayoutManager = GridLayoutManager(this, 2)
-        mActivityFoodDetailBinding!!.rcvImages.layoutManager = gridLayoutManager
+        mActivityFoodDetailBinding.rcvImages.layoutManager = gridLayoutManager
         val moreImageAdapter = MoreImageAdapter(mFood!!.images)
-        mActivityFoodDetailBinding!!.rcvImages.adapter = moreImageAdapter
+        mActivityFoodDetailBinding.rcvImages.adapter = moreImageAdapter
     }
 
     private fun setStatusButtonAddToCart() {
         if (isFoodInCart()) {
-            mActivityFoodDetailBinding!!.tvAddToCart.setBackgroundResource(R.drawable.bg_gray_disable_shape_corner_circle)
-            mActivityFoodDetailBinding!!.tvAddToCart.text = getString(R.string.added_to_cart)
-            mActivityFoodDetailBinding!!.tvAddToCart.setTextColor(ContextCompat.getColor(this, R.color.textColorPrimary))
-            mActivityFoodDetailBinding!!.toolbar.imgCart.visibility = View.GONE
+            mActivityFoodDetailBinding.tvAddToCart.setBackgroundResource(R.drawable.bg_gray_disable_shape_corner_circle)
+            mActivityFoodDetailBinding.tvAddToCart.text = getString(R.string.added_to_cart)
+            mActivityFoodDetailBinding.tvAddToCart.setTextColor(ContextCompat.getColor(this, R.color.textColorPrimary))
+            mActivityFoodDetailBinding.toolbar.imgCart.visibility = View.GONE
+            mActivityFoodDetailBinding.tvGoToCart.visibility = View.VISIBLE
         } else {
-            mActivityFoodDetailBinding!!.tvAddToCart.setBackgroundResource(R.drawable.bg_green_main_shape_corner_circle)
-            mActivityFoodDetailBinding!!.tvAddToCart.text = getString(R.string.add_to_cart)
-            mActivityFoodDetailBinding!!.tvAddToCart.setTextColor(ContextCompat.getColor(this, R.color.white))
-            mActivityFoodDetailBinding!!.toolbar.imgCart.visibility = View.VISIBLE
+            mActivityFoodDetailBinding.tvAddToCart.setBackgroundResource(R.drawable.bg_green_main_shape_corner_circle)
+            mActivityFoodDetailBinding.tvAddToCart.text = getString(R.string.add_to_cart)
+            mActivityFoodDetailBinding.tvAddToCart.setTextColor(ContextCompat.getColor(this, R.color.white))
+            mActivityFoodDetailBinding.toolbar.imgCart.visibility = View.VISIBLE
+            mActivityFoodDetailBinding.tvGoToCart.visibility = View.GONE
         }
     }
 
     private fun isFoodInCart(): Boolean {
         val list = getInstance(this)!!.foodDAO()!!.checkFoodInCart(mFood!!.id)
-        return list != null && list.isNotEmpty()
+        return !list.isNullOrEmpty()
     }
 
     private fun initListener() {
-        mActivityFoodDetailBinding!!.tvAddToCart.setOnClickListener { onClickAddToCart() }
-        mActivityFoodDetailBinding!!.toolbar.imgCart.setOnClickListener { onClickAddToCart() }
+        mActivityFoodDetailBinding.tvAddToCart.setOnClickListener { onClickAddToCart() }
+        mActivityFoodDetailBinding.toolbar.imgCart.setOnClickListener { onClickAddToCart() }
+        mActivityFoodDetailBinding.tvGoToCart.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("goToCart", true)
+            startActivity(intent)
+            finish()
+        }
     }
 
     @SuppressLint("ResourceType", "InflateParams")

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_wrap"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -13,7 +14,6 @@
         layout="@layout/layout_toolbar" />
 
     <ScrollView
-        android:id="@+id/layout_wrap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="Autofill,LabelFor,UselessParent">
@@ -25,12 +25,25 @@
             android:padding="@dimen/define_dimen_16">
 
             <TextView
+                style="@style/TextViewPrimarySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/food_name"
-                android:textColor="@color/color252525"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold" />
+                android:text="@string/select_category" />
+
+            <Spinner
+                android:id="@+id/spn_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_5"
+                android:background="@color/transparent"
+                android:scrollbars="none" />
+
+            <TextView
+                style="@style/TextViewPrimarySmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/define_dimen_10"
+                android:text="@string/food_name" />
 
             <LinearLayout
                 android:id="@+id/layout_name"
@@ -44,14 +57,15 @@
 
                 <EditText
                     android:id="@+id/edt_name"
+                    style="@style/EditTextPrimary"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/define_dimen_48"
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="@string/hint_name"
+                    android:lines="1"
                     android:imeOptions="actionNext"
                     android:inputType="text"
-                    style="@style/EditTextPrimary"
                     android:paddingStart="@dimen/define_dimen_16" />
 
                 <ImageView
@@ -66,13 +80,11 @@
             </LinearLayout>
 
             <TextView
+                style="@style/TextViewPrimarySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/define_dimen_10"
-                android:text="@string/food_description"
-                android:textColor="@color/color252525"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold" />
+                android:text="@string/food_description" />
 
             <LinearLayout
                 android:id="@+id/layout_description"
@@ -112,13 +124,11 @@
             </LinearLayout>
 
             <TextView
+                style="@style/TextViewPrimarySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/define_dimen_10"
-                android:text="@string/food_price"
-                android:textColor="@color/color252525"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold" />
+                android:text="@string/food_price" />
 
             <RelativeLayout
                 android:id="@+id/layout_price"
@@ -129,6 +139,7 @@
 
                 <EditText
                     android:id="@+id/edt_price"
+                    style="@style/EditTextPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/define_dimen_48"
                     android:layout_centerVertical="true"
@@ -139,8 +150,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="number"
                     android:paddingVertical="@dimen/define_dimen_12"
-                    style="@style/EditTextPrimary"
-                    android:paddingStart="@dimen/define_dimen_16"/>
+                    android:paddingStart="@dimen/define_dimen_16" />
 
                 <TextView
                     android:id="@+id/tv_currency"
@@ -155,13 +165,11 @@
             </RelativeLayout>
 
             <TextView
+                style="@style/TextViewPrimarySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/define_dimen_10"
-                android:text="@string/food_discount"
-                android:textColor="@color/color252525"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold" />
+                android:text="@string/food_discount" />
 
             <RelativeLayout
                 android:id="@+id/layout_discount"
@@ -198,13 +206,11 @@
             </RelativeLayout>
 
             <TextView
+                style="@style/TextViewPrimarySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/define_dimen_10"
-                android:text="@string/food_image"
-                android:textColor="@color/color252525"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold" />
+                android:text="@string/food_image" />
 
 
             <LinearLayout
@@ -219,6 +225,7 @@
 
                 <EditText
                     android:id="@+id/edt_image"
+                    style="@style/EditTextPrimary"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/define_dimen_48"
                     android:layout_weight="1"
@@ -226,7 +233,6 @@
                     android:hint="@string/hint_image"
                     android:imeOptions="actionNext"
                     android:inputType="text"
-                    style="@style/EditTextPrimary"
                     android:paddingStart="@dimen/define_dimen_16" />
 
                 <ImageView
@@ -241,13 +247,11 @@
             </LinearLayout>
 
             <TextView
+                style="@style/TextViewPrimarySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/define_dimen_10"
-                android:text="@string/food_image_banner"
-                android:textColor="@color/color252525"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold" />
+                android:text="@string/food_image_banner" />
 
 
             <LinearLayout
@@ -262,6 +266,7 @@
 
                 <EditText
                     android:id="@+id/edt_image_banner"
+                    style="@style/EditTextPrimary"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/define_dimen_48"
                     android:layout_weight="1"
@@ -269,7 +274,6 @@
                     android:hint="@string/hint_image_banner"
                     android:imeOptions="actionNext"
                     android:inputType="text"
-                    style="@style/EditTextPrimary"
                     android:paddingStart="@dimen/define_dimen_16" />
 
                 <ImageView
@@ -299,13 +303,11 @@
             </RelativeLayout>
 
             <TextView
+                style="@style/TextViewPrimarySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/define_dimen_10"
-                android:text="@string/food_image_other"
-                android:textColor="@color/color252525"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold" />
+                android:text="@string/food_image_other" />
 
             <TextView
                 android:layout_width="match_parent"

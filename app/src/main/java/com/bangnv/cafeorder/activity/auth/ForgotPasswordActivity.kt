@@ -14,21 +14,21 @@ import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPasswordActivity : BaseActivity() {
 
-    private var mActivityForgotPasswordBinding: ActivityForgotPasswordBinding? = null
+    private lateinit var mActivityForgotPasswordBinding: ActivityForgotPasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivityForgotPasswordBinding = ActivityForgotPasswordBinding.inflate(layoutInflater)
-        setContentView(mActivityForgotPasswordBinding!!.root)
-        mActivityForgotPasswordBinding!!.imgBack.setOnClickListener { onBackPressed() }
-        mActivityForgotPasswordBinding!!.btnResetPassword.setOnClickListener { onClickValidateResetPassword() }
+        setContentView(mActivityForgotPasswordBinding.root)
+        mActivityForgotPasswordBinding.imgBack.setOnClickListener { onBackPressed() }
+        mActivityForgotPasswordBinding.btnResetPassword.setOnClickListener { onClickValidateResetPassword() }
 
         setupTouchOtherToClearAllFocus()
         setupLayoutEmailListener()
     }
 
     private fun onClickValidateResetPassword() {
-        val strEmail = mActivityForgotPasswordBinding!!.edtEmail.text.toString().trim { it <= ' ' }
+        val strEmail = mActivityForgotPasswordBinding.edtEmail.text.toString().trim { it <= ' ' }
         if (isEmpty(strEmail)) {
             Toast.makeText(
                 this@ForgotPasswordActivity,
@@ -58,24 +58,24 @@ class ForgotPasswordActivity : BaseActivity() {
                         getString(R.string.msg_reset_password_successfully),
                         Toast.LENGTH_SHORT
                     ).show()
-                    mActivityForgotPasswordBinding!!.edtEmail.setText("")
+                    mActivityForgotPasswordBinding.edtEmail.setText("")
                 }
             }
     }
 
     private fun setupTouchOtherToClearAllFocus() {
-        mActivityForgotPasswordBinding!!.layoutWrap.setOnClickListener {
+        mActivityForgotPasswordBinding.layoutWrap.setOnClickListener {
             hideSoftKeyboard(this@ForgotPasswordActivity)
-            mActivityForgotPasswordBinding!!.edtEmail.clearFocus()
+            mActivityForgotPasswordBinding.edtEmail.clearFocus()
         }
     }
 
     private fun setupLayoutEmailListener() {
         //Layout Email: Listener focus, clear text icon
         GlobalFunction.setupLayoutEditTextWithIconClearListeners(
-            mActivityForgotPasswordBinding!!.layoutEmail,
-            mActivityForgotPasswordBinding!!.edtEmail,
-            mActivityForgotPasswordBinding!!.imgClear
+            mActivityForgotPasswordBinding.layoutEmail,
+            mActivityForgotPasswordBinding.edtEmail,
+            mActivityForgotPasswordBinding.imgClear
         )
     }
 

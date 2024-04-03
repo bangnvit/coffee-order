@@ -13,7 +13,7 @@ import com.bangnv.cafeorder.adapter.admin.RevenueAdapter
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.constant.GlobalFunction.showDatePicker
-import com.bangnv.cafeorder.databinding.ActivityAdminReportBinding
+import com.bangnv.cafeorder.databinding.ActivityAdminReportListBinding
 import com.bangnv.cafeorder.listener.IGetDateListener
 import com.bangnv.cafeorder.listener.IOnSingleClickListener
 import com.bangnv.cafeorder.model.Order
@@ -22,44 +22,44 @@ import com.bangnv.cafeorder.utils.DateTimeUtils.convertTimeStampToDate_2
 import com.bangnv.cafeorder.utils.StringUtil.isEmpty
 import java.util.*
 
-class AdminReportActivity : AppCompatActivity() {
+class AdminReportListActivity : AppCompatActivity() {
 
-    private var mActivityAdminReportBinding: ActivityAdminReportBinding? = null
+    private lateinit var mActivityAdminReportListBinding: ActivityAdminReportListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mActivityAdminReportBinding = ActivityAdminReportBinding.inflate(layoutInflater)
-        setContentView(mActivityAdminReportBinding!!.root)
+        mActivityAdminReportListBinding = ActivityAdminReportListBinding.inflate(layoutInflater)
+        setContentView(mActivityAdminReportListBinding.root)
         initToolbar()
         initListener()
         getListRevenue()
     }
 
     private fun initToolbar() {
-        mActivityAdminReportBinding!!.toolbar.imgBack.visibility = View.VISIBLE
-        mActivityAdminReportBinding!!.toolbar.imgCart.visibility = View.GONE
-        mActivityAdminReportBinding!!.toolbar.tvTitle.text = getString(R.string.revenue)
-        mActivityAdminReportBinding!!.toolbar.imgBack.setOnClickListener { onBackPressed() }
+        mActivityAdminReportListBinding.toolbar.imgBack.visibility = View.VISIBLE
+        mActivityAdminReportListBinding.toolbar.imgCart.visibility = View.GONE
+        mActivityAdminReportListBinding.toolbar.tvTitle.text = getString(R.string.revenue)
+        mActivityAdminReportListBinding.toolbar.imgBack.setOnClickListener { onBackPressed() }
     }
 
     private fun initListener() {
-        mActivityAdminReportBinding!!.tvDateFrom.setOnClickListener(object : IOnSingleClickListener() {
+        mActivityAdminReportListBinding.tvDateFrom.setOnClickListener(object : IOnSingleClickListener() {
             override fun onSingleClick(v: View?) {
-                showDatePicker(this@AdminReportActivity,
-                        mActivityAdminReportBinding!!.tvDateFrom.text.toString(), object : IGetDateListener {
+                showDatePicker(this@AdminReportListActivity,
+                        mActivityAdminReportListBinding.tvDateFrom.text.toString(), object : IGetDateListener {
                     override fun getDate(date: String?) {
-                        mActivityAdminReportBinding!!.tvDateFrom.text = date
+                        mActivityAdminReportListBinding.tvDateFrom.text = date
                         getListRevenue()
                     }
                 })
             }
         })
-        mActivityAdminReportBinding!!.tvDateTo.setOnClickListener(object : IOnSingleClickListener() {
+        mActivityAdminReportListBinding.tvDateTo.setOnClickListener(object : IOnSingleClickListener() {
             override fun onSingleClick(v: View?) {
-                showDatePicker(this@AdminReportActivity,
-                        mActivityAdminReportBinding!!.tvDateTo.text.toString(), object : IGetDateListener {
+                showDatePicker(this@AdminReportListActivity,
+                        mActivityAdminReportListBinding.tvDateTo.text.toString(), object : IGetDateListener {
                     override fun getDate(date: String?) {
-                        mActivityAdminReportBinding!!.tvDateTo.text = date
+                        mActivityAdminReportListBinding.tvDateTo.text = date
                         getListRevenue()
                     }
                 })
@@ -91,8 +91,8 @@ class AdminReportActivity : AppCompatActivity() {
         if (order.status != Constant.CODE_COMPLETED) {
             return false
         }
-        val strDateFrom = mActivityAdminReportBinding!!.tvDateFrom.text.toString()
-        val strDateTo = mActivityAdminReportBinding!!.tvDateTo.text.toString()
+        val strDateFrom = mActivityAdminReportListBinding.tvDateFrom.text.toString()
+        val strDateTo = mActivityAdminReportListBinding.tvDateTo.text.toString()
         if (isEmpty(strDateFrom) && isEmpty(strDateTo)) {
             return true
         }
@@ -116,17 +116,17 @@ class AdminReportActivity : AppCompatActivity() {
             return
         }
         val linearLayoutManager = LinearLayoutManager(this)
-        mActivityAdminReportBinding!!.rcvOrderHistory.layoutManager = linearLayoutManager
+        mActivityAdminReportListBinding.rcvOrderHistory.layoutManager = linearLayoutManager
         val revenueAdapter = RevenueAdapter(list)
-        mActivityAdminReportBinding!!.rcvOrderHistory.adapter = revenueAdapter
+        mActivityAdminReportListBinding.rcvOrderHistory.adapter = revenueAdapter
 
         // Calculate total
         val strTotalValue: String = formatNumberWithPeriods(getTotalValues(list)) + Constant.CURRENCY
-        mActivityAdminReportBinding!!.tvTotalValue.text = strTotalValue
+        mActivityAdminReportListBinding.tvTotalValue.text = strTotalValue
     }
 
     private fun getTotalValues(list: List<Order>?): Int {
-        if (list == null || list.isEmpty()) {
+        if (list.isNullOrEmpty()) {
             return 0
         }
         var total = 0
