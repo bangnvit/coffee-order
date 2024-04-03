@@ -26,75 +26,75 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-//task convertDimens() {
-//    doLast {
-//        convertDimens()
-//    }
-//}
-//
-//clean.dependsOn convertDimens
-//
-//def convertDimens() {
-//    def xmlFileDefault = "${rootProject.projectDir}/app/src/main/res/values/dimens.xml"
-//    def xmlFile360 = "${rootProject.projectDir}/app/src/main/res/values-sw360dp/dimens.xml"
-//    def xmlFile480 = "${rootProject.projectDir}/app/src/main/res/values-sw480dp/dimens.xml"
-//    def xmlFile540 = "${rootProject.projectDir}/app/src/main/res/values-sw540dp/dimens.xml"
-//    def xmlFile600 = "${rootProject.projectDir}/app/src/main/res/values-sw600dp/dimens.xml"
-//    def xmlFile640 = "${rootProject.projectDir}/app/src/main/res/values-sw640dp/dimens.xml"
-//    def xmlFile720 = "${rootProject.projectDir}/app/src/main/res/values-sw720dp/dimens.xml"
-//    def xmlFile800 = "${rootProject.projectDir}/app/src/main/res/values-sw800dp/dimens.xml"
-//
-//    def xmlOriginal = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFileDefault)
-//
-//    def xml360 = xmlOriginal.cloneNode(true)
-//    def xml480 = xmlOriginal.cloneNode(true)
-//    def xml540 = xmlOriginal.cloneNode(true)
-//    def xml600 = xmlOriginal.cloneNode(true)
-//    def xml640 = xmlOriginal.cloneNode(true)
-//    def xml720 = xmlOriginal.cloneNode(true)
-//    def xml800 = xmlOriginal.cloneNode(true)
-//
-//    modifyDimens(xml360, 360)
-//    modifyDimens(xml480, 480)
-//    modifyDimens(xml540, 540)
-//    modifyDimens(xml600, 600)
-//    modifyDimens(xml640, 640)
-//    modifyDimens(xml720, 720)
-//    modifyDimens(xml800, 800)
-//
-//    writeXml(xmlFile360, xml360)
-//    writeXml(xmlFile480, xml480)
-//    writeXml(xmlFile540, xml540)
-//    writeXml(xmlFile600, xml600)
-//    writeXml(xmlFile640, xml640)
-//    writeXml(xmlFile720, xml720)
-//    writeXml(xmlFile800, xml800)
-//}
-//
-//static def modifyDimens(xml, dp) {
-//    def dimens = xml.childNodes.item(0).childNodes
-//    for (int i = 0; i < dimens.length; i++) {
-//        def dimen = dimens.item(i)
-//        if (dimen.nodeType == Node.ELEMENT_NODE) {
-//            def value = dimen.textContent
-//            def newValue = value.contains("sp") ? round((dp.toFloat() / 360 * value.replace("sp", "").toFloat()), 2) :
-//                    value.contains("px") ? round((dp.toFloat() / 360 * value.replace("px", "").toFloat()), 2) :
-//                            round((dp.toFloat() / 360 * value.replace("dp", "").toFloat()), 2)
-//            dimen.textContent = "${newValue}${value.substringAfterLast(' ')}"
-//        }
-//    }
-//}
-//
-//static def round(float d, int decimalPlace) {
-//    def bd = d.toBigDecimal()
-//    bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP)
-//    return bd.toFloat()
-//}
-//
-//static def writeXml(file, xml) {
-//    def transformer = TransformerFactory.newInstance().newTransformer()
-//    def source = new DOMSource(xml)
-//    def result = new StreamResult(new FileWriter(file))
-//    transformer.transform(source, result)
-//}
+task convertDimens() {
+    doLast {
+        convertDimens()
+    }
+}
+
+clean.dependsOn convertDimens
+
+def convertDimens() {
+    def xmlFileDefault = "${rootProject.projectDir}/app/src/main/res/values/dimens.xml"
+    def xmlFile360 = "${rootProject.projectDir}/app/src/main/res/values-sw360dp/dimens.xml"
+    def xmlFile480 = "${rootProject.projectDir}/app/src/main/res/values-sw480dp/dimens.xml"
+    def xmlFile540 = "${rootProject.projectDir}/app/src/main/res/values-sw540dp/dimens.xml"
+    def xmlFile600 = "${rootProject.projectDir}/app/src/main/res/values-sw600dp/dimens.xml"
+    def xmlFile640 = "${rootProject.projectDir}/app/src/main/res/values-sw640dp/dimens.xml"
+    def xmlFile720 = "${rootProject.projectDir}/app/src/main/res/values-sw720dp/dimens.xml"
+    def xmlFile800 = "${rootProject.projectDir}/app/src/main/res/values-sw800dp/dimens.xml"
+
+    def xmlOriginal = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFileDefault)
+
+    def xml360 = xmlOriginal.cloneNode(true)
+    def xml480 = xmlOriginal.cloneNode(true)
+    def xml540 = xmlOriginal.cloneNode(true)
+    def xml600 = xmlOriginal.cloneNode(true)
+    def xml640 = xmlOriginal.cloneNode(true)
+    def xml720 = xmlOriginal.cloneNode(true)
+    def xml800 = xmlOriginal.cloneNode(true)
+
+    modifyDimens(xml360, 360)
+    modifyDimens(xml480, 480)
+    modifyDimens(xml540, 540)
+    modifyDimens(xml600, 600)
+    modifyDimens(xml640, 640)
+    modifyDimens(xml720, 720)
+    modifyDimens(xml800, 800)
+
+    writeXml(xmlFile360, xml360)
+    writeXml(xmlFile480, xml480)
+    writeXml(xmlFile540, xml540)
+    writeXml(xmlFile600, xml600)
+    writeXml(xmlFile640, xml640)
+    writeXml(xmlFile720, xml720)
+    writeXml(xmlFile800, xml800)
+}
+
+static def modifyDimens(xml, dp) {
+    def dimens = xml.childNodes.item(0).childNodes
+    for (int i = 0; i < dimens.length; i++) {
+        def dimen = dimens.item(i)
+        if (dimen.nodeType == Node.ELEMENT_NODE) {
+            def value = dimen.textContent
+            def newValue = value.contains("sp") ? round((dp.toFloat() / 360 * value.replace("sp", "").toFloat()), 2) :
+                    value.contains("px") ? round((dp.toFloat() / 360 * value.replace("px", "").toFloat()), 2) :
+                            round((dp.toFloat() / 360 * value.replace("dp", "").toFloat()), 2)
+            dimen.textContent = "${newValue}${value.substringAfterLast(' ')}"
+        }
+    }
+}
+
+static def round(float d, int decimalPlace) {
+    def bd = d.toBigDecimal()
+    bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP)
+    return bd.toFloat()
+}
+
+static def writeXml(file, xml) {
+    def transformer = TransformerFactory.newInstance().newTransformer()
+    def source = new DOMSource(xml)
+    def result = new StreamResult(new FileWriter(file))
+    transformer.transform(source, result)
+}
 
