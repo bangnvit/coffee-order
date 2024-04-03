@@ -12,7 +12,7 @@
     <LinearLayout
         android:id="@+id/layout_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/define_dimen_48"
         android:layout_marginHorizontal="@dimen/define_dimen_16"
         android:layout_marginTop="@dimen/define_dimen_16"
         android:background="@drawable/bg_edittext_inactive"
@@ -29,32 +29,16 @@
             android:padding="@dimen/define_dimen_10"
             android:src="@drawable/ic_search_large_hole" />
 
-        <EditText
-            android:id="@+id/edt_search_name"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/define_dimen_48"
-            android:layout_marginEnd="@dimen/define_dimen_5"
-            android:layout_weight="1"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/define_dimen_2"
             android:background="@null"
             android:hint="@string/hint_search"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/color_cosplay_hint_edittext"
             android:textSize="@dimen/text_size_small"
-            android:textStyle="bold"
-            tools:ignore="Autofill" />
-
-        <ImageView
-            android:id="@+id/img_clear"
-            android:layout_width="@dimen/define_dimen_30"
-            android:layout_height="@dimen/define_dimen_30"
-            android:layout_marginStart="@dimen/define_dimen_5"
-            android:layout_marginEnd="@dimen/define_dimen_5"
-            android:padding="@dimen/define_dimen_10"
-            android:src="@drawable/ic_clear_no_bg"
-            android:visibility="gone"
-            tools:ignore="ContentDescription" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
