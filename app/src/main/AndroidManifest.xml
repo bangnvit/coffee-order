@@ -4,8 +4,10 @@
     package="com.bangnv.cafeorder">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.DIAL" /> <!-- <uses-permission android:name="android.permission.CALL_PHONE" -->
+    <uses-permission android:name="android.permission.DIAL" />
+    <!-- <uses-permission android:name="android.permission.CALL_PHONE" -->
     <!-- tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" /> -->
+
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -103,6 +105,18 @@
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+
+        <service
+            android:name=".service.CustomerFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
     </application>
 
 </manifest>

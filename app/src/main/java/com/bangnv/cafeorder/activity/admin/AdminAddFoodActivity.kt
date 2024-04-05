@@ -130,6 +130,10 @@ class AdminAddFoodActivity : BaseActivity() {
             return
         }
         if (isEmpty(strDiscount)) {
+            Toast.makeText(this, getString(R.string.msg_discount_food_empty), Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (strDiscount.toInt() < 0 || strDiscount.toInt() > 100) {
             Toast.makeText(this, getString(R.string.msg_discount_food_require), Toast.LENGTH_SHORT).show()
             return
         }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/define_dimen_10"
+    android:background="@drawable/bg_color_white_border_divider_radius_12"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_category_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/define_dimen_16"
+        android:paddingVertical="@dimen/define_dimen_10"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/text_size_normal"
+        android:textStyle="bold"
+        tools:text="Danh mục 1" />
+
+</LinearLayout>

@@ -1,7 +1,6 @@
 package com.bangnv.cafeorder.fragment.admin
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,6 @@ class AdminAccountFragment : Fragment() {
         fragmentAdminAccountBinding.layoutReport.setOnClickListener { onClickReport() }
         fragmentAdminAccountBinding.layoutSignOut.setOnClickListener { onClickSignOut() }
         fragmentAdminAccountBinding.layoutChangePassword.setOnClickListener { onClickChangePassword() }
-        Log.d("TEST_REPLACE_FRAGMENT: ", "Admin account")
         return fragmentAdminAccountBinding.root
     }
 

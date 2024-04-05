@@ -44,7 +44,6 @@ class AdminOrderFragment : Fragment() {
         initTabLayout()
         getListOrders()
         tabLayoutTabSelectedListener()
-        Log.d("TEST_REPLACE_FRAGMENT: ", "Admin order")
         return mFragmentAdminOrderBinding.root
     }
 

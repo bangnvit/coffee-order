@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +45,6 @@ class AdminHomeFragment : Fragment() {
         getListFood()
         setupTouchOtherToClearAllFocus()
         setupLayoutSearchListener()
-        Log.d("TEST_REPLACE_FRAGMENT: ", "Admin Home")
         return mFragmentAdminHomeBinding.root
     }
 
@@ -170,9 +168,9 @@ class AdminHomeFragment : Fragment() {
         displayFood = if (key.isEmpty()) {
             mListFood  // if there is no search keyword, display the original data
         } else {
-            val normalizedKey = StringUtil.normalizeEnglishTextSearch(key)
+            val normalizedKey = StringUtil.normalizeEnglishText(key)
             mListFood.filter { food ->
-                val normalizedFoodName = StringUtil.normalizeEnglishTextSearch(food.name ?: "")
+                val normalizedFoodName = StringUtil.normalizeEnglishText(food.name ?: "")
                 normalizedFoodName.contains(normalizedKey)
             }.toMutableList()
         }

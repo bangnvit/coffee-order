@@ -14,19 +14,19 @@
     </style>
 
 
-<!--    <style name="CustomBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">-->
+    <!--    <style name="CustomBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">-->
     <style name="CustomBottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
         <item name="android:background">@drawable/bg_dialog</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-<!--    Tablayout Custom-->
+    <!--    Tablayout Custom-->
     <style name="TabTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
-<!--    Button Custom-->
+    <!--    Button Custom-->
     <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:background">@drawable/bg_green_main_shape_corner_circle</item>
         <item name="android:textAllCaps">false</item>
@@ -34,7 +34,7 @@
         <item name="android:textSize">@dimen/text_size_small</item>
     </style>
 
-<!--    TextView style Button-->
+    <!--    TextView style Button-->
     <style name="MyTextViewButtonStyle" parent="Widget.MaterialComponents.TextView">
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">@dimen/define_dimen_12</item>
@@ -45,7 +45,36 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-<!--    TextView App Primary-->
+    <!--    TextView in Flow Layout-->
+    <!--    TextView in Flow Layout: Not Select-->
+    <style name="MyTextViewFlow" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/bg_green_light_cancel_shape_corner_circle</item>
+        <item name="android:layout_marginStart">@dimen/define_dimen_8</item>
+        <item name="android:layout_marginEnd">@dimen/define_dimen_8</item>
+        <item name="android:paddingStart">@dimen/define_dimen_16</item>
+        <item name="android:paddingEnd">@dimen/define_dimen_16</item>
+        <item name="android:paddingTop">@dimen/define_dimen_8</item>
+        <item name="android:paddingBottom">@dimen/define_dimen_8</item>
+    </style>
+
+    <!--    TextView in Flow Layout: Not Select-->
+    <style name="TextViewFlowSelected" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/bg_green_shape_corner_50</item>
+        <item name="android:layout_marginStart">@dimen/define_dimen_8</item>
+        <item name="android:layout_marginEnd">@dimen/define_dimen_8</item>
+        <item name="android:paddingStart">@dimen/define_dimen_16</item>
+        <item name="android:paddingEnd">@dimen/define_dimen_16</item>
+        <item name="android:paddingTop">@dimen/define_dimen_8</item>
+        <item name="android:paddingBottom">@dimen/define_dimen_8</item>
+    </style>
+
+    <!--    TextView App Primary-->
     <style name="TextViewAppPrimarySmall" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">@dimen/text_size_small</item>
@@ -77,7 +106,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-<!--    TextViewSecondary-->
+    <!--    TextViewSecondary-->
     <style name="TextViewItalicSecondaryXSmall" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">@color/textColorSecondary</item>
         <item name="android:textSize">@dimen/text_size_xsmall</item>
@@ -100,7 +129,7 @@
         <item name="android:textSize">@dimen/text_size_normal</item>
     </style>
 
-<!--    Edittext-->
+    <!--    Edittext-->
     <style name="EditTextPrimary">
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/textColorPrimary</item>
