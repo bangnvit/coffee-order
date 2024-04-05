@@ -87,6 +87,13 @@ object GlobalFunction {
         }
     }
 
+    @JvmStatic
+    fun showSoftKeyboard(activity: Activity) {
+        val inputMethodManager =
+            activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+    }
+
     fun showMessageError(activity: Activity?) {
         Toast.makeText(activity, Constant.GENERIC_ERROR, Toast.LENGTH_SHORT).show()
     }

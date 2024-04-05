@@ -1,7 +1,6 @@
 package com.bangnv.cafeorder.activity
 
 import android.os.Bundle
-import android.view.View
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bangnv.cafeorder.R
@@ -12,6 +11,10 @@ import com.bangnv.cafeorder.fragment.CartFragment
 import com.bangnv.cafeorder.fragment.ContactFragment
 import com.bangnv.cafeorder.fragment.FeedbackFragment
 import com.bangnv.cafeorder.fragment.HomeFragment
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.messaging.FirebaseMessaging
+
 
 class MainActivity : BaseActivity() {
 
@@ -54,6 +57,17 @@ class MainActivity : BaseActivity() {
         } else {
             mActivityMainBinding.bottomNavigation.selectedItemId = R.id.nav_home
         }
+
+
+
+
+//        FirebaseMessaging.getInstance()
+
+//        FirebaseInstallations.getInstance().id
+//            .addOnCompleteListener(OnCompleteListener<Any?>{
+//
+//            })
+
     }
 
 //    ViewPager2: No High Performance

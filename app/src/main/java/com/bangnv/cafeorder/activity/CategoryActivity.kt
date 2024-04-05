@@ -77,9 +77,9 @@ class CategoryActivity : AppCompatActivity() {
         displayFood = if (key.trim().isEmpty()) {
             mListFood  // if there is no search keyword, display the original data
         } else {
-            val normalizedKey = StringUtil.normalizeEnglishTextSearch(key)
+            val normalizedKey = StringUtil.normalizeEnglishText(key)
             mListFood.filter { food ->
-                val normalizedFoodName = StringUtil.normalizeEnglishTextSearch(food.name ?: "").trim()
+                val normalizedFoodName = StringUtil.normalizeEnglishText(food.name ?: "").trim()
                 normalizedFoodName.contains(normalizedKey)
             }.toMutableList()
         }

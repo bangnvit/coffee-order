@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +43,6 @@ class AdminCategoryFragment : Fragment() {
         getListCategory()
         setupTouchOtherToClearAllFocus()
         setupLayoutSearchListener()
-        Log.d("TEST_REPLACE_FRAGMENT: ", "Admin category")
         return mFragmentAdminCategoryBinding.root
     }
 
@@ -143,9 +141,9 @@ class AdminCategoryFragment : Fragment() {
         displayCategory = if (key.isEmpty()) {
             mListCategory  // if there is no search keyword, display the original data
         } else {
-            val normalizedKey = StringUtil.normalizeEnglishTextSearch(key)
+            val normalizedKey = StringUtil.normalizeEnglishText(key)
             mListCategory.filter { category ->
-                val normalizedFoodName = StringUtil.normalizeEnglishTextSearch(category.name ?: "")
+                val normalizedFoodName = StringUtil.normalizeEnglishText(category.name ?: "")
                 normalizedFoodName.contains(normalizedKey)
             }.toMutableList()
         }

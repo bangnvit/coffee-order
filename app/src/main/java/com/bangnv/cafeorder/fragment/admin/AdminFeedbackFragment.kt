@@ -1,7 +1,6 @@
 package com.bangnv.cafeorder.fragment.admin
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.adapter.admin.FeedbackAdapter
 import com.bangnv.cafeorder.databinding.FragmentAdminFeedbackBinding
 import com.bangnv.cafeorder.model.Feedback
-import java.util.*
 
 class AdminFeedbackFragment : Fragment() {
 
@@ -26,7 +24,6 @@ class AdminFeedbackFragment : Fragment() {
         mFragmentAdminFeedbackBinding = FragmentAdminFeedbackBinding.inflate(inflater, container, false)
         initView()
         getListFeedback()
-        Log.d("TEST_REPLACE_FRAGMENT: ", "Admin feedback")
         return mFragmentAdminFeedbackBinding.root
     }
 

@@ -56,5 +56,9 @@ interface Constant {
         const val TEXT_COMPLETED: String = "Đã giao thành công"
         const val TEXT_CANCELLED: String = "Đã hủy"
         const val TEXT_FAILED: String = "Thất bại"
+
+
+        // Max Item/ 1 load
+        const val MAX_ITEM_PER_LOAD: Int = 6
     }
 }

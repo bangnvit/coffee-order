@@ -4,6 +4,7 @@
     <!--    <string name="splash_text">Highly committed to quality products &amp; excellent services</string>-->
     <string name="splash_text">Cam kết chất lượng sản phẩm &amp; dịch vụ hoàn hảo</string>
     <string name="coffee_nb">Coffee NB</string>
+    <string name="default_notification_channel_id">"CoffeeNB: "</string>
 
     // Tab Menu
     <string name="home">Menu</string>
@@ -187,7 +188,8 @@
     <string name="msg_name_food_require">Vui lòng nhập tên món</string>
     <string name="msg_description_food_require">Vui lòng nhập mô tả món</string>
     <string name="msg_price_food_require">Vui lòng nhập giá món</string>
-    <string name="msg_discount_food_require">Vui lòng nhập phần trăm khuyến mại</string>
+    <string name="msg_discount_food_empty">Vui lòng nhập phần trăm khuyến mại</string>
+    <string name="msg_discount_food_require">Phần trăm khuyến mãi có giá trị từ 0 đến 100</string>
     <string name="msg_image_food_require">Vui lòng nhập link ảnh món</string>
     <string name="msg_image_banner_food_require">Vui lòng nhập link ảnh banner</string>
     <string name="msg_add_food_success">Thêm món thành công!</string>
@@ -251,5 +253,8 @@
     <string name="const_canceled">Đã hủy</string>
     <string name="const_failed">Thất bại</string>
     <string name="category_detail">Chi tiết danh mục</string>
+    <string name="label_all">Tất cả</string>
+    <string name="str_show_more">Nhiều hơn</string>
+    <string name="str_show_less">Thu gọn</string>
 
 </resources>

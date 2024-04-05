@@ -2,11 +2,14 @@ package com.bangnv.cafeorder
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.Constant.Companion.MAX_ITEM_PER_LOAD
 import com.bangnv.cafeorder.prefs.DataStoreManager
+import com.google.firebase.database.Query
 
 class ControllerApplication : Application() {
 
