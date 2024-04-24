@@ -10,14 +10,16 @@ import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.bangnv.cafeorder.R
-import com.bangnv.cafeorder.activity.MainActivity
 import com.bangnv.cafeorder.activity.OrderHistoryActivity
+import com.bangnv.cafeorder.activity.OrderHistoryDetailActivity
 import com.bangnv.cafeorder.activity.SplashActivity
-import com.bangnv.cafeorder.activity.admin.AdminMainActivity
+import com.bangnv.cafeorder.activity.admin.AdminOrderDetailActivity
 import com.bangnv.cafeorder.activity.admin.AdminReportListActivity
+import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.model.responseapi.ChildOrderDataResponse
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -55,15 +57,30 @@ class CustomerFirebaseMessagingService : FirebaseMessagingService(){
             Log.d("FirebaseMessaging", "Message Notification: typeFor = $typeFor")
             Log.d("FirebaseMessaging", "Message Notification: orderId = ${dataObject.orderId}")
             Log.d("FirebaseMessaging", "Message Notification: email = ${dataObject.email}")
-            sendNotification(title, body, typeFor)
+            sendNotification(title, body, typeFor, dataObject.orderId)
         }
     }
 
-    private fun sendNotification(messageTitle: String?, messageBody: String?, typeFor: String?) {
+    private fun sendNotification(
+        messageTitle: String?,
+        messageBody: String?,
+        typeFor: String?,
+        orderId: String?
+    ) {
         lateinit var intent : Intent
         when (typeFor) {
-            "1" -> intent = Intent(this, AdminReportListActivity::class.java)
-            "2" -> intent = Intent(this, OrderHistoryActivity::class.java)
+            "1" -> {
+                val bundle = Bundle()
+                bundle.putSerializable(Constant.KEY_INTENT_ADMIN_ORDER_OBJECT, orderId?.toLong())
+                intent = Intent(this, AdminOrderDetailActivity::class.java)
+                intent.putExtras(bundle)
+            }
+            "2" -> {
+                val bundle = Bundle()
+                bundle.putSerializable(Constant.KEY_INTENT_ORDER_OBJECT, orderId?.toLong())
+                intent = Intent(this, OrderHistoryDetailActivity::class.java)
+                intent.putExtras(bundle)
+            }
             else -> intent = Intent(this, SplashActivity::class.java) // Tự vào Main đúng theo User.type
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

@@ -115,10 +115,7 @@ class OrderHistoryDetailActivity : BaseActivity() {
                     val cancelBy = snapshot.getValue(String::class.java)
                     mOrder.cancelBy = cancelBy
                     Log.d("Cancel_BY: ", cancelBy.toString())
-                    if (mOrder.cancelBy == null) {
-                        mActivityOrderHistoryDetailBinding.layoutCancelBy.visibility = View.GONE
-                    } else {
-                        mActivityOrderHistoryDetailBinding.layoutCancelBy.visibility = View.VISIBLE
+                    if (mOrder.cancelBy != null) {
                         mActivityOrderHistoryDetailBinding.tvCancelBy.text = cancelBy
                     }
                 }
@@ -133,10 +130,7 @@ class OrderHistoryDetailActivity : BaseActivity() {
                     val cancelReason = snapshot.getValue(String::class.java)
                     mOrder.cancelReason = cancelReason
                     Log.d("cancel_reason: ", cancelReason.toString())
-                    if (mOrder.cancelBy == null) {
-                        mActivityOrderHistoryDetailBinding.layoutCancelReason.visibility = View.GONE
-                    } else {
-                        mActivityOrderHistoryDetailBinding.layoutCancelReason.visibility = View.VISIBLE
+                    if (mOrder.cancelBy != null) {
                         mActivityOrderHistoryDetailBinding.tvCancelReason.text = cancelReason
                     }
                 }
@@ -173,36 +167,48 @@ class OrderHistoryDetailActivity : BaseActivity() {
                 mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.VISIBLE
                 mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_NEW_ORDER
                 mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.layoutCancelBy.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.layoutCancelReason.visibility = View.GONE
             }
             Constant.CODE_PREPARING -> { //31
                 mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.GONE
                 mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.GONE
                 mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_PREPARING
                 mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.layoutCancelBy.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.layoutCancelReason.visibility = View.GONE
             }
             Constant.CODE_SHIPPING -> { //32
                 mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.VISIBLE
                 mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.GONE
                 mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_SHIPPING
                 mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.layoutCancelBy.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.layoutCancelReason.visibility = View.GONE
             }
             Constant.CODE_COMPLETED -> { //33
                 mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.GONE
                 mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.GONE
                 mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_COMPLETED
                 mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.layoutCancelBy.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.layoutCancelReason.visibility = View.GONE
             }
             Constant.CODE_CANCELLED -> { //34
                 mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.GONE
                 mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.GONE
                 mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_CANCELLED
                 mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_red_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.layoutCancelBy.visibility = View.VISIBLE
+                mActivityOrderHistoryDetailBinding.layoutCancelReason.visibility = View.VISIBLE
             }
             else -> { // 35: CODE_FAILED | or any other unexpected status
                 mActivityOrderHistoryDetailBinding.tvTrackDriver.visibility = View.GONE
                 mActivityOrderHistoryDetailBinding.tvCancelOrder.visibility = View.GONE
                 mActivityOrderHistoryDetailBinding.tvStatus.text = Constant.TEXT_FAILED
                 mActivityOrderHistoryDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_red_main_shape_corner_8)
+                mActivityOrderHistoryDetailBinding.layoutCancelBy.visibility = View.GONE
+                mActivityOrderHistoryDetailBinding.layoutCancelReason.visibility = View.GONE
             }
         }
     }

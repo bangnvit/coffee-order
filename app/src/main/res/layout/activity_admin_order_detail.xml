@@ -657,6 +657,35 @@
                             tools:text="abc@gmail.com" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:visibility="gone"
+                        android:id="@+id/layout_cancel_reason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/define_dimen_12"
+                        app:layout_constraintTop_toBottomOf="@+id/layout_cancel_by">
+
+                        <TextView
+                            android:id="@+id/tv_cancel_reason_title"
+                            style="@style/TextViewSecondarySmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_cancel_reason_title"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_cancel_reason"
+                            style="@style/TextViewPrimarySmall"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:layout_marginStart="@dimen/define_dimen_5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/tv_cancel_reason_title"
+                            tools:text="Muốn thay đổi sản phẩm trong đơn hàng (size, số lượng,…)" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                     
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

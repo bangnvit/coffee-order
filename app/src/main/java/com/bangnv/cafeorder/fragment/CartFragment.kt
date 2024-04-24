@@ -237,6 +237,7 @@ class CartFragment : Fragment() {
                 mFragmentCartBinding.edtNote.setText("")
                 getInstance(requireActivity())!!.foodDAO()!!.deleteAllFood()
                 clearCart()
+                mFragmentCartBinding.layoutCartWrap.visibility = View.GONE
             }
     }
 

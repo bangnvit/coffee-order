@@ -55,15 +55,15 @@ class AdminOrderDetailActivity : BaseActivity() {
     }
 
     private fun getDataIntent():Long {
-        val bundle = intent.extras
-        return if (bundle != null) {
-            idOrderBundle = bundle[Constant.KEY_INTENT_ADMIN_ORDER_OBJECT] as Long
-            Log.d("AdminOrderDetail: ", idOrderBundle.toString())
-            idOrderBundle
-        } else {
-            mActivityAdminOrderDetailBinding.layoutOrderDetailWrap.visibility = View.GONE
-            -1
-        }
+            val bundle = intent.extras
+            return if (bundle != null) {
+                idOrderBundle = bundle[Constant.KEY_INTENT_ADMIN_ORDER_OBJECT] as Long
+                Log.d("AdminOrderDetail: ", idOrderBundle.toString())
+                idOrderBundle
+            } else {
+                mActivityAdminOrderDetailBinding.layoutOrderDetailWrap.visibility = View.GONE
+                -1
+            }
     }
 
     private fun initToolbar() {
@@ -112,16 +112,28 @@ class AdminOrderDetailActivity : BaseActivity() {
                 val cancelBy = snapshot.getValue(String::class.java)
                 mOrder.cancelBy = cancelBy
                 Log.d("Cancel_BY: ", cancelBy.toString())
-                if (mOrder.cancelBy == null) {
-                    mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.GONE
-                } else {
-                    mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.VISIBLE
+                if (mOrder.cancelBy != null) {
                     mActivityAdminOrderDetailBinding.tvCancelBy.text = cancelBy
                 }
             }
 
             override fun onCancelled(error: DatabaseError) { }
         })
+
+        ControllerApplication[this].bookingDatabaseReference
+            .child(idOrderBundle.toString()).child("cancel_reason").addValueEventListener(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val cancelReason = snapshot.getValue(String::class.java)
+                    mOrder.cancelReason = cancelReason
+                    Log.d("cancel_reason: ", cancelReason.toString())
+                    if (mOrder.cancelBy != null) {
+                        mActivityAdminOrderDetailBinding.tvCancelReason.text = cancelReason
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) { }
+            })
 
     }
 
@@ -152,36 +164,48 @@ class AdminOrderDetailActivity : BaseActivity() {
                 mActivityAdminOrderDetailBinding.tvSendOrder.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvStatus.text = Constant.TEXT_NEW_ORDER
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.GONE
+                mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.GONE
             }
             Constant.CODE_PREPARING -> { //31
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvSendOrder.visibility = View.VISIBLE
                 mActivityAdminOrderDetailBinding.tvStatus.text = Constant.TEXT_PREPARING
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.GONE
+                mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.GONE
             }
             Constant.CODE_SHIPPING -> { //32
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvSendOrder.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvStatus.text = Constant.TEXT_SHIPPING
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.GONE
+                mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.GONE
             }
             Constant.CODE_COMPLETED -> { //33
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvSendOrder.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvStatus.text = Constant.TEXT_COMPLETED
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
+                mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.GONE
+                mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.GONE
             }
             Constant.CODE_CANCELLED -> { //34
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvSendOrder.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvStatus.text = Constant.TEXT_CANCELLED
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_red_main_shape_corner_8)
+                mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.VISIBLE
+                mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.VISIBLE
             }
             else -> { // 35: CODE_FAILED | or any other unexpected status
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvSendOrder.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvStatus.text = Constant.TEXT_FAILED
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_red_main_shape_corner_8)
+                mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.GONE
+                mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.GONE
             }
         }
     }
@@ -236,12 +260,6 @@ class AdminOrderDetailActivity : BaseActivity() {
             .setTitle(getString(R.string.msg_refuse_title))
             .setMessage(getString(R.string.msg_confirm_refuse))
             .setPositiveButton(getString(R.string.action_ok)) { _: DialogInterface?, _: Int ->
-//                // user click cancel => status : CODE_CANCELLED , create and set value for "cancel_by" of this order on Firebase
-//                ControllerApplication[this@AdminOrderDetailActivity].bookingDatabaseReference
-//                    .child(order.id.toString()).child("status").setValue(Constant.CODE_CANCELLED)
-//                // Get Email of admin refused this order. user from DataStoreManager/Companion
-//                ControllerApplication[this@AdminOrderDetailActivity].bookingDatabaseReference
-//                    .child(order.id.toString()).child("cancel_by").setValue(DataStoreManager.user!!.email)
 
                 // show dialog to choose reason refuse order
                 showDialogRefuseReason(order)
