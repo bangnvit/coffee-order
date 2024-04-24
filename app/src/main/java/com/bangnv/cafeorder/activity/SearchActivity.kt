@@ -82,6 +82,10 @@ class SearchActivity : AppCompatActivity(){
             { mActivitySearchBinding.edtSearchName.clearFocus() },
             { Log.d("SearchA cateSeled img: ", categorySelected.toString()) }
         )
+        mActivitySearchBinding.imgClear.setOnClickListener {
+            mActivitySearchBinding.edtSearchName.setText("")
+            loadFilteredData(categorySelected, mActivitySearchBinding.edtSearchName.text.toString())
+        }
     }
 
     private fun getListCategory() {
@@ -191,7 +195,7 @@ class SearchActivity : AppCompatActivity(){
     // Tạm thời chưa dùng
     private fun getInitListFood() {
         val queryInitListFood: Query = ControllerApplication[this].foodDatabaseReference
-            .limitToFirst(Constant.MAX_ITEM_PER_LOAD)
+            .limitToFirst(Constant.MAX_ITEM_PER_LOAD_GRID)
 
 
         queryInitListFood.addValueEventListener(object : ValueEventListener {
@@ -257,7 +261,7 @@ class SearchActivity : AppCompatActivity(){
 
     private fun setupLayoutSearchListener() {
         //Layout Search: Listener focus, clear text icon
-        GlobalFunction.setupLayoutEditTextWithIconClearListeners(
+        GlobalFunction.setupLayoutEditTextWithIconClearNoClearTextListeners(
             mActivitySearchBinding.layoutSearch,
             mActivitySearchBinding.edtSearchName,
             mActivitySearchBinding.imgClear

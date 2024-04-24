@@ -16,6 +16,7 @@ class Order : Serializable {
     var status: Int = Constant.CODE_NEW_ORDER
 
     var cancelBy: String? = null
+    var cancelReason: String? = null
 
     // Nếu có thời gian (thay cho foods đang là string), sẽ phải sửa lại nhiều, mất nhiều thời gian (lin quan rất nhiều chỗ)
 //    var orderItems: List<OrderItem>? = null

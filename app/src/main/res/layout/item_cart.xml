@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/text_size_small"
+            android:textStyle="bold"
             tools:text="39 000 VND" />
 
         <LinearLayout

@@ -28,7 +28,8 @@ abstract class BaseActivity : AppCompatActivity() {
         if (value) {
             if (progressDialog != null && !progressDialog!!.isShowing) {
                 progressDialog!!.show()
-                progressDialog!!.setCancelable(false)
+//                progressDialog!!.setCancelable(false)
+                progressDialog!!.setCancelable(true)
             }
         } else {
             if (progressDialog != null && progressDialog!!.isShowing) {

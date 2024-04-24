@@ -176,12 +176,23 @@
                 android:textColor="@color/textColorPrimary" />
 
             <RadioButton
+                android:id="@+id/rdb_driver"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/define_dimen_20"
+                android:text="@string/driver"
+                android:textColor="@color/textColorPrimary" />
+
+            <RadioButton
                 android:id="@+id/rdb_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/define_dimen_20"
                 android:text="@string/user"
+                android:checked="true"
                 android:textColor="@color/textColorPrimary" />
+
         </RadioGroup>
 
         <LinearLayout

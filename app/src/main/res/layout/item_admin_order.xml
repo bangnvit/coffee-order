@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_item"
     android:layout_width="match_parent"
@@ -29,8 +28,8 @@
             android:id="@+id/tv_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/define_dimen_5"
             android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/define_dimen_5"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/text_size_small" />
     </RelativeLayout>
@@ -52,8 +51,8 @@
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/define_dimen_5"
             android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/define_dimen_5"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/text_size_small" />
     </RelativeLayout>
@@ -83,9 +82,9 @@
             android:id="@+id/tv_total_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/define_dimen_5"
-            android:layout_alignParentEnd="true"
             android:textColor="@color/bottomTabActive"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
@@ -108,14 +107,14 @@
         <TextView
             android:id="@+id/tv_status"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/define_dimen_5"
+            android:background="@drawable/bg_green_main_shape_corner_8"
             android:gravity="end"
             android:paddingHorizontal="@dimen/define_dimen_10"
             android:paddingVertical="@dimen/define_dimen_5"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="@dimen/define_dimen_5"
-            android:background="@drawable/bg_green_main_shape_corner_8"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_xsmall"
             android:textStyle="bold"
@@ -123,43 +122,46 @@
     </RelativeLayout>
 
 
-        <LinearLayout
-            android:id="@+id/layout_accept_refuse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_refuse_order"
-                style="@style/MyTextViewButtonStyle"
-                android:layout_width="0dp"
-                android:layout_marginTop="@dimen/define_dimen_20"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/define_dimen_10"
-                android:layout_weight="1"
-                android:background="@drawable/bg_green_light_cancel_shape_corner_circle"
-                android:text="@string/label_refuse_order"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:id="@+id/tv_accept_order"
-                style="@style/MyTextViewButtonStyle"
-                android:layout_width="0dp"
-                android:layout_marginTop="@dimen/define_dimen_20"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/bg_green_shape_corner_50"
-                android:text="@string/label_accept_order"
-                android:textColor="@color/white" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_accept_refuse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
-            android:id="@+id/tv_send_order"
+            android:id="@+id/tv_refuse_order"
             style="@style/MyTextViewButtonStyle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_20"
-            android:background="@drawable/bg_green_main_shape_corner_circle"
-            android:text="@string/label_send_order"
+            android:layout_marginEnd="@dimen/define_dimen_10"
+            android:layout_weight="1"
+            android:background="@drawable/bg_green_light_cancel_shape_corner_circle"
+            android:text="@string/label_refuse_order"
+            android:textColor="@color/colorPrimaryDark"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_accept_order"
+            style="@style/MyTextViewButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/define_dimen_20"
+            android:layout_weight="1"
+            android:background="@drawable/bg_green_shape_corner_50"
+            android:text="@string/label_accept_order"
             android:textColor="@color/white" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_send_order"
+        style="@style/MyTextViewButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/define_dimen_20"
+        android:background="@drawable/bg_green_main_shape_corner_circle"
+        android:text="@string/label_send_order"
+        android:textColor="@color/white"
+        android:visibility="gone" />
 </LinearLayout>

@@ -6,12 +6,15 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
@@ -20,16 +23,19 @@ import com.bangnv.cafeorder.adapter.CartAdapter
 import com.bangnv.cafeorder.adapter.CartAdapter.IClickListener
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
-import com.bangnv.cafeorder.constant.GlobalFunction.customizeDialog
 import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
 import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionDoneListener
 import com.bangnv.cafeorder.constant.GlobalFunction.showToastMessage
+import com.bangnv.cafeorder.database.AppApi
 import com.bangnv.cafeorder.database.FoodDatabase.Companion.getInstance
 import com.bangnv.cafeorder.databinding.FragmentCartBinding
 import com.bangnv.cafeorder.event.ReloadListCartEvent
 import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.model.Order
+import com.bangnv.cafeorder.model.baseresponse.RetrofitClients
+import com.bangnv.cafeorder.model.request.OrderRequest
+import com.bangnv.cafeorder.model.responseapi.OrderResponse
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.utils.StringUtil.isEmpty
 import com.google.firebase.database.DatabaseError
@@ -37,7 +43,9 @@ import com.google.firebase.database.DatabaseReference
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.util.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CartFragment : Fragment() {
 
@@ -46,6 +54,7 @@ class CartFragment : Fragment() {
     private var mListFoodCart: MutableList<Food> = mutableListOf()
     private var mAmount = 0
     private lateinit var mMainActivity: MainActivity
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -181,7 +190,7 @@ class CartFragment : Fragment() {
         tvFoodsOrder.text = getStringListFoodsOrder()
         tvPriceOrder.text = mFragmentCartBinding.tvTotalPrice.text.toString()
 
-        // Set listener
+        // Set listeners
         tvCancelOrder.setOnClickListener { viewDialog.dismiss() }
         tvCreateOrder.setOnClickListener {
             val strName = edtNameOrder.text.toString().trim { it <= ' ' }
@@ -198,24 +207,112 @@ class CartFragment : Fragment() {
                     mAmount, getStringListFoodsOrder(), Constant.TYPE_PAYMENT_COD,
                     strNote, Constant.CODE_NEW_ORDER
                 )
-                ControllerApplication[requireActivity()].bookingDatabaseReference
-                    .child(id.toString())
-                    .setValue(order) { _: DatabaseError?, _: DatabaseReference? ->
-                        showToastMessage(activity, getString(R.string.msg_order_success))
-                        hideSoftKeyboard(requireActivity())
-                        viewDialog.dismiss()
+                // Set Data on Realtime Database
+                setDataOnRealtimeDatabase(order, viewDialog)
 
-                        mFragmentCartBinding.edtNote.setText("")
-                        getInstance(requireActivity())!!.foodDAO()!!.deleteAllFood()
-                        clearCart()
-                    }
+                // Thêm phần thông báo cho (các) admin
+                val userEmailRequest = strEmail
+                val orderIdRequest = id.toString()
+                // Thực chất không cần trả về theo class OrderResponse
+                // lỡ viết nên để đây làm ví dj về sau
+//                sendNotificationToAdminsHasResponse(userEmailRequest, orderIdRequest)
+                sendNotiNewOrderToAdmins(userEmailRequest, orderIdRequest)
+
             }
         }
 
         // Show dialog + set Customize
         viewDialog.show()
-        customizeDialog(viewDialog)
+        GlobalFunction.customizeBottomSheetDialog(viewDialog)
     }
+
+    private fun setDataOnRealtimeDatabase(order: Order, viewDialog: Dialog) {
+        ControllerApplication[requireActivity()].bookingDatabaseReference
+            .child(id.toString())
+            .setValue(order) { _: DatabaseError?, _: DatabaseReference? ->
+                showToastMessage(activity, getString(R.string.msg_order_success))
+                hideSoftKeyboard(requireActivity())
+                viewDialog.dismiss()
+
+                mFragmentCartBinding.edtNote.setText("")
+                getInstance(requireActivity())!!.foodDAO()!!.deleteAllFood()
+                clearCart()
+            }
+    }
+
+    private fun sendNotiNewOrderToAdmins(userEmailRequest: String?, orderIdRequest: String) {
+        val activity = requireActivity()
+
+        onProcess(activity)
+        val appApi: AppApi = RetrofitClients.getInstance().create(AppApi::class.java)
+        appApi.postNewOrder(OrderRequest(userEmailRequest, orderIdRequest)).enqueue(object : Callback<Unit> {
+
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+
+                if (response.body() != null) {
+                    onSuccess(activity)
+                    Log.d("Success", "Gửi thông báo thành công!")
+                    // Thông báo cho cả tạo đơn thành công + thông báo
+                    Toast.makeText(requireContext(), getString(R.string.msg_order_success), Toast.LENGTH_SHORT).show()
+                } else {
+                    onError(activity,  getString(R.string.msg_cant_connect_server))
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                onError(activity, t.message ?: "")
+            }
+        })
+
+        // Log ra đường link của request
+        Log.d("Retrofit Request", "URL: ${appApi.postNewOrder(OrderRequest(userEmailRequest, orderIdRequest)).request().url}")
+        Log.d("Retrofit Request: ", "${appApi.postNewOrder(OrderRequest(userEmailRequest, orderIdRequest)).request().body}")
+
+    }
+
+    private fun sendNotificationToAdminsHasResponse(userEmailRequest: String?, orderIdRequest: String) {
+        val activity = requireActivity()
+
+        onProcess(activity)
+        val appApi: AppApi = RetrofitClients.getInstance().create(AppApi::class.java)
+        appApi.postNewOrderHasResponse(OrderRequest(userEmailRequest, orderIdRequest)).enqueue(object : Callback<OrderResponse> {
+            // thực chất không cần response về. nốt công làm ok thì để đây làm ví dụ cho project kotlin khác (trước kia làm cái này ở java)
+
+            override fun onResponse(call: Call<OrderResponse>, response: Response<OrderResponse>) {
+
+                if (response.body() != null) {
+                        onSuccess(activity)
+                } else {
+                    onError(activity, getString(R.string.msg_cant_connect_server))
+                }
+            }
+
+            override fun onFailure(call: Call<OrderResponse>, t: Throwable) {
+                onError(activity, t.message ?: "")
+            }
+        })
+
+        // Log ra đường link của request
+        Log.d("Retrofit Request", "URL: ${appApi.postNewOrderHasResponse(OrderRequest(userEmailRequest, orderIdRequest)).request().url}")
+        Log.d("Retrofit Request: ", "${appApi.postNewOrderHasResponse(OrderRequest(userEmailRequest, orderIdRequest)).request().body}")
+    }
+
+
+    private fun onProcess(activity: FragmentActivity) {
+        (activity as? MainActivity)?.showProgressDialog(true)
+    }
+
+    private fun onSuccess(activity: FragmentActivity) {
+        (activity as? MainActivity)?.showProgressDialog(false)
+        Log.d("onSuccess", "Gửi thông báo thành công!")
+    }
+
+    private fun onError(activity: FragmentActivity, err: String) {
+        (activity as? MainActivity)?.showProgressDialog(false)
+        Toast.makeText(context, "Lỗi: " + err, Toast.LENGTH_SHORT).show()
+        Log.e("onError():  ", err)
+    }
+
 
     private fun getStringListFoodsOrder(): String {
         if (mListFoodCart.isEmpty()) {

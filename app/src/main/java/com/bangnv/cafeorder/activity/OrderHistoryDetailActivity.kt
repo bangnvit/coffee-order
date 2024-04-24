@@ -1,27 +1,39 @@
 package com.bangnv.cafeorder.activity
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.constant.GlobalFunction.setOnClickCopyTextToClipboard
+import com.bangnv.cafeorder.database.AppApi
 import com.bangnv.cafeorder.databinding.ActivityOrderHistoryDetailBinding
 import com.bangnv.cafeorder.model.Order
+import com.bangnv.cafeorder.model.baseresponse.RetrofitClients
+import com.bangnv.cafeorder.model.request.OrderRequest
 import com.bangnv.cafeorder.utils.DateTimeUtils.convertTimeStampToDate_2
 import com.bangnv.cafeorder.utils.DateTimeUtils.convertTimeStampToDate_3
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.properties.Delegates
 
-class OrderHistoryDetailActivity : AppCompatActivity() {
+class OrderHistoryDetailActivity : BaseActivity() {
 
     private lateinit var mActivityOrderHistoryDetailBinding: ActivityOrderHistoryDetailBinding
     private  var mOrder: Order = Order()
@@ -114,6 +126,24 @@ class OrderHistoryDetailActivity : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) { }
             })
 
+        ControllerApplication[this].bookingDatabaseReference
+            .child(idOrderBundle.toString()).child("cancel_reason").addValueEventListener(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val cancelReason = snapshot.getValue(String::class.java)
+                    mOrder.cancelReason = cancelReason
+                    Log.d("cancel_reason: ", cancelReason.toString())
+                    if (mOrder.cancelBy == null) {
+                        mActivityOrderHistoryDetailBinding.layoutCancelReason.visibility = View.GONE
+                    } else {
+                        mActivityOrderHistoryDetailBinding.layoutCancelReason.visibility = View.VISIBLE
+                        mActivityOrderHistoryDetailBinding.tvCancelReason.text = cancelReason
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) { }
+            })
+
     }
 
     private fun setOrderDetail() {
@@ -190,15 +220,88 @@ class OrderHistoryDetailActivity : AppCompatActivity() {
             .setTitle(getString(R.string.msg_cancel_title))
             .setMessage(getString(R.string.msg_confirm_cancel))
             .setPositiveButton(getString(R.string.action_ok)) { _: DialogInterface?, _: Int ->
-                // user click cancel => status : CODE_CANCELLED, create "cancel_by" of this order on Firebase
-                ControllerApplication[this].bookingDatabaseReference
-                    .child(order.id.toString()).child("status").setValue(Constant.CODE_CANCELLED)
-                ControllerApplication[this].bookingDatabaseReference
-                    .child(order.id.toString()).child("cancel_by").setValue(order.email)
-                Toast.makeText(this, "order.email: " + order.email, Toast.LENGTH_SHORT).show()
+                // show dialog to choose reason cancel order
+                showDialogCancelReason(order)
             }
             .setNegativeButton(getString(R.string.action_back), null)
             .show()
+    }
+
+    private fun showDialogCancelReason(order: Order) {
+        //Init Custom Dialog
+        val viewDialog = Dialog(this@OrderHistoryDetailActivity)
+        viewDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        viewDialog.setContentView(R.layout.layout_bottom_sheet_cancel_reason)
+
+        // init ui
+        val rdgCancelReasons = viewDialog.findViewById<RadioGroup>(R.id.rdg_cancel_reasons)
+        val tvBack = viewDialog.findViewById<TextView>(R.id.tv_back)
+        val tvSendCancelOrder = viewDialog.findViewById<TextView>(R.id.tv_send_cancel_order)
+
+        // Set listeners
+        tvBack.setOnClickListener { viewDialog.dismiss() }
+        tvSendCancelOrder.setOnClickListener {
+            // Get ID of RadioButton selected
+            val selectedRadioButtonId = rdgCancelReasons.checkedRadioButtonId
+
+            if (selectedRadioButtonId != -1) {
+                // RadioButton selected
+                val selectedRadioButton = viewDialog.findViewById<RadioButton>(selectedRadioButtonId)
+                val selectedReason = selectedRadioButton.text.toString()
+
+                // Realtime Database Firebase
+                sendDataCanceledOrderToRTDB(order, selectedReason)
+                // API Server control notification
+                sendNotiCancelOrderToAdmins(order, selectedReason)
+            } else {
+                // RadioButton not selected
+                Toast.makeText(this@OrderHistoryDetailActivity, getString(R.string.select_cancel_reason), Toast.LENGTH_SHORT).show()
+            }
+            viewDialog.dismiss()
+        }
+
+        // Show dialog + set Customize
+        viewDialog.show()
+        GlobalFunction.customizeBottomSheetDialog(viewDialog)
+    }
+
+    private fun sendDataCanceledOrderToRTDB(order: Order, selectedReason: String) {
+        ControllerApplication[this].bookingDatabaseReference
+            .child(order.id.toString()).child("status").setValue(Constant.CODE_CANCELLED)
+        ControllerApplication[this].bookingDatabaseReference
+            .child(order.id.toString()).child("cancel_by").setValue(order.email)
+        ControllerApplication[this].bookingDatabaseReference
+            .child(order.id.toString()).child("cancel_reason").setValue(selectedReason)
+    }
+
+    private fun sendNotiCancelOrderToAdmins(order: Order, selectedReason: String) {
+        showProgressDialog(true)
+        val appApi: AppApi = RetrofitClients.getInstance().create(AppApi::class.java)
+        appApi.postCancelOrder(OrderRequest(order.email, order.id.toString(), selectedReason)).enqueue(object :
+            Callback<Unit> {
+
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                if (response.body() != null) {
+                    showProgressDialog(false)
+                    Log.d("Success", "Gửi thông báo thành công!")
+                    // Thông báo cho cả hủy đơn thành công + thông báo
+                    Toast.makeText(this@OrderHistoryDetailActivity, getString(R.string.msg_cancel_order_successfully), Toast.LENGTH_SHORT).show()
+                } else {
+                    showProgressDialog(false)
+                    Toast.makeText(this@OrderHistoryDetailActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                showProgressDialog(false)
+                Toast.makeText(this@OrderHistoryDetailActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+                Log.e("onError():  ", t.message.toString())
+            }
+        })
+
+        // Log ra đường link của request
+        Log.d("Retrofit Request", "URL: ${appApi.postCancelOrder(OrderRequest(order.email, order.id.toString(), selectedReason)).request().url}")
+        Log.d("Retrofit Request: ", "${appApi.postCancelOrder(OrderRequest(order.email, order.id.toString(), selectedReason)).request().body}")
     }
 
     private fun copyFieldsClickListener() {

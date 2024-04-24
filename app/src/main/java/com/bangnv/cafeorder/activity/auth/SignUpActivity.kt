@@ -1,21 +1,21 @@
 package com.bangnv.cafeorder.activity.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.BaseActivity
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
-import com.bangnv.cafeorder.constant.GlobalFunction.gotoMainActivity
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
 import com.bangnv.cafeorder.databinding.ActivitySignUpBinding
-import com.bangnv.cafeorder.model.User
-import com.bangnv.cafeorder.prefs.DataStoreManager
 import com.bangnv.cafeorder.utils.StringUtil.isEmpty
 import com.bangnv.cafeorder.utils.StringUtil.isValidEmail
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 
 class SignUpActivity : BaseActivity() {
 
@@ -86,25 +86,57 @@ class SignUpActivity : BaseActivity() {
         val firebaseAuth = FirebaseAuth.getInstance()
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task: Task<AuthResult?> ->
-                showProgressDialog(false)
                 if (task.isSuccessful) {
                     val user = firebaseAuth.currentUser
                     if (user != null) {
-                        val userObject = User(user.email, password)
-                        if (user.email != null && user.email!!.contains(Constant.ADMIN_EMAIL_FORMAT)) {
-                            userObject.isAdmin = true
-                        }
-                        DataStoreManager.user = userObject
-                        gotoMainActivity(this)
-                        finishAffinity()
+                        // Function create User on Realtime Database
+                        createUserRTDB(email)
                     }
                 } else {
-                    Toast.makeText(
-                        this@SignUpActivity, getString(R.string.msg_sign_up_error),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showProgressDialog(false)
+                    val exception = task.exception
+                    if (exception is FirebaseAuthUserCollisionException && exception.errorCode == "ERROR_EMAIL_ALREADY_IN_USE") {
+                        // Email exist
+                        Log.w("SignUp error: ", "createUserWithEmail:failure", exception)
+                        Toast.makeText(
+                            this@SignUpActivity, getString(R.string.msg_sign_up_email_exist),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        // Other error
+                        Log.e("SignUp error: ", "createUserWithEmail:failure", exception)
+                        Toast.makeText(
+                            this@SignUpActivity, getString(R.string.msg_sign_up_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
+    }
+
+    private fun createUserRTDB(email: String) {
+        // Create 1 node on Realtime Database
+        val userId = System.currentTimeMillis()
+        val userRef = ControllerApplication[this@SignUpActivity].userDatabaseReference
+        userRef.child(userId.toString()).get().addOnSuccessListener { snapshot ->
+            userRef.child(userId.toString()).child("email").setValue(email)
+            userRef.child(userId.toString()).child("type").setValue(Constant.TYPE_USER_USER)
+
+            Toast.makeText(
+                this@SignUpActivity, getString(R.string.msg_sign_up_success),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            showProgressDialog(false)
+            finish()
+        }.addOnFailureListener { exception ->
+            showProgressDialog(false)
+            // Display error from Firebase
+            Toast.makeText(
+                this@SignUpActivity, "Error: ${exception.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun setupTouchOtherToClearAllFocus() {

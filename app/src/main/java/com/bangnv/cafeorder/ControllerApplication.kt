@@ -2,14 +2,11 @@ package com.bangnv.cafeorder
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.bangnv.cafeorder.constant.Constant
-import com.bangnv.cafeorder.constant.Constant.Companion.MAX_ITEM_PER_LOAD
 import com.bangnv.cafeorder.prefs.DataStoreManager
-import com.google.firebase.database.Query
 
 class ControllerApplication : Application() {
 
@@ -30,9 +27,9 @@ class ControllerApplication : Application() {
         get() = mFirebaseDatabase!!.getReference("/feedback")
     val bookingDatabaseReference: DatabaseReference
         get() = mFirebaseDatabase!!.getReference("/booking")
+    val userDatabaseReference: DatabaseReference
+        get() = mFirebaseDatabase!!.getReference("/user")
 
-    val testDatabaseReference: DatabaseReference
-        get() = mFirebaseDatabase!!.getReference("/test")
 
     companion object {
         @JvmStatic

@@ -2,29 +2,43 @@ package com.bangnv.cafeorder.fragment.admin
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.R
+import com.bangnv.cafeorder.activity.admin.AdminMainActivity
 import com.bangnv.cafeorder.activity.admin.AdminOrderDetailActivity
 import com.bangnv.cafeorder.adapter.admin.AdminOrderAdapter
 import com.bangnv.cafeorder.adapter.admin.AdminOrderAdapter.IClickAdminOrderListener
 import com.bangnv.cafeorder.constant.Constant
+import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.addMyTabs
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
+import com.bangnv.cafeorder.database.AppApi
 import com.bangnv.cafeorder.databinding.FragmentAdminOrderBinding
 import com.bangnv.cafeorder.model.Order
+import com.bangnv.cafeorder.model.baseresponse.RetrofitClients
+import com.bangnv.cafeorder.model.request.OrderRequest
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 class AdminOrderFragment : Fragment() {
@@ -61,11 +75,12 @@ class AdminOrderFragment : Fragment() {
                 }
 
                 override fun refuseOrder(order: Order) {
+                    // Tạm thời không nữa dùng vì thầy yêu cầu thế - đã ẩn nút từ chối (nhưng vẫn viết chức năng ok rồi)
                     handleRefuseOrder(order)
                 }
 
                 override fun sendOrder(order: Order) {
-                    handleSendOrder(order)
+                    handleSendDeliveryOrder(order)
                 }
 
                 override fun onClickItemAdminOrder(order: Order) {
@@ -143,9 +158,45 @@ class AdminOrderFragment : Fragment() {
         if (activity == null) {
             return
         }
+        sendDataAcceptOrderToRTDB(order)
+        sendNotiAcceptOrderToUser(order)
+    }
+
+    private fun sendDataAcceptOrderToRTDB(order: Order) {
         // user click accept => status : CODE_PREPARING  (prepare for this order)
         ControllerApplication[requireContext()].bookingDatabaseReference
             .child(order.id.toString()).child("status").setValue(Constant.CODE_PREPARING)
+    }
+
+    private fun sendNotiAcceptOrderToUser(order: Order) {
+        // Send notification to user
+        (activity as? AdminMainActivity)?.showProgressDialog(true)
+        val appApi: AppApi = RetrofitClients.getInstance().create(AppApi::class.java)
+        appApi.postAcceptOrder(OrderRequest(order.email, order.id.toString())).enqueue(object : Callback<Unit> {
+
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                if (response.body() != null) {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+                    Log.d("Success", "Gửi thông báo thành công!")
+                    // Thông báo cho cả chấp nhận đơn thành công + thông báo
+                    Toast.makeText(requireContext(), getString(R.string.msg_accept_order_successfully), Toast.LENGTH_SHORT).show()
+                } else {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                (activity as? AdminMainActivity)?.showProgressDialog(false)
+                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+                Log.e("onError():  ", t.message.toString())
+            }
+        })
+
+        // Log ra đường link của request
+        Log.d("Retrofit Request", "URL: ${appApi.postAcceptOrder(OrderRequest(order.email, order.id.toString())).request().url}")
+        Log.d("Retrofit Request: ", "${appApi.postAcceptOrder(OrderRequest(order.email, order.id.toString())).request().body}")
+
     }
 
     private fun handleRefuseOrder(order: Order) {
@@ -156,27 +207,141 @@ class AdminOrderFragment : Fragment() {
                 if (activity == null) {
                     return@setPositiveButton
                 }
-                // user click cancel => status : CODE_CANCELLED, create and set value for "cancel_by" of this order on Firebase
-                ControllerApplication[requireContext()].bookingDatabaseReference
-                    .child(order.id.toString()).child("status").setValue(Constant.CODE_CANCELLED)
-                // Get Email of admin refused this order. user from DataStoreManager/Companion
-                ControllerApplication[requireContext()].bookingDatabaseReference
-                    .child(order.id.toString()).child("cancel_by").setValue(user!!.email)
+
+                // show dialog to choose reason refuse order
+                showDialogRefuseReason(order)
             }
             .setNegativeButton(getString(R.string.action_cancel), null)
             .show()
     }
 
-    private fun handleSendOrder(order: Order) {
+    private fun showDialogRefuseReason(order: Order) {
+        //Init Custom Dialog
+        val viewDialog = Dialog(requireContext())
+        viewDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        viewDialog.setContentView(R.layout.layout_bottom_admin_refuse_reason)
+
+        // init ui
+        val rdgRefuseReasons = viewDialog.findViewById<RadioGroup>(R.id.rdg_refuse_reasons)
+        val tvBack = viewDialog.findViewById<TextView>(R.id.tv_back)
+        val tvSendRefuseOrder = viewDialog.findViewById<TextView>(R.id.tv_send_refuse_order)
+
+        // Set listeners
+        tvBack.setOnClickListener { viewDialog.dismiss() }
+        tvSendRefuseOrder.setOnClickListener {
+            // Get ID of RadioButton selected
+            val selectedRadioButtonId = rdgRefuseReasons.checkedRadioButtonId
+
+            if (selectedRadioButtonId != -1) {
+                // RadioButton selected
+                val selectedRadioButton = viewDialog.findViewById<RadioButton>(selectedRadioButtonId)
+                val selectedReason = selectedRadioButton.text.toString()
+
+                // Realtime Database Firebase
+                sendDataRefuseOrderToRTDB(order, selectedReason)
+                // API Server control notification
+                sendNotiRefuseOrderToUser(order, selectedReason)
+            } else {
+                // RadioButton not selected
+                Toast.makeText(requireContext(), getString(R.string.select_refuse_reason), Toast.LENGTH_SHORT).show()
+            }
+            viewDialog.dismiss()
+        }
+
+        // Show dialog + set Customize
+        viewDialog.show()
+        GlobalFunction.customizeBottomSheetDialog(viewDialog)
+    }
+
+    private fun sendDataRefuseOrderToRTDB(order: Order, selectedReason: String) {
+        // user click cancel => status : CODE_CANCELLED, create and set value for "cancel_by" of this order on Firebase
+        ControllerApplication[requireContext()].bookingDatabaseReference
+            .child(order.id.toString()).child("status").setValue(Constant.CODE_CANCELLED)
+        // Get Email of admin refused this order. user from DataStoreManager/Companion
+        ControllerApplication[requireContext()].bookingDatabaseReference
+            .child(order.id.toString()).child("cancel_by").setValue(user!!.email)
+        ControllerApplication[requireContext()].bookingDatabaseReference
+            .child(order.id.toString()).child("cancel_reason").setValue(selectedReason)
+    }
+
+    //Multi devices is available
+    private fun sendNotiRefuseOrderToUser(order: Order, selectedReason: String) {
+        (activity as? AdminMainActivity)?.showProgressDialog(true)
+        val appApi: AppApi = RetrofitClients.getInstance().create(AppApi::class.java)
+        appApi.postRefuseOrder(OrderRequest(order.email, order.id.toString(), selectedReason)).enqueue(object : Callback<Unit> {
+
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                if (response.body() != null) {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+                    Log.d("Success", "Gửi thông báo thành công!")
+                    // Thông báo cho cả từ chối đơn thành công + thông báo
+                    Toast.makeText(requireContext(), getString(R.string.msg_refuse_order_successfully), Toast.LENGTH_SHORT).show()
+                } else {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                (activity as? AdminMainActivity)?.showProgressDialog(false)
+                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+                Log.e("onError():  ", t.message.toString())
+            }
+        })
+
+        // Log ra đường link của request
+        Log.d("Retrofit Request", "URL: ${appApi.postRefuseOrder(OrderRequest(order.email, order.id.toString(), selectedReason)).request().url}")
+        Log.d("Retrofit Request: ", "${appApi.postRefuseOrder(OrderRequest(order.email, order.id.toString(), selectedReason)).request().body}")
+
+    }
+
+    private fun handleSendDeliveryOrder(order: Order) {
         if (activity == null) {
             return
         }
+        sendDataDeliveryOrderToRTDB(order)
+        sendNotiDeliveryOrderToUser(order) // multi devices is available
+
+    }
+
+    private fun sendDataDeliveryOrderToRTDB(order: Order) {
         // user click send => status : CODE_SHIPPING
         ControllerApplication[requireContext()].bookingDatabaseReference
             .child(order.id.toString()).child("status").setValue(Constant.CODE_SHIPPING)
+    }
 
+    private fun sendNotiDeliveryOrderToUser(order: Order) {
+        // TO DO Cần làm thêm: yêu cầu bên vận chuyển
         // Cần làm thêm: yêu cầu bên vận chuyển
         Log.d("AdminOrderFragment: ", "Viết hàm gửi lên cho bên vận chuyển. Đã set trạng thái rồi")
+
+        // Send notification to user
+        (activity as? AdminMainActivity)?.showProgressDialog(true)
+        val appApi: AppApi = RetrofitClients.getInstance().create(AppApi::class.java)
+        appApi.postSendDeliveryOrder(OrderRequest(order.email, order.id.toString())).enqueue(object : Callback<Unit> {
+
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                if (response.body() != null) {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+                    Log.d("Success", "Gửi thông báo thành công!")
+                    // Thông báo cho cả gửi đơn cho vận chuyển thành công + thông báo
+                    Toast.makeText(requireContext(), getString(R.string.msg_send_delivery_order_successfully), Toast.LENGTH_SHORT).show()
+                } else {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                (activity as? AdminMainActivity)?.showProgressDialog(false)
+                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+                Log.e("onError():  ", t.message.toString())
+            }
+        })
+
+        // Log ra đường link của request
+        Log.d("Retrofit Request", "URL: ${appApi.postSendDeliveryOrder(OrderRequest(order.email, order.id.toString())).request().url}")
+        Log.d("Retrofit Request: ", "${appApi.postSendDeliveryOrder(OrderRequest(order.email, order.id.toString())).request().body}")
     }
 
     private fun tabLayoutTabSelectedListener() {
