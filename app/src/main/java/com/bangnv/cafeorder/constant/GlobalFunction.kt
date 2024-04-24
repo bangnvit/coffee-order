@@ -63,8 +63,11 @@ object GlobalFunction {
 
     @JvmStatic
     fun gotoMainActivity(context: Context) {
-        if (user!!.isAdmin) {
+        if (user!!.type == Constant.TYPE_USER_ADMIN) {
             startActivity(context, AdminMainActivity::class.java)
+        } else  if (user!!.type == Constant.TYPE_USER_DRIVER){
+//            startActivity(context, DriverMainActivity::class.java)
+            Toast.makeText(context, "Global function gotoMainActivity: Cần tạo DriverMainActivity", Toast.LENGTH_SHORT ).show()
         } else {
             startActivity(context, MainActivity::class.java)
         }
@@ -334,6 +337,17 @@ object GlobalFunction {
         }
     }
 
+    fun setupLayoutEditTextWithIconClearNoClearTextListeners(
+        layoutEditText: View,
+        editText: EditText,
+        imgClear: ImageView
+    ) {
+        // Change background when check focus
+        editText.setBackgroundOnEditTextFocusChange(layoutEditText)
+        // set visibility icon clear
+        editText.addIconClearVisibilityOnTextChangedListener(imgClear)
+    }
+
     fun setupLayoutPasswordListeners(
         layoutEditText: View,
         edtPassword: EditText,
@@ -371,7 +385,7 @@ object GlobalFunction {
         return formatter.format(number.toLong())
     }
 
-    fun customizeDialog(viewDialog: Dialog) {
+    fun customizeBottomSheetDialog(viewDialog: Dialog) {
         viewDialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         viewDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         viewDialog.window?.attributes?.windowAnimations = R.style.DiaLogAnimation

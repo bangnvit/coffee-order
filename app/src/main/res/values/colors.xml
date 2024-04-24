@@ -12,7 +12,7 @@
     <color name="iconColorSecondary">#616161</color>
     <color name="color_tint_icon_2">#9E9E9E</color>
 
-    <color name="dividerColor">#EEEEEE</color>
+    <color name="dividerColor">#D5D5D5</color>
     <color name="secondDividerColor">#EFEFEF</color>
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
@@ -52,8 +52,8 @@
     <color name="edittext_bg_inactive">#FAFAFA</color>
     <color name="edittext_bg_active">#EBF9F3</color>
 
-    <color name="bg_button_disable">#EEEEEE</color>
-    <color name="bg_button_cancel">#EBF9F3</color>
+    <color name="bg_button_disable">#D8D8D8</color>
+    <color name="bg_button_cancel">#C0F1DB</color>
 
     <color name="bg_green_light">#EBF9F3</color>
     <color name="color_red">#F85555</color>
@@ -61,4 +61,5 @@
     <color name="bg_tab_layout_inactive">#F5F6F5</color>
     <color name="color_transparent">#00FFFFFF</color>
     <color name="color_cosplay_hint_edittext">#9B9B9B</color>
+    <color name="color_circle_border_image">#603913</color>
 </resources>

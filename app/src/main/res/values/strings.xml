@@ -6,7 +6,7 @@
     <string name="coffee_nb">Coffee NB</string>
     <string name="default_notification_channel_id">"CoffeeNB: "</string>
 
-    // Tab Menu
+<!--    Tab Menu-->
     <string name="home">Menu</string>
     <string name="cart">Giỏ hàng</string>
     <string name="feedback">Phản hồi</string>
@@ -15,17 +15,17 @@
     <string name="order">Đơn hàng</string>
     <string name="category">Danh mục</string>
 
-    // action
+<!--    action-->
     <string name="action_ok">Đồng ý</string>
     <string name="action_cancel">Hủy bỏ</string>
     <string name="action_back">Trở về</string>
     <string name="action_add">Thêm</string>
     <string name="action_edit">Chỉnh sửa</string>
 
-    // dialog
+<!--    dialog-->
     <string name="waiting_message">Vui lòng đợi…</string>
 
-    // msg
+<!--    msg-->
     <string name="error_not_connect_to_internet">Vui lòng kiểm tra kết nối mạng của bạn</string>
     <string name="msg_exit_app">Bạn có muốn thoát ứng dụng?</string>
 
@@ -41,6 +41,7 @@
     <string name="name_require">Vui lòng nhập Họ và Tên</string>
     <string name="comment_require">Vui lòng nhập phản hồi của bạn</string>
     <string name="order_cart">Đặt hàng</string>
+    <string name="cancel_order">Hủy đơn</string>
     <string name="total">Tổng Tiền:</string>
     <string name="delete">Xóa</string>
     <string name="confirm_delete_food">Xác nhận xóa khỏi giỏ hàng</string>
@@ -110,6 +111,7 @@
     <string name="reset_your_password">Đặt lại mật khẩu của bạn</string>
     <string name="forgot_password_guide">Vui lòng nhập địa chỉ email của bạn. Chúng tôi sẽ gửi hướng dẫn đặt lại mật khẩu cho bạn qua email.</string>
     <string name="admin">Quản trị viên</string>
+    <string name="driver">Tài xế</string>
     <string name="user">Người dùng</string>
     <string name="have_account">Đã có tài khoản?</string>
     <string name="have_not_account">Chưa có tài khoản?</string>
@@ -181,8 +183,12 @@
     <string name="msg_email_invalid">Định dạng Email dành cho Admin không hợp lệ, vui lòng nhập lại</string>
     <!--    <string name="msg_email_invalid_admin">Email dành cho quản trị viên cần có định dạng …@admin.com</string>-->
     <string name="msg_email_invalid_admin">Email dành cho quản trị viên sai định dạng!</string>
-    <string name="msg_email_invalid_user">Email sai định dạng dành cho người dùng</string>
+    <string name="msg_email_invalid_driver">Email dành cho tài xế sai định dạng!</string>
+    <string name="msg_email_invalid_user">Email dành cho người dùng sai định dạng!</string>
+    <string name="msg_sign_up_success">Đăng ký thành công</string>
+    <string name="msg_sign_up_admin_first_sc">Đăng nhập tài khoản admin lần đầu thành công</string>
     <string name="msg_sign_up_error">Đăng ký không thành công, vui lòng thử lại</string>
+    <string name="msg_sign_up_email_exist">Email đã tồn tại, vui lòng đăng ký với email khác</string>
     <string name="msg_sign_in_error">Đăng nhập không thành công, vui lòng thử lại</string>
 
     <string name="msg_name_food_require">Vui lòng nhập tên món</string>
@@ -204,9 +210,12 @@
     <string name="msg_cancel_title">Xác nhận hủy đơn hàng</string>
     <string name="msg_confirm_cancel">Bạn có chắc chắn muốn hủy đơn hàng này không?</string>
     <string name="msg_cancel_order_successfully">Hủy đơn hàng thành công!</string>
+    <string name="msg_send_delivery_order_successfully">Gửi đơn hàng cho bên vận chuyển thành công!</string>
+    <string name="msg_accept_order_successfully">Chấp nhận đơn hàng thành công!</string>
     <string name="msg_refuse_title">Xác nhận từ chối đơn hàng</string>
     <string name="msg_confirm_refuse">Bạn có chắc chắn muốn từ chối đơn hàng này không?</string>
     <string name="msg_refuse_order_successfully">Từ chối đơn hàng thành công!</string>
+    <string name="msg_cant_connect_server">Không thể kết nối với Server</string>
 
     <!-- digits -->
     <string name="digits_number">0123456789</string>
@@ -232,7 +241,8 @@
     <string name="str_transaction_id">Mã giao dịch</string>
     <string name="str_track_driver">Tra cứu tài xế</string>
     <string name="str_no_note">Không có ghi chú</string>
-    <string name="str_cancel_by">Người hủy đơn</string>
+    <string name="str_cancel_by_title">Người hủy đơn</string>
+    <string name="str_cancel_reason_title">Lý do hủy</string>
     <string name="str_payment_cod">COD</string>
     <string name="str_empty_data">Không có dữ liệu</string>
     <string name="str_empty_cart">Không có sản phẩm trong giỏ hàng</string>
@@ -256,5 +266,19 @@
     <string name="label_all">Tất cả</string>
     <string name="str_show_more">Nhiều hơn</string>
     <string name="str_show_less">Thu gọn</string>
+
+    <!-- User -->
+    <string name="reason_cancel_order_detail">Lý do hủy đơn hàng</string>
+    <string name="cancel_order_reason_1">Muốn thay đổi địa chỉ giao hàng</string>
+    <string name="cancel_order_reason_2">Muốn thay đổi sản phẩm trong đơn hàng (size, số lượng,…)</string>
+    <string name="cancel_order_reason_3">Đổi ý, không muốn mua nữa</string>
+    <string name="select_cancel_reason">Hãy chọn lý do hủy đơn hàng!</string>
+
+    <!-- Admin -->
+    <string name="reason_refuse_order_detail">Lý do từ chối đơn hàng</string>
+    <string name="refuse_order_reason_1">Hết hàng</string>
+    <string name="refuse_order_reason_2">Số lượng hàng không đủ</string>
+    <string name="refuse_order_reason_3">Quán quá tải</string>
+    <string name="select_refuse_reason">Hãy chọn lý do từ chối đơn hàng!</string>
 
 </resources>

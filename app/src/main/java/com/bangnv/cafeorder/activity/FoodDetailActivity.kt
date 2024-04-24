@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.adapter.MoreImageAdapter
 import com.bangnv.cafeorder.constant.Constant
-import com.bangnv.cafeorder.constant.GlobalFunction.customizeDialog
+import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.database.FoodDatabase.Companion.getInstance
 import com.bangnv.cafeorder.databinding.ActivityFoodDetailBinding
@@ -183,7 +183,7 @@ class FoodDetailActivity : BaseActivity() {
 
         // Show dialog + set Customize
         viewDialog.show()
-        customizeDialog(viewDialog)
+        GlobalFunction.customizeBottomSheetDialog(viewDialog)
     }
 
     override fun onBackPressed() {

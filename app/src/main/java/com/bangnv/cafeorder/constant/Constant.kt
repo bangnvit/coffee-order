@@ -14,6 +14,7 @@ interface Constant {
         const val TYPE_PAYMENT_COD = 1
         const val TYPE_PAYMENT_WALLET = 2
         const val ADMIN_EMAIL_FORMAT = "@admin.com"
+        const val DRIVER_EMAIL_FORMAT = "@driver.com"
 
         const val NEXT = "IME_ACTION_NEXT"
         const val DONE = "IME_ACTION_DONE"
@@ -25,7 +26,10 @@ interface Constant {
         const val KEY_INTENT_ORDER_OBJECT = "order_object"
         const val KEY_INTENT_ADMIN_ORDER_OBJECT = "admin_order_object"
 
-        const val MAX_LINES = 8
+        // User Type
+        const val TYPE_USER_ADMIN = 1       // Admin
+        const val TYPE_USER_USER = 2       // User
+        const val TYPE_USER_DRIVER = 3       // Driver
 
         //    Status Code:
         const val CODE_NEW_ORDER = 30       // Chờ xác nhận
@@ -59,6 +63,7 @@ interface Constant {
 
 
         // Max Item/ 1 load
-        const val MAX_ITEM_PER_LOAD: Int = 6
+        const val MAX_ITEM_PER_LOAD_LINEAR: Int = 10
+        const val MAX_ITEM_PER_LOAD_GRID: Int = 20
     }
 }

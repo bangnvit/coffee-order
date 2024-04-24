@@ -11,7 +11,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/define_dimen_10">
 
         <TextView
             android:layout_width="match_parent"
@@ -145,5 +146,7 @@
             android:background="@drawable/bg_green_shape_corner_50"
             android:text="@string/order_cart"
             android:textColor="@color/white" />
+
     </LinearLayout>
+
 </LinearLayout>

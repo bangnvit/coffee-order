@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical"
+    android:paddingVertical="@dimen/define_dimen_16"
+    tools:ignore="Autofill,LabelFor"
+    tools:viewBindingIgnore="true">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/define_dimen_16"
+        android:layout_marginTop="@dimen/define_dimen_10"
+        android:text="@string/reason_refuse_order_detail"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_xnormal"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/rdg_refuse_reasons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/define_dimen_10"
+        android:layout_marginTop="@dimen/define_dimen_20"
+        android:layout_marginEnd="@dimen/define_dimen_16"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rdb_reason_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/refuse_order_reason_1"
+            android:textColor="@color/textColorPrimary" />
+
+        <RadioButton
+            android:id="@+id/rdb_reason_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/refuse_order_reason_2"
+            android:textColor="@color/textColorPrimary" />
+
+        <RadioButton
+            android:id="@+id/rdb_reason_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/refuse_order_reason_3"
+            android:textColor="@color/textColorPrimary" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/define_dimen_16"
+        android:layout_marginTop="@dimen/define_dimen_30"
+        android:layout_marginBottom="@dimen/define_dimen_4"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_back"
+            style="@style/MyTextViewButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/define_dimen_10"
+            android:layout_weight="1"
+            android:background="@drawable/bg_green_light_cancel_shape_corner_circle"
+            android:text="@string/action_back"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/tv_send_refuse_order"
+            style="@style/MyTextViewButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_green_shape_corner_50"
+            android:text="@string/label_refuse_order"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

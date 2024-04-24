@@ -1,6 +1,8 @@
 package com.bangnv.cafeorder.activity
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bangnv.cafeorder.R
@@ -12,7 +14,6 @@ import com.bangnv.cafeorder.fragment.ContactFragment
 import com.bangnv.cafeorder.fragment.FeedbackFragment
 import com.bangnv.cafeorder.fragment.HomeFragment
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 
 
@@ -66,6 +67,28 @@ class MainActivity : BaseActivity() {
 //        FirebaseInstallations.getInstance().id
 //            .addOnCompleteListener(OnCompleteListener<Any?>{
 //
+//            })
+
+//        FirebaseMessaging.getInstance().token
+//            .addOnSuccessListener(this) { instanceIdResult ->
+//                val newToken: String = instanceIdResult.toString()
+//                Log.e("newToken", newToken)
+//            }
+
+//        FirebaseMessaging.getInstance().token
+//            .addOnCompleteListener(OnCompleteListener<String?> { task ->
+//                if (!task.isSuccessful) {
+//                    Log.d("FCM_token failed: ", "FCM registration token failed", task.exception)
+//                    return@OnCompleteListener
+//                }
+//
+//                // Get new FCM registration token
+//                val token: String? = task.getResult()
+//
+//                // Log and toast
+//                val msg =  token
+//                Log.d("FCM_token: ", msg+"")
+//                Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
 //            })
 
     }

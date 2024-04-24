@@ -11,6 +11,8 @@ class DataStoreManager {
 
     companion object {
         private const val PREF_USER_INFOR = "PREF_USER_INFOR"
+        private const val PREF_TOKEN = "PREF_TOKEN"
+        private const val PREF_TOKEN_ID = "PREF_TOKEN_ID"
         private lateinit var instance: DataStoreManager
         fun init(context: Context?) {
             instance = DataStoreManager()
@@ -36,5 +38,28 @@ class DataStoreManager {
                 }
                 getInstance().sharedPreferences!!.putStringValue(PREF_USER_INFOR, jsonUser)
             }
+
+        @JvmStatic
+        var tokenId: Long?
+            get() {
+                return getInstance().sharedPreferences!!.getLongValue(PREF_TOKEN_ID)
+            }
+            set(tokenId) {
+                if (tokenId != null) {
+                    getInstance().sharedPreferences!!.putLongValue(PREF_TOKEN_ID, tokenId)
+                }
+            }
+
+        @JvmStatic
+        var token: String?
+            get() {
+                return getInstance().sharedPreferences!!.getStringValue(PREF_TOKEN)
+            }
+            set(token) {
+                if (token != null) {
+                    getInstance().sharedPreferences!!.putStringValue(PREF_TOKEN, token)
+                }
+            }
+
     }
 }
