@@ -13,6 +13,7 @@ import com.bangnv.cafeorder.fragment.CartFragment
 import com.bangnv.cafeorder.fragment.ContactFragment
 import com.bangnv.cafeorder.fragment.FeedbackFragment
 import com.bangnv.cafeorder.fragment.HomeFragment
+import com.bangnv.cafeorder.utils.StringUtil
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 
@@ -60,37 +61,6 @@ class MainActivity : BaseActivity() {
         }
 
 
-
-
-//        FirebaseMessaging.getInstance()
-
-//        FirebaseInstallations.getInstance().id
-//            .addOnCompleteListener(OnCompleteListener<Any?>{
-//
-//            })
-
-//        FirebaseMessaging.getInstance().token
-//            .addOnSuccessListener(this) { instanceIdResult ->
-//                val newToken: String = instanceIdResult.toString()
-//                Log.e("newToken", newToken)
-//            }
-
-//        FirebaseMessaging.getInstance().token
-//            .addOnCompleteListener(OnCompleteListener<String?> { task ->
-//                if (!task.isSuccessful) {
-//                    Log.d("FCM_token failed: ", "FCM registration token failed", task.exception)
-//                    return@OnCompleteListener
-//                }
-//
-//                // Get new FCM registration token
-//                val token: String? = task.getResult()
-//
-//                // Log and toast
-//                val msg =  token
-//                Log.d("FCM_token: ", msg+"")
-//                Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
-//            })
-
     }
 
 //    ViewPager2: No High Performance
@@ -134,11 +104,6 @@ class MainActivity : BaseActivity() {
 //            true
 //        }
 //    }
-
-    fun goToHome() {
-//        goToCart = intent.getBooleanExtra("", false)
-        mActivityMainBinding.bottomNavigation.selectedItemId = R.id.nav_home
-    }
 
     override fun onBackPressed() {
         showConfirmExitApp()

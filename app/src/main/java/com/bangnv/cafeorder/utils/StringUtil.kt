@@ -26,9 +26,10 @@ object StringUtil {
     // Replace Vietnamese to English (đ -> d,..), lowercase
     @JvmStatic
     fun normalizeEnglishText(input: String?): String {
+        if (input.isNullOrEmpty()) return ""
         val normalizedStr = Normalizer.normalize(input, Normalizer.Form.NFD)
         val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
         val withoutDiacritics = pattern.matcher(normalizedStr).replaceAll("")
-        return withoutDiacritics.replace("đ", "d").toLowerCase(Locale.getDefault())
+        return withoutDiacritics.toLowerCase(Locale.getDefault()).replace("đ", "d")
     }
 }

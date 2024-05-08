@@ -79,8 +79,11 @@ class OrderAdapter(private var mContext: Context?, private var mListOrder: Mutab
         }
         holder.mItemOrderBinding.tvId.text = order.id.toString()
         holder.mItemOrderBinding.tvDate.text = convertTimeStampToDate(order.id)
-        val strAmount: String = formatNumberWithPeriods(order.amount) + Constant.CURRENCY
-        holder.mItemOrderBinding.tvTotalAmount.text = strAmount
+        val strPayment =
+            if (order.payment == Constant.TYPE_PAYMENT_COD) Constant.PAYMENT_METHOD_COD else Constant.PAYMENT_METHOD_WALLET
+        holder.mItemOrderBinding.tvPayment.text = strPayment
+        val strTotalPrice: String = formatNumberWithPeriods(order.totalPrice) + Constant.CURRENCY
+        holder.mItemOrderBinding.tvTotalPrice.text = strTotalPrice
 
         holder.mItemOrderBinding.tvTrackDriver.setOnClickListener { mIClickOrderHistoryListener.trackDriver(order) }
         holder.mItemOrderBinding.tvCancelOrder.setOnClickListener { mIClickOrderHistoryListener.cancelOrder(order) }

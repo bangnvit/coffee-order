@@ -55,13 +55,6 @@ class CategorySearchAdapter(
             holder.mItemCategorySearchBinding.tvCategoryName.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimaryDark))
         }
 
-        // Thiết lập marginEnd cho item cuối cùng
-        val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
-        val marginEndLastItemInPx = mContext.resources.getDimensionPixelSize(R.dimen.define_dimen_16)
-        if (position == itemCount - 1) {
-            params.marginEnd = marginEndLastItemInPx
-        }
-        holder.itemView.layoutParams = params
     }
 
 

@@ -88,8 +88,11 @@ class AdminOrderAdapter(private var mContext: Context?, private var mListOrder: 
 
         holder.mItemAdminOrderBinding.tvId.text = order.id.toString()
         holder.mItemAdminOrderBinding.tvDate.text = convertTimeStampToDate(order.id)
-        val strAmount: String = formatNumberWithPeriods(order.amount) + Constant.CURRENCY
-                    holder . mItemAdminOrderBinding . tvTotalAmount . text = strAmount
+        val strPayment =
+            if (order.payment == Constant.TYPE_PAYMENT_COD) Constant.PAYMENT_METHOD_COD else Constant.PAYMENT_METHOD_WALLET
+        holder.mItemAdminOrderBinding.tvPayment.text = strPayment
+        val strTotalPrice: String = formatNumberWithPeriods(order.totalPrice) + Constant.CURRENCY
+        holder.mItemAdminOrderBinding.tvTotalPrice.text = strTotalPrice
     }
 
     override fun getItemCount(): Int {

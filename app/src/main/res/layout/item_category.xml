@@ -9,7 +9,9 @@
     android:layout_marginBottom="@dimen/define_dimen_16"
     android:background="@drawable/bg_color_white_border_divider_radius_12"
     android:orientation="vertical"
-    android:padding="@dimen/define_dimen_16">
+    android:paddingTop="@dimen/define_dimen_16"
+    android:paddingBottom="@dimen/define_dimen_10"
+    android:paddingHorizontal="@dimen/define_dimen_16">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
@@ -19,8 +21,8 @@
 
         <ImageView
             android:id="@+id/img_category"
-            android:layout_width="@dimen/define_dimen_120"
-            android:layout_height="@dimen/define_dimen_80"
+            android:layout_width="@dimen/define_dimen_100"
+            android:layout_height="@dimen/define_dimen_90"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_launcher_background" />
@@ -32,8 +34,9 @@
         style="@style/TextViewPrimaryNormal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/define_dimen_10"
+        android:layout_marginTop="@dimen/define_dimen_5"
         android:gravity="center"
-        tools:text="@string/app_name" />
+        android:textSize="@dimen/text_size_small"
+        tools:text="Frosty Đá Xay" />
 
 </LinearLayout>

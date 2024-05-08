@@ -18,7 +18,7 @@ import com.bangnv.cafeorder.activity.admin.AdminAddCategoryActivity
 import com.bangnv.cafeorder.adapter.admin.AdminCategoryAdapter
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
-import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
+import com.bangnv.cafeorder.constant.GlobalFunction.openActivity
 import com.bangnv.cafeorder.constant.GlobalFunction.setOnActionSearchListener
 import com.bangnv.cafeorder.databinding.FragmentAdminCategoryBinding
 import com.bangnv.cafeorder.listener.IOnManageCategoryListener
@@ -88,13 +88,13 @@ class AdminCategoryFragment : Fragment() {
     }
 
     private fun onClickAddCategory() {
-        startActivity(requireActivity(), AdminAddCategoryActivity::class.java)
+        openActivity(requireActivity(), AdminAddCategoryActivity::class.java)
     }
 
     private fun onClickEditCategory(category: Category?) {
         val bundle = Bundle()
         bundle.putSerializable(Constant.KEY_INTENT_CATEGORY_OBJECT, category)
-        startActivity(requireActivity(), AdminAddCategoryActivity::class.java, bundle)
+        openActivity(requireActivity(), AdminAddCategoryActivity::class.java, bundle)
     }
 
     private fun deleteCategoryItem(category: Category?) {

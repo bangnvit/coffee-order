@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -19,22 +20,12 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/define_dimen_6"
-            android:layout_toStartOf="@+id/tv_price_order"
             android:text="@string/order_detail"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_xnormal"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_price_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="@string/label_price_0"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/text_size_normal"
-            android:textStyle="bold" />
+
     </RelativeLayout>
 
     <TextView
@@ -46,28 +37,26 @@
         android:textSize="@dimen/text_size_small" />
 
     <TextView
+        style="@style/TextViewSecondarySmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/define_dimen_16"
-        android:text="@string/payment_method"
-        android:textSize="@dimen/text_size_small" />
+        android:text="@string/payment_method" />
 
-    <TextView
+    <Spinner
+        android:id="@+id/spn_payment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/define_dimen_5"
-        android:background="@drawable/bg_white_shape_border_gray_3"
-        android:padding="@dimen/define_dimen_12"
-        android:text="@string/payment_method_cod"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_small" />
+        android:background="@color/transparent"
+        android:scrollbars="none" />
 
     <TextView
+        style="@style/TextViewSecondarySmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/define_dimen_16"
-        android:text="@string/feedback_name"
-        android:textSize="@dimen/text_size_small" />
+        android:text="@string/recipient_name" />
 
     <EditText
         android:id="@+id/edt_name_order"
@@ -76,17 +65,17 @@
         android:layout_marginTop="@dimen/define_dimen_5"
         android:background="@drawable/bg_white_shape_border_gray_3"
         android:imeOptions="actionNext"
-        android:inputType="text"
+        android:inputType="textCapWords"
         android:padding="@dimen/define_dimen_12"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_small" />
 
     <TextView
+        style="@style/TextViewSecondarySmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/define_dimen_16"
-        android:text="@string/feedback_phone"
-        android:textSize="@dimen/text_size_small" />
+        android:text="@string/phone_require" />
 
     <EditText
         android:id="@+id/edt_phone_order"
@@ -101,11 +90,11 @@
         android:textSize="@dimen/text_size_small" />
 
     <TextView
+        style="@style/TextViewSecondarySmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/define_dimen_16"
-        android:text="@string/address_delivery"
-        android:textSize="@dimen/text_size_small" />
+        android:text="@string/address_delivery" />
 
     <EditText
         android:id="@+id/edt_address_order"
@@ -118,6 +107,100 @@
         android:padding="@dimen/define_dimen_12"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_small" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_sub_order_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/define_dimen_16"
+        app:layout_constraintTop_toBottomOf="@id/view4">
+
+        <TextView
+            android:id="@+id/tv_subtotal_title"
+            style="@style/TextViewSecondarySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_subtotal"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tv_sub_total"
+            style="@style/TextViewPrimarySmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/define_dimen_5"
+            android:gravity="end"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_subtotal_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_subtotal_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_subtotal_title"
+            tools:ignore="MissingConstraints"
+            tools:text="56.000 VNĐ" />
+
+
+
+        <TextView
+            android:id="@+id/tv_delivery_fee_title"
+            style="@style/TextViewSecondarySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/define_dimen_5"
+            android:text="@string/str_delivery_fee"
+            app:layout_constraintTop_toBottomOf="@+id/tv_subtotal_title"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tv_delivery_fee"
+            style="@style/TextViewPrimarySmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/define_dimen_5"
+            android:gravity="end"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_delivery_fee_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_delivery_fee_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_delivery_fee_title"
+            tools:ignore="MissingConstraints"
+            tools:text="15.000 VNĐ" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/define_dimen_5"
+            android:background="@color/secondDividerColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_delivery_fee_title"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tv_total_price_title"
+            style="@style/TextViewSecondarySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/define_dimen_5"
+            android:text="@string/str_total_fee"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tv_total_price"
+            style="@style/TextViewAppPrimarySmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/define_dimen_5"
+            android:gravity="end"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_total_price_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_total_price_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_total_price_title"
+            tools:ignore="MissingConstraints"
+            tools:text="71.000 VNĐ" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.bangnv.cafeorder.activity.admin.AdminReportListActivity
 import com.bangnv.cafeorder.activity.auth.ChangePasswordActivity
 import com.bangnv.cafeorder.activity.auth.SignInActivity
-import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
+import com.bangnv.cafeorder.constant.GlobalFunction.openActivity
 import com.bangnv.cafeorder.databinding.FragmentAdminAccountBinding
 import com.bangnv.cafeorder.prefs.DataStoreManager
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
@@ -33,11 +33,11 @@ class AdminAccountFragment : Fragment() {
     }
 
     private fun onClickReport() {
-        startActivity(requireActivity(), AdminReportListActivity::class.java)
+        openActivity(requireActivity(), AdminReportListActivity::class.java)
     }
 
     private fun onClickChangePassword() {
-        startActivity(requireActivity(), ChangePasswordActivity::class.java)
+        openActivity(requireActivity(), ChangePasswordActivity::class.java)
     }
 
     private fun onClickSignOut() {
@@ -48,7 +48,7 @@ class AdminAccountFragment : Fragment() {
         deleteFcmTokenOnRTDB()
         user = null
 
-        startActivity(requireContext(), SignInActivity::class.java)
+        openActivity(requireContext(), SignInActivity::class.java)
         requireActivity().finishAffinity()
     }
 

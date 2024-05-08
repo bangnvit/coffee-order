@@ -30,9 +30,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    app:aspectRatio="0.7"
+                    app:aspectRatio="0.86"
                     app:aspectRatioEnabled="true"
                     app:dominantMeasurement="Width" />
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/image_food"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/define_dimen_280"-->
+<!--                    android:scaleType="centerCrop"/>-->
 
                 <TextView
                     android:id="@+id/tv_sale_off"
@@ -40,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/define_dimen_10"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/bg_reduce_border_left_radius_8"
                     android:padding="@dimen/define_dimen_6"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_xsmall"
@@ -151,8 +157,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/define_dimen_16"
-                android:layout_marginTop="@dimen/define_dimen_20"
-                android:layout_marginBottom="@dimen/define_dimen_20"
+                android:layout_marginTop="@dimen/define_dimen_10"
+                android:layout_marginBottom="@dimen/define_dimen_16"
                 android:background="@drawable/bg_green_main_shape_corner_circle"
                 android:text="@string/add_to_cart"
                 android:textColor="@color/white" />
@@ -163,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/define_dimen_16"
-                android:layout_marginBottom="@dimen/define_dimen_20"
+                android:layout_marginBottom="@dimen/define_dimen_16"
                 android:background="@drawable/bg_green_main_shape_corner_circle"
                 android:text="@string/add_go_cart"
                 android:textColor="@color/white" />

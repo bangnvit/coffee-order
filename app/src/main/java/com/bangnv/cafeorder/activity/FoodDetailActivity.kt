@@ -9,6 +9,7 @@ import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bangnv.cafeorder.R
@@ -179,6 +180,11 @@ class FoodDetailActivity : BaseActivity() {
             viewDialog.dismiss()
             setStatusButtonAddToCart()
             EventBus.getDefault().post(ReloadListCartEvent())
+            Toast.makeText(
+                this@FoodDetailActivity,
+                getString(R.string.add_to_cart_success),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         // Show dialog + set Customize

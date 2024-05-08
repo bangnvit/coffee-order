@@ -12,6 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:textSize="@dimen/text_size_xsmall"
+        android:textSize="@dimen/text_size_small"
         android:textColor="@color/textColorPrimary" />
 </LinearLayout>

@@ -54,7 +54,7 @@
 
                 <TextView
                     android:id="@+id/textview1"
-                    style="@style/TextViewSecondaryNormal"
+                    style="@style/TextViewPrimaryNormal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/define_dimen_16"
@@ -97,7 +97,7 @@
 
                         <TextView
                             android:id="@+id/tv_address"
-                            style="@style/TextViewSecondarySmall"
+                            style="@style/TextViewPrimarySmall"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/define_dimen_12"
@@ -199,6 +199,7 @@
                 android:layout_margin="@dimen/define_dimen_16"
                 android:background="@drawable/bg_color_white_border_divider_radius_12"
                 android:padding="@dimen/define_dimen_16"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/layout_order_detail"
                 tools:ignore="MissingConstraints">
 
@@ -298,7 +299,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_subtotal"
+                        android:id="@+id/tv_sub_total"
                         style="@style/TextViewPrimarySmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -308,7 +309,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tv_subtotal_title"
                         app:layout_constraintTop_toTopOf="@+id/tv_subtotal_title"
-                        tools:text="56 000 VNĐ" />
+                        tools:text="56.000 VNĐ" />
 
                     <TextView
                         android:id="@+id/tv_service_fee_title"
@@ -317,6 +318,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/define_dimen_12"
                         android:text="@string/str_service_fee"
+                        android:visibility="gone"
                         app:layout_constraintTop_toBottomOf="@+id/tv_subtotal_title" />
 
                     <TextView
@@ -326,11 +328,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/define_dimen_5"
                         android:gravity="end"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_service_fee_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tv_service_fee_title"
                         app:layout_constraintTop_toTopOf="@+id/tv_service_fee_title"
-                        tools:text="3 000 VNĐ" />
+                        tools:text="3.000 VNĐ" />
 
                     <TextView
                         android:id="@+id/tv_delivery_fee_title"
@@ -352,10 +355,10 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tv_delivery_fee_title"
                         app:layout_constraintTop_toTopOf="@+id/tv_delivery_fee_title"
-                        tools:text="15 000 VNĐ" />
+                        tools:text="15.000 VNĐ" />
 
                     <View
-                        android:id="@+id/view5"
+                        android:id="@+id/view"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/define_dimen_16"
@@ -367,26 +370,26 @@
                         tools:ignore="MissingConstraints" />
 
                     <TextView
-                        android:id="@+id/tv_total_fee_title"
+                        android:id="@+id/tv_total_price_title"
                         style="@style/TextViewSecondarySmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/define_dimen_16"
                         android:text="@string/str_total_fee"
-                        app:layout_constraintTop_toBottomOf="@+id/view5" />
+                        app:layout_constraintTop_toBottomOf="@+id/view" />
 
                     <TextView
-                        android:id="@+id/tv_total_fee"
-                        style="@style/TextViewPrimarySmall"
+                        android:id="@+id/tv_total_price"
+                        style="@style/TextViewAppPrimarySmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/define_dimen_5"
                         android:gravity="end"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_total_fee_title"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_total_price_title"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/tv_total_fee_title"
-                        app:layout_constraintTop_toTopOf="@+id/tv_total_fee_title"
-                        tools:text="74 000 VNĐ" />
+                        app:layout_constraintStart_toEndOf="@+id/tv_total_price_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_total_price_title"
+                        tools:text="71.000 VNĐ" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -432,7 +435,7 @@
                     app:layout_constraintTop_toBottomOf="@id/view6">
 
                     <TextView
-                        android:id="@+id/tv_amount_title"
+                        android:id="@+id/tv_total_price2_title"
                         style="@style/TextViewSecondarySmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -440,16 +443,16 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_amount"
+                        android:id="@+id/tv_total_price2"
                         style="@style/TextViewPrimarySmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/define_dimen_5"
                         android:gravity="end"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_amount_title"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_total_price2_title"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/tv_amount_title"
-                        app:layout_constraintTop_toTopOf="@+id/tv_amount_title"
+                        app:layout_constraintStart_toEndOf="@+id/tv_total_price2_title"
+                        app:layout_constraintTop_toTopOf="@+id/tv_total_price2_title"
                         tools:text="74 000 VNĐ" />
 
                     <TextView
@@ -459,11 +462,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/define_dimen_12"
                         android:text="@string/payment_method"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_amount" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_total_price2" />
 
                     <TextView
                         android:id="@+id/tv_payment_method"
-                        style="@style/TextViewPrimarySmall"
+                        style="@style/TextViewAppPrimarySmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/define_dimen_5"
@@ -493,8 +496,8 @@
                         android:paddingHorizontal="@dimen/define_dimen_10"
                         android:paddingVertical="@dimen/define_dimen_5"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
                         android:textSize="@dimen/text_size_xsmall"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_status_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
@@ -559,7 +562,6 @@
                         android:id="@+id/layout_copy_order_id"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/define_dimen_5"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_order_id_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tv_order_id_title"
@@ -587,57 +589,65 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/tv_transition_id_title"
-                        style="@style/TextViewSecondarySmall"
-                        android:layout_width="wrap_content"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_sub_transaction"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/define_dimen_12"
-                        android:text="@string/str_transaction_id"
-                        android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_order_id_title" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_copy_transition_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_transition_id_title"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/tv_transition_id_title"
-                        app:layout_constraintTop_toTopOf="@+id/tv_transition_id_title">
+                        app:layout_constraintTop_toBottomOf="@+id/tv_order_id_title">
 
                         <TextView
-                            android:id="@+id/tv_transition_id"
-                            style="@style/TextViewPrimarySmall"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:gravity="end"
-                            android:padding="@dimen/define_dimen_4"
-                            app:layout_constraintEnd_toStartOf="@+id/img_copy_transition_id"
-                            app:layout_constraintStart_toStartOf="parent"
-                            tools:layout_editor_absoluteY="0dp"
-                            tools:text="1711504446745" />
+                            android:id="@+id/tv_transaction_id_title"
+                            style="@style/TextViewSecondarySmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/define_dimen_12"
+                            android:text="@string/str_transaction_id" />
 
-                        <ImageView
-                            android:id="@+id/img_copy_transition_id"
-                            android:layout_width="@dimen/define_dimen_18"
-                            android:layout_height="@dimen/define_dimen_18"
-                            android:src="@drawable/ic_copy"
-                            app:layout_constraintBottom_toBottomOf="@+id/tv_transition_id"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/layout_copy_transaction_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_transaction_id_title"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/tv_transition_id"
-                            app:layout_constraintTop_toTopOf="@+id/tv_transition_id" />
+                            app:layout_constraintStart_toEndOf="@+id/tv_transaction_id_title"
+                            app:layout_constraintTop_toTopOf="@+id/tv_transaction_id_title">
+
+                            <TextView
+                                android:id="@+id/tv_transaction_id"
+                                style="@style/TextViewPrimarySmall"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:gravity="end"
+                                android:layout_marginStart="@dimen/define_dimen_5"
+                                android:padding="@dimen/define_dimen_4"
+                                app:layout_constraintEnd_toStartOf="@+id/img_copy_transaction_id"
+                                app:layout_constraintStart_toStartOf="parent"
+                                tools:layout_editor_absoluteY="0dp"
+                                tools:text="1711504446745" />
+
+                            <ImageView
+                                android:id="@+id/img_copy_transaction_id"
+                                android:layout_width="@dimen/define_dimen_18"
+                                android:layout_height="@dimen/define_dimen_18"
+                                android:src="@drawable/ic_copy"
+                                app:layout_constraintBottom_toBottomOf="@+id/tv_transaction_id"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/tv_transaction_id"
+                                app:layout_constraintTop_toTopOf="@+id/tv_transaction_id" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_cancel_by"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/define_dimen_12"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_transition_id_title">
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/layout_sub_transaction">
 
                         <TextView
                             android:id="@+id/tv_cancel_by_title"
@@ -649,7 +659,6 @@
 
                         <TextView
                             android:id="@+id/tv_cancel_by"
-                            android:layout_marginStart="@dimen/define_dimen_5"
                             style="@style/TextViewPrimarySmall"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -689,7 +698,6 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -700,7 +708,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/define_dimen_16"
-                android:layout_marginTop="@dimen/define_dimen_20"
+                android:layout_marginTop="@dimen/define_dimen_10"
                 android:layout_marginBottom="@dimen/define_dimen_20"
                 android:background="@drawable/bg_green_main_shape_corner_circle"
                 android:text="@string/str_track_driver"
@@ -716,7 +724,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/define_dimen_16"
-                android:layout_marginTop="@dimen/define_dimen_20"
+                android:layout_marginTop="@dimen/define_dimen_10"
                 android:layout_marginBottom="@dimen/define_dimen_20"
                 android:background="@drawable/bg_green_main_shape_corner_circle"
                 android:text="@string/label_cancel_order"

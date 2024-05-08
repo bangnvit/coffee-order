@@ -88,6 +88,9 @@ class OrderHistoryDetailActivity : BaseActivity() {
                             mOrder.foods = snapshot.child("foods").getValue(String::class.java)
                             mOrder.payment = (snapshot.child("payment").getValue(Int::class.java) ?: 0)
                             mOrder.note = snapshot.child("note").getValue(String::class.java)
+                            mOrder.deliveryFee = (snapshot.child("deliveryFee").getValue(Long::class.java) ?: 0).toInt()
+                            mOrder.totalPrice = (snapshot.child("totalPrice").getValue(Long::class.java) ?: 0).toInt()
+                            mOrder.transaction = snapshot.child("transaction").getValue(String::class.java) ?: ""
                             setOrderDetail()
                         }
                     }
@@ -153,8 +156,19 @@ class OrderHistoryDetailActivity : BaseActivity() {
         mActivityOrderHistoryDetailBinding.tvTime.text =
             convertTimeStampToDate_3(mOrder.id)
         mActivityOrderHistoryDetailBinding.tvOrderId.text = mOrder.id.toString()
+
         val strAmount: String = formatNumberWithPeriods(mOrder.amount) + Constant.CURRENCY
-        mActivityOrderHistoryDetailBinding.tvSubtotal.text = strAmount
+        mActivityOrderHistoryDetailBinding.tvSubTotal.text = strAmount
+        val strDeliveryFee: String = formatNumberWithPeriods(mOrder.deliveryFee) + Constant.CURRENCY
+        mActivityOrderHistoryDetailBinding.tvDeliveryFee.text = strDeliveryFee
+        val strTotalPrice: String = formatNumberWithPeriods(mOrder.totalPrice) + Constant.CURRENCY
+        mActivityOrderHistoryDetailBinding.tvTotalPrice.text = strTotalPrice
+        mActivityOrderHistoryDetailBinding.tvTotalPrice2.text = strTotalPrice
+
+        if(!mOrder.transaction.isNullOrEmpty()) {
+            mActivityOrderHistoryDetailBinding.layoutSubTransaction.visibility = View.VISIBLE
+            mActivityOrderHistoryDetailBinding.tvTransactionId.text = mOrder.transaction
+        }
 
         checkStatusListener()
     }
@@ -216,7 +230,7 @@ class OrderHistoryDetailActivity : BaseActivity() {
     private fun handleTrackDriver(order: Order) {
         Toast.makeText(
             this,
-            "id: " + order.id + " - Hãy làm cái function Track Driver sau khi thêm module ship :v",
+            "id: " + order.id + " - Tính năng đang phát triển",
             Toast.LENGTH_SHORT
         ).show()
     }
@@ -256,7 +270,7 @@ class OrderHistoryDetailActivity : BaseActivity() {
                 val selectedReason = selectedRadioButton.text.toString()
 
                 // Realtime Database Firebase
-                sendDataCanceledOrderToRTDB(order, selectedReason)
+                sendDataCancelOrderToRTDB(order, selectedReason)
                 // API Server control notification
                 sendNotiCancelOrderToAdmins(order, selectedReason)
             } else {
@@ -271,14 +285,17 @@ class OrderHistoryDetailActivity : BaseActivity() {
         GlobalFunction.customizeBottomSheetDialog(viewDialog)
     }
 
-    private fun sendDataCanceledOrderToRTDB(order: Order, selectedReason: String) {
+    private fun sendDataCancelOrderToRTDB(order: Order, selectedReason: String) {
+        val updates = HashMap<String, Any>()
+        updates["status"] = Constant.CODE_CANCELLED
+        updates["cancel_by"] = order.email.toString()
+        updates["cancel_reason"] = selectedReason
+
         ControllerApplication[this].bookingDatabaseReference
-            .child(order.id.toString()).child("status").setValue(Constant.CODE_CANCELLED)
-        ControllerApplication[this].bookingDatabaseReference
-            .child(order.id.toString()).child("cancel_by").setValue(order.email)
-        ControllerApplication[this].bookingDatabaseReference
-            .child(order.id.toString()).child("cancel_reason").setValue(selectedReason)
+            .child(order.id.toString())
+            .updateChildren(updates)
     }
+
 
     private fun sendNotiCancelOrderToAdmins(order: Order, selectedReason: String) {
         showProgressDialog(true)
@@ -315,8 +332,8 @@ class OrderHistoryDetailActivity : BaseActivity() {
             mActivityOrderHistoryDetailBinding.tvOrderId,
             this
         )
-        mActivityOrderHistoryDetailBinding.layoutCopyTransitionId.setOnClickCopyTextToClipboard(
-            mActivityOrderHistoryDetailBinding.tvTransitionId,
+        mActivityOrderHistoryDetailBinding.layoutCopyTransactionId.setOnClickCopyTextToClipboard(
+            mActivityOrderHistoryDetailBinding.tvTransactionId,
             this
         )
     }
