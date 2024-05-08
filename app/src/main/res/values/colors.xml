@@ -26,6 +26,7 @@
     <color name="tran_parent">#66000000</color>
     <color name="yellow">#FF9800</color>
     <color name="blue">#2196F3</color>
+    <color name="light_green">#00FFCC</color>
 
     <color name="background_text_input">#FAFAFA</color>
 

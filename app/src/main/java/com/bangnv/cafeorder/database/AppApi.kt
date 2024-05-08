@@ -33,6 +33,9 @@ interface AppApi {
 
     @POST("/api/order_send") // for admin
     fun postSendDeliveryOrder(@Body orderRequest: OrderRequest): Call<Unit>
+
+    @POST("/api/order_complete") // expect driver, but now admin is using
+    fun postCompleteOrder(@Body orderRequest: OrderRequest): Call<Unit>
 }
 
 interface MoMoApi {

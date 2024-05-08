@@ -132,8 +132,8 @@ class AdminReportListActivity : AppCompatActivity() {
             return 0
         }
         var total = 0
-        for (order in list) {
-            total += order.amount
+        for (order: Order in list) {
+            total += order.totalPrice
         }
         return total
     }

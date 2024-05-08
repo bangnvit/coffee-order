@@ -9,10 +9,10 @@
 
     <RelativeLayout
         android:id="@+id/layout_toolbar"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/colorPrimary"
+        android:visibility="gone"
         tools:ignore="ContentDescription">
 
         <TextView
@@ -89,8 +89,8 @@
         android:id="@+id/rcv_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/define_dimen_16"
         android:layout_below="@+id/tv_category_title"
+        android:layout_marginStart="@dimen/define_dimen_16"
         android:layout_marginTop="@dimen/define_dimen_10"
         android:overScrollMode="never" />
 
