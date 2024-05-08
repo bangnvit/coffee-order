@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,8 +25,7 @@ import com.bangnv.cafeorder.adapter.admin.AdminOrderAdapter.IClickAdminOrderList
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.addMyTabs
-import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
-import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
+import com.bangnv.cafeorder.constant.GlobalFunction.openActivity
 import com.bangnv.cafeorder.database.AppApi
 import com.bangnv.cafeorder.databinding.FragmentAdminOrderBinding
 import com.bangnv.cafeorder.model.Order
@@ -113,7 +111,9 @@ class AdminOrderFragment : Fragment() {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                     val order = dataSnapshot.getValue(Order::class.java) ?: return
-                    mListOrder.add(0, order)
+                    if(order.status != 1){
+                        mListOrder.add(0, order)
+                    }
                     mAdminOrderAdapter.notifyDataSetChanged()
                     updateDisplayedOrders()
                 }
@@ -256,13 +256,14 @@ class AdminOrderFragment : Fragment() {
 
     private fun sendDataRefuseOrderToRTDB(order: Order, selectedReason: String) {
         // user click cancel => status : CODE_CANCELLED, create and set value for "cancel_by" of this order on Firebase
+        val updates = HashMap<String, Any>()
+        updates["status"] = Constant.CODE_CANCELLED
+        updates["cancel_by"] = order.email.toString()
+        updates["cancel_reason"] = selectedReason
+
         ControllerApplication[requireContext()].bookingDatabaseReference
-            .child(order.id.toString()).child("status").setValue(Constant.CODE_CANCELLED)
-        // Get Email of admin refused this order. user from DataStoreManager/Companion
-        ControllerApplication[requireContext()].bookingDatabaseReference
-            .child(order.id.toString()).child("cancel_by").setValue(user!!.email)
-        ControllerApplication[requireContext()].bookingDatabaseReference
-            .child(order.id.toString()).child("cancel_reason").setValue(selectedReason)
+            .child(order.id.toString())
+            .updateChildren(updates)
     }
 
     //Multi devices is available
@@ -390,7 +391,7 @@ class AdminOrderFragment : Fragment() {
     private fun goToAdminOrderDetail(id: Long) {
         val bundle = Bundle()
         bundle.putSerializable(Constant.KEY_INTENT_ADMIN_ORDER_OBJECT, id)
-        startActivity(requireContext(), AdminOrderDetailActivity::class.java, bundle)
+        openActivity(requireContext(), AdminOrderDetailActivity::class.java, bundle)
     }
 
     override fun onDestroyView() {

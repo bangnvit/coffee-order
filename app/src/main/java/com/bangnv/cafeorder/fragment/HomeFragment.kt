@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.bangnv.cafeorder.ControllerApplication
 import com.bangnv.cafeorder.activity.CategoryActivity
+import com.bangnv.cafeorder.activity.OrderHistoryDetailActivity
 import com.bangnv.cafeorder.activity.SearchActivity
 import com.bangnv.cafeorder.adapter.CategoryAdapter
 import com.bangnv.cafeorder.adapter.FoodGridAdapter
@@ -21,7 +22,7 @@ import com.bangnv.cafeorder.adapter.FoodPopularAdapter
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.showToastMessage
-import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
+import com.bangnv.cafeorder.constant.GlobalFunction.openActivity
 import com.bangnv.cafeorder.databinding.FragmentHomeBinding
 import com.bangnv.cafeorder.listener.IOnClickFoodItemListener
 import com.bangnv.cafeorder.model.Category
@@ -100,7 +101,7 @@ class HomeFragment : Fragment() {
                 for (dataSnapshot in snapshot.children) {
                     val category = dataSnapshot.getValue(Category::class.java)
                     if (category != null) {
-                        mListCategory.add(0, category)
+                        mListCategory.add(category)
                     }
                 }
                 displayListCategories()
@@ -121,7 +122,7 @@ class HomeFragment : Fragment() {
             override fun clickItemCategory(category: Category?) {
                 val bundle = Bundle()
                 bundle.putSerializable(Constant.KEY_INTENT_CATEGORY_OBJECT, category)
-                startActivity(requireActivity(), CategoryActivity::class.java, bundle)
+                openActivity(requireActivity(), CategoryActivity::class.java, bundle)
             }
         })
         mFragmentHomeBinding.rcvCategory.adapter = categoryAdapter
@@ -208,7 +209,9 @@ class HomeFragment : Fragment() {
 
     private fun initListener() {
         mFragmentHomeBinding.layoutSearch.setOnClickListener {
-            startActivity(requireContext(), SearchActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable(Constant.KEY_INTENT_FROM_HOME, "from_home")
+            openActivity(requireContext(), SearchActivity::class.java, bundle)
         }
     }
 

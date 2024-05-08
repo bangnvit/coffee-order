@@ -37,7 +37,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/define_dimen_10">
+        android:layout_marginTop="@dimen/define_dimen_5">
 
         <TextView
             android:id="@+id/label_date"
@@ -57,16 +57,40 @@
             android:textSize="@dimen/text_size_small" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/define_dimen_5">
+
+        <TextView
+            android:id="@+id/label_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_payment"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:id="@+id/tv_payment"
+            style="@style/TextViewAppPrimarySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/define_dimen_5"
+            android:layout_toEndOf="@+id/label_payment"
+            android:gravity="end" />
+
+    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/define_dimen_10"
+        android:layout_marginTop="@dimen/define_dimen_8"
         android:background="@color/secondDividerColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/define_dimen_10">
+        android:layout_marginTop="@dimen/define_dimen_8">
 
         <TextView
             android:id="@+id/label_total_amount"
@@ -79,7 +103,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_total_amount"
+            android:id="@+id/tv_total_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -134,7 +158,7 @@
             style="@style/MyTextViewButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/define_dimen_20"
+            android:layout_marginTop="@dimen/define_dimen_10"
             android:layout_marginEnd="@dimen/define_dimen_10"
             android:layout_weight="1"
             android:background="@drawable/bg_green_light_cancel_shape_corner_circle"
@@ -147,7 +171,7 @@
             style="@style/MyTextViewButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/define_dimen_20"
+            android:layout_marginTop="@dimen/define_dimen_10"
             android:layout_weight="1"
             android:background="@drawable/bg_green_shape_corner_50"
             android:text="@string/label_accept_order"
@@ -159,7 +183,7 @@
         style="@style/MyTextViewButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/define_dimen_20"
+        android:layout_marginTop="@dimen/define_dimen_10"
         android:background="@drawable/bg_green_main_shape_corner_circle"
         android:text="@string/label_send_order"
         android:textColor="@color/white"

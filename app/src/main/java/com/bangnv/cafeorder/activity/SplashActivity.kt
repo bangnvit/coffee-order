@@ -7,8 +7,9 @@ import android.os.Looper
 import android.widget.Toast
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.auth.SignInActivity
+import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.gotoMainActivity
-import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
+import com.bangnv.cafeorder.constant.GlobalFunction.openActivity
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.utils.StringUtil.isEmpty
 import com.google.firebase.auth.FirebaseAuth
@@ -22,6 +23,11 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        // Wakeup Server (free server will sleep after 15 minutes inactive)
+        GlobalFunction.connectToServerOnRender()
+        // log: connectToServerOnRender - Title of log in GlobalFunction.connectToServerOnRender()
+
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({ goToNextActivity() }, 1500)
     }
@@ -34,11 +40,12 @@ class SplashActivity : BaseActivity() {
             gotoMainActivity(this)
             finish()
         } else {
-            startActivity(this, SignInActivity::class.java)
+            openActivity(this, SignInActivity::class.java)
             finish()
         }
     }
 
+    // Không cần nữa
     private fun checkUserFirebase() {
 
         auth = FirebaseAuth.getInstance()
@@ -60,20 +67,20 @@ class SplashActivity : BaseActivity() {
                         } else {
                             // Người dùng không còn tồn tại, chuyển tới LoginActivity
                             Toast.makeText(this@SplashActivity,"currentUser 3: " + auth.currentUser?.email, Toast.LENGTH_SHORT).show()
-                            startActivity(this@SplashActivity, SignInActivity::class.java)
+                            openActivity(this@SplashActivity, SignInActivity::class.java)
                             finish()
                         }
                     } else {
                         // Đăng nhập không thành công
                         Toast.makeText(this@SplashActivity,"currentUser 4: " + auth.currentUser?.email, Toast.LENGTH_SHORT).show()
-                        startActivity(this@SplashActivity, SignInActivity::class.java)
+                        openActivity(this@SplashActivity, SignInActivity::class.java)
                         finish()
                     }
                 }
             } else {
                 // Người dùng chưa đăng nhập, chuyển tới LoginActivity
                 Toast.makeText(this@SplashActivity,"currentUser 5: " + auth.currentUser?.email, Toast.LENGTH_SHORT).show()
-                startActivity(this@SplashActivity, SignInActivity::class.java)
+                openActivity(this@SplashActivity, SignInActivity::class.java)
                 finish()
             }
         }

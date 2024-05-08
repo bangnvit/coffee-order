@@ -44,7 +44,7 @@
                 android:background="@null"
                 android:hint="@string/hint_name"
                 android:imeOptions="actionNext"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:paddingStart="@dimen/define_dimen_16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/img_clear_name"

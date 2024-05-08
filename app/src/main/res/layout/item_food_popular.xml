@@ -12,21 +12,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.bangnv.cafeorder.widget.AspectRatioNoRadiusImageView
+<!--        <com.bangnv.cafeorder.widget.AspectRatioNoRadiusImageView-->
+<!--            android:id="@+id/image_food"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            app:aspectRatio="0.56"-->
+<!--            app:aspectRatioEnabled="true"-->
+<!--            app:dominantMeasurement="Width" />-->
+
+        <ImageView
             android:id="@+id/image_food"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:aspectRatio="0.56"
-            app:aspectRatioEnabled="true"
-            app:dominantMeasurement="Width" />
+            android:layout_height="@dimen/define_dimen_220"
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/tv_sale_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_gravity="bottom"
             android:layout_marginTop="@dimen/define_dimen_10"
             android:background="@drawable/bg_reduce_border_left_radius_8"
             android:padding="@dimen/define_dimen_6"

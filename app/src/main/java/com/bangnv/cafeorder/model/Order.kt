@@ -17,6 +17,9 @@ class Order : Serializable {
 
     var cancelBy: String? = null
     var cancelReason: String? = null
+    var deliveryFee = 0
+    var totalPrice = 0
+    var transaction: String? = null
 
     // Nếu có thời gian (thay cho foods đang là string), sẽ phải sửa lại nhiều, mất nhiều thời gian (lin quan rất nhiều chỗ)
 //    var orderItems: List<OrderItem>? = null
@@ -40,7 +43,7 @@ class Order : Serializable {
 
     constructor(
         id: Long, name: String?, email: String?, phone: String?,
-        address: String?, amount: Int, foods: String?, payment: Int, note: String?, status: Int
+        address: String?, amount: Int, foods: String?, payment: Int, note: String?, status: Int,  deliveryFee: Int,  totalPrice: Int
     ) {
         this.id = id
         this.name = name
@@ -52,5 +55,7 @@ class Order : Serializable {
         this.payment = payment
         this.note = note
         this.status = status
+        this.deliveryFee = deliveryFee
+        this.totalPrice = totalPrice
     }
 }

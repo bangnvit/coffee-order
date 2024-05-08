@@ -3,7 +3,6 @@ package com.bangnv.cafeorder.activity.admin
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -17,13 +16,13 @@ import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.BaseActivity
 import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
+import com.bangnv.cafeorder.constant.GlobalFunction.formatNumberWithPeriods
 import com.bangnv.cafeorder.constant.GlobalFunction.setOnClickCopyTextToClipboard
 import com.bangnv.cafeorder.database.AppApi
 import com.bangnv.cafeorder.databinding.ActivityAdminOrderDetailBinding
 import com.bangnv.cafeorder.model.Order
 import com.bangnv.cafeorder.model.baseresponse.RetrofitClients
 import com.bangnv.cafeorder.model.request.OrderRequest
-import com.bangnv.cafeorder.prefs.DataStoreManager
 import com.bangnv.cafeorder.utils.DateTimeUtils
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +30,7 @@ import com.google.firebase.database.ValueEventListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.HashMap
 import kotlin.properties.Delegates
 
 class AdminOrderDetailActivity : BaseActivity() {
@@ -87,6 +87,10 @@ class AdminOrderDetailActivity : BaseActivity() {
                             mOrder.foods = snapshot.child("foods").getValue(String::class.java)
                             mOrder.payment = (snapshot.child("payment").getValue(Int::class.java) ?: 0)
                             mOrder.note = snapshot.child("note").getValue(String::class.java)
+                            mOrder.deliveryFee = (snapshot.child("deliveryFee").getValue(Long::class.java) ?: 0).toInt()
+                            mOrder.totalPrice = (snapshot.child("totalPrice").getValue(Long::class.java) ?: 0).toInt()
+                            mOrder.transaction = snapshot.child("transaction").getValue(String::class.java) ?: ""
+
                             setOrderDetail()
                         }
                     }
@@ -150,8 +154,18 @@ class AdminOrderDetailActivity : BaseActivity() {
         mActivityAdminOrderDetailBinding.tvTime.text =
             DateTimeUtils.convertTimeStampToDate_3(mOrder.id)
         mActivityAdminOrderDetailBinding.tvOrderId.text = mOrder.id.toString()
-        val strAmount: String = GlobalFunction.formatNumberWithPeriods(mOrder.amount) + Constant.CURRENCY
-        mActivityAdminOrderDetailBinding.tvSubtotal.text = strAmount
+        val strAmount: String = formatNumberWithPeriods(mOrder.amount) + Constant.CURRENCY
+        mActivityAdminOrderDetailBinding.tvSubTotal.text = strAmount
+        val strDeliveryFee: String = formatNumberWithPeriods(mOrder.deliveryFee) + Constant.CURRENCY
+        mActivityAdminOrderDetailBinding.tvDeliveryFee.text = strDeliveryFee
+        val strTotalPrice: String = formatNumberWithPeriods(mOrder.totalPrice) + Constant.CURRENCY
+        mActivityAdminOrderDetailBinding.tvTotalPrice.text = strTotalPrice
+        mActivityAdminOrderDetailBinding.tvTotalPrice2.text = strTotalPrice
+
+        if(!mOrder.transaction.isNullOrEmpty()) {
+            mActivityAdminOrderDetailBinding.layoutSubTransaction.visibility = View.VISIBLE
+            mActivityAdminOrderDetailBinding.tvTransactionId.text = mOrder.transaction
+        }
 
         checkStatusListener()
     }
@@ -308,13 +322,14 @@ class AdminOrderDetailActivity : BaseActivity() {
 
     private fun sendDataRefuseOrderToRTDB(order: Order, selectedReason: String) {
         // user click cancel => status : CODE_CANCELLED, create and set value for "cancel_by" of this order on Firebase
+        val updates = HashMap<String, Any>()
+        updates["status"] = Constant.CODE_CANCELLED
+        updates["cancel_by"] = order.email.toString()
+        updates["cancel_reason"] = selectedReason
+
         ControllerApplication[this@AdminOrderDetailActivity].bookingDatabaseReference
-            .child(order.id.toString()).child("status").setValue(Constant.CODE_CANCELLED)
-        // Get Email of admin refused this order. user from DataStoreManager/Companion
-        ControllerApplication[this@AdminOrderDetailActivity].bookingDatabaseReference
-            .child(order.id.toString()).child("cancel_by").setValue(DataStoreManager.user!!.email)
-        ControllerApplication[this].bookingDatabaseReference
-            .child(order.id.toString()).child("cancel_reason").setValue(selectedReason)
+            .child(order.id.toString())
+            .updateChildren(updates)
     }
 
     //Multi devices is available
@@ -406,8 +421,8 @@ class AdminOrderDetailActivity : BaseActivity() {
             mActivityAdminOrderDetailBinding.tvOrderId,
             this
         )
-        mActivityAdminOrderDetailBinding.layoutCopyTransitionId.setOnClickCopyTextToClipboard(
-            mActivityAdminOrderDetailBinding.tvTransitionId,
+        mActivityAdminOrderDetailBinding.layoutCopyTransactionId.setOnClickCopyTextToClipboard(
+            mActivityAdminOrderDetailBinding.tvTransactionId,
             this
         )
     }

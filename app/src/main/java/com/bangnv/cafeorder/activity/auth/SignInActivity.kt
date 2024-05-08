@@ -12,7 +12,7 @@ import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.gotoMainActivity
 import com.bangnv.cafeorder.constant.GlobalFunction.hideSoftKeyboard
-import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
+import com.bangnv.cafeorder.constant.GlobalFunction.openActivity
 import com.bangnv.cafeorder.databinding.ActivitySignInBinding
 import com.bangnv.cafeorder.model.User
 import com.bangnv.cafeorder.prefs.DataStoreManager
@@ -40,7 +40,7 @@ class SignInActivity : BaseActivity() {
         setContentView(mActivitySignInBinding.root)
         mActivitySignInBinding.rdbUser.isChecked = true
         mActivitySignInBinding.layoutSignUp.setOnClickListener {
-            startActivity(this@SignInActivity, SignUpActivity::class.java)
+            openActivity(this@SignInActivity, SignUpActivity::class.java)
         }
         mActivitySignInBinding.btnSignIn.setOnClickListener { onClickValidateSignIn() }
         mActivitySignInBinding.tvForgotPassword.setOnClickListener { onClickForgotPassword() }
@@ -50,7 +50,7 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun onClickForgotPassword() {
-        startActivity(this, ForgotPasswordActivity::class.java)
+        openActivity(this, ForgotPasswordActivity::class.java)
     }
 
     private fun onClickValidateSignIn() {

@@ -57,9 +57,9 @@ class SearchActivity : AppCompatActivity(){
     }
 
     private fun initListeners() {
-        //Layout Search Twhen open SearchActivity: Enhance user experience
-        mActivitySearchBinding.edtSearchName.requestFocus()
-        mActivitySearchBinding.layoutSearch.setBackgroundResource(R.drawable.bg_edittext_active)
+        //If from HomeFragment, focus EditText (change background, show keyboard)
+        //If from CartFragment, No focus EditText
+        checkRequestFocusEdtSeach()
 
         mActivitySearchBinding.imageBack.setOnClickListener {
             hideSoftKeyboard(this)
@@ -88,6 +88,18 @@ class SearchActivity : AppCompatActivity(){
         }
     }
 
+    private fun checkRequestFocusEdtSeach() {
+        val bundle = intent.extras
+        if (bundle != null) {
+            val dataFromHome = bundle.getString(Constant.KEY_INTENT_FROM_HOME)
+            if (dataFromHome != null) {
+                //Layout Search when open SearchActivity: Enhance user experience
+                mActivitySearchBinding.edtSearchName.requestFocus()
+                mActivitySearchBinding.layoutSearch.setBackgroundResource(R.drawable.bg_edittext_active)
+            }
+        }
+    }
+
     private fun getListCategory() {
         ControllerApplication[this@SearchActivity].categoryDatabaseReference
             .addValueEventListener(object : ValueEventListener {
@@ -97,11 +109,11 @@ class SearchActivity : AppCompatActivity(){
                     for (dataSnapshot in snapshot.children) {
                         val category = dataSnapshot.getValue(Category::class.java)
                         if (category != null) {
-                            mListCategory.add(0, category)
+                            mListCategory.add(category)
                         }
                     }
                     mCategoryAll = Category(0L, getString(R.string.label_all), "")
-                    mListCategory.add(0, mCategoryAll!!)
+                    mListCategory.add(0, mCategoryAll)
 
                     //Setup Recyclerview Adapter category
                     val linearLayoutManager = LinearLayoutManager(this@SearchActivity,
@@ -148,25 +160,30 @@ class SearchActivity : AppCompatActivity(){
         val query: Query
         = if(categoryId == 0L){
             ControllerApplication[this].foodDatabaseReference
-        } else {
+        }
+        else {
             ControllerApplication[this].foodDatabaseReference
                 .orderByChild("categoryId")
                 .equalTo(categoryId.toDouble())
         }
 
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
+        query.
+        addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (snapshot in dataSnapshot.children) {
                     val food = snapshot.getValue(Food::class.java)
                     if (food != null) {
 
                         // So sánh tên chuẩn hóa với từ khóa chuẩn hóa từ người dùng
-                        if (normalizeEnglishText(food.name).contains(normalizeEnglishText(searchKeyword), ignoreCase = true)) {
+                        if (normalizeEnglishText(food.name).contains(normalizeEnglishText(searchKeyword))) {
+
                             // Xử lý các mục thỏa mãn yêu cầu
-                            mListFood.add(0, food)
+                            mListFood.add(food)
 //                            loadedItemCount++ // dành cho phân trang, tính sau
                         }
+
                     }
+
 
                     // Kiểm tra xem đã tải đủ số lượng mục mong muốn chưa
                     //Dành cho phân trang, tính sau

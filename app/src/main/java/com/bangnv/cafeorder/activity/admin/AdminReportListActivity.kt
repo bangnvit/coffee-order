@@ -50,6 +50,7 @@ class AdminReportListActivity : AppCompatActivity() {
                     override fun getDate(date: String?) {
                         mActivityAdminReportListBinding.tvDateFrom.text = date
                         getListRevenue()
+                        setDateFromNewBackground()
                     }
                 })
             }
@@ -61,6 +62,7 @@ class AdminReportListActivity : AppCompatActivity() {
                     override fun getDate(date: String?) {
                         mActivityAdminReportListBinding.tvDateTo.text = date
                         getListRevenue()
+                        setDateToNewBackground()
                     }
                 })
             }
@@ -134,6 +136,22 @@ class AdminReportListActivity : AppCompatActivity() {
             total += order.amount
         }
         return total
+    }
+
+    private fun setDateFromNewBackground() {
+        if(mActivityAdminReportListBinding.tvDateFrom.text.isNullOrEmpty()) {
+            mActivityAdminReportListBinding.layoutDateFrom.setBackgroundResource(R.drawable.bg_white_corner_12_border_gray)
+        }  else {
+            mActivityAdminReportListBinding.layoutDateFrom.setBackgroundResource(R.drawable.bg_white_corner_12_border_primary)
+        }
+    }
+
+    private fun setDateToNewBackground() {
+        if(mActivityAdminReportListBinding.tvDateTo.text.isNullOrEmpty()) {
+            mActivityAdminReportListBinding.layoutDateTo.setBackgroundResource(R.drawable.bg_white_corner_12_border_gray)
+        }  else {
+            mActivityAdminReportListBinding.layoutDateTo.setBackgroundResource(R.drawable.bg_white_corner_12_border_primary)
+        }
     }
 
     override fun onBackPressed() {

@@ -7,10 +7,12 @@ object RetrofitClients {
 
     private var retrofit: Retrofit? = null
 
-    private const val URL_REQUEST = "https://coffeenbnode.onrender.com/"    // Deployed URL_REQUEST
+    // Mạng wifi ở nhà: URL_REQUEST
+//    private const val URL_REQUEST = "http://192.168.0.103:3006/"
+//    private const val URL_REQUEST = "http://192.168.0.102:3006/"
 
-//    private const val URL_REQUEST = "http://192.168.0.103:3006/"        // Mạng wifi ở nhà: URL_REQUEST
-
+    // Deployed URL_REQUEST
+    private const val URL_REQUEST = "https://coffeenbnode.onrender.com/"
     @JvmStatic
     fun getInstance(): Retrofit {
         if (retrofit == null) {
@@ -20,5 +22,14 @@ object RetrofitClients {
                 .build()
         }
         return retrofit!!
+    }
+
+    @JvmStatic
+    fun getMoMoInstance(): Retrofit {
+        val moMoUrl = "https://test-payment.momo.vn/"
+        return Retrofit.Builder()
+            .baseUrl(moMoUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 }

@@ -1,9 +1,12 @@
 package com.bangnv.cafeorder.database
 
+import com.bangnv.cafeorder.model.request.MoMoRequest
 import com.bangnv.cafeorder.model.request.OrderRequest
+import com.bangnv.cafeorder.model.responseapi.MoMoResponse
 import com.bangnv.cafeorder.model.responseapi.OrderResponse
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface AppApi {
@@ -12,7 +15,8 @@ interface AppApi {
     @POST("/api/order_new")
     fun postNewOrderHasResponse(@Body orderRequest: OrderRequest): Call<OrderResponse>
 
-
+    @GET("/success")
+    fun getSuccessServer(): Call<Unit>
 
     @POST("/api/order_new") // for user
     fun postNewOrder(@Body orderRequest: OrderRequest): Call<Unit>
@@ -29,5 +33,10 @@ interface AppApi {
 
     @POST("/api/order_send") // for admin
     fun postSendDeliveryOrder(@Body orderRequest: OrderRequest): Call<Unit>
+}
+
+interface MoMoApi {
+    @POST("/v2/gateway/api/create")
+    fun requestQRMoMo(@Body moMoRequest: MoMoRequest): Call<MoMoResponse>
 }
 

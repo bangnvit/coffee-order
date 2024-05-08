@@ -9,6 +9,7 @@
 
     <RelativeLayout
         android:id="@+id/layout_toolbar"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/colorPrimary"
@@ -74,11 +75,30 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_category_title"
+        style="@style/TextViewPrimarySmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_search"
+        android:layout_marginStart="@dimen/define_dimen_16"
+        android:layout_marginTop="@dimen/define_dimen_16"
+        android:text="@string/category" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/define_dimen_16"
+        android:layout_below="@+id/tv_category_title"
+        android:layout_marginTop="@dimen/define_dimen_10"
+        android:overScrollMode="never" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_food"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/layout_search"
+        android:layout_below="@+id/rcv_category"
         android:layout_marginTop="@dimen/define_dimen_10"
         android:layout_marginBottom="@dimen/define_dimen_6"
         android:overScrollMode="never"

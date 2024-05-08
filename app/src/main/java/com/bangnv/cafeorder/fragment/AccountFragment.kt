@@ -1,17 +1,24 @@
 package com.bangnv.cafeorder.fragment
 
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bangnv.cafeorder.ControllerApplication
+import com.bangnv.cafeorder.R
+import com.bangnv.cafeorder.activity.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.bangnv.cafeorder.activity.auth.ChangePasswordActivity
 import com.bangnv.cafeorder.activity.OrderHistoryActivity
 import com.bangnv.cafeorder.activity.auth.SignInActivity
-import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
+import com.bangnv.cafeorder.constant.GlobalFunction.openActivity
 import com.bangnv.cafeorder.databinding.FragmentAccountBinding
 import com.bangnv.cafeorder.prefs.DataStoreManager
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
@@ -32,12 +39,13 @@ class AccountFragment : Fragment() {
         return fragmentAccountBinding.root
     }
 
+
     private fun onClickOrderHistory() {
-        startActivity(requireContext(), OrderHistoryActivity::class.java)
+        openActivity(requireContext(), OrderHistoryActivity::class.java)
     }
 
     private fun onClickChangePassword() {
-        startActivity(requireContext(), ChangePasswordActivity::class.java)
+        openActivity(requireContext(), ChangePasswordActivity::class.java)
     }
 
     private fun onClickSignOut() {
@@ -48,7 +56,7 @@ class AccountFragment : Fragment() {
         deleteFcmTokenOnRTDB()
         user = null
 
-        startActivity(requireContext(), SignInActivity::class.java)
+        openActivity(requireContext(), SignInActivity::class.java)
         requireActivity().finishAffinity()
     }
 

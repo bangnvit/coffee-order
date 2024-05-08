@@ -37,24 +37,29 @@ import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.FoodDetailActivity
 import com.bangnv.cafeorder.activity.admin.AdminMainActivity
 import com.bangnv.cafeorder.activity.MainActivity
+import com.bangnv.cafeorder.database.AppApi
 import com.bangnv.cafeorder.listener.IGetDateListener
 import com.bangnv.cafeorder.model.Food
+import com.bangnv.cafeorder.model.baseresponse.RetrofitClients
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.bangnv.cafeorder.utils.StringUtil.getDoubleNumber
 import com.bangnv.cafeorder.utils.StringUtil.isEmpty
 import com.google.android.material.tabs.TabLayout
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.Calendar
 
 object GlobalFunction {
 
-    fun startActivity(context: Context, clz: Class<*>?) {
+    fun openActivity(context: Context, clz: Class<*>?) {
         val intent = Intent(context, clz)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(intent)
     }
 
     @JvmStatic
-    fun startActivity(context: Context, clz: Class<*>?, bundle: Bundle?) {
+    fun openActivity(context: Context, clz: Class<*>?, bundle: Bundle?) {
         val intent = Intent(context, clz)
         intent.putExtras(bundle!!)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -64,19 +69,19 @@ object GlobalFunction {
     @JvmStatic
     fun gotoMainActivity(context: Context) {
         if (user!!.type == Constant.TYPE_USER_ADMIN) {
-            startActivity(context, AdminMainActivity::class.java)
+            openActivity(context, AdminMainActivity::class.java)
         } else  if (user!!.type == Constant.TYPE_USER_DRIVER){
 //            startActivity(context, DriverMainActivity::class.java)
             Toast.makeText(context, "Global function gotoMainActivity: Cần tạo DriverMainActivity", Toast.LENGTH_SHORT ).show()
         } else {
-            startActivity(context, MainActivity::class.java)
+            openActivity(context, MainActivity::class.java)
         }
     }
 
     fun goToFoodDetail(context: Context, food: Food) {
         val bundle = Bundle()
         bundle.putSerializable(Constant.KEY_INTENT_FOOD_OBJECT, food)
-        startActivity(context, FoodDetailActivity::class.java, bundle)
+        openActivity(context, FoodDetailActivity::class.java, bundle)
     }
 
     @JvmStatic
@@ -420,5 +425,17 @@ object GlobalFunction {
         fragmentTransaction.commit()
     }
 
+    fun connectToServerOnRender(){
+        val appApi: AppApi = RetrofitClients.getInstance().create(AppApi::class.java)
+        appApi.getSuccessServer().enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                // Không cần xử lý gì trong phần này
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                // Không cần xử lý gì trong phần này
+            }
+        })
+    }
 
 }

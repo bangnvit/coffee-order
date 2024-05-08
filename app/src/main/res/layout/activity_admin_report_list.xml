@@ -28,9 +28,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_date_from" />
+                android:text="@string/label_date_from"
+                android:textColor="@color/textColorPrimary"
+                android:textStyle="bold" />
 
             <RelativeLayout
+                android:id="@+id/layout_date_from"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/define_dimen_2"
@@ -66,9 +69,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_date_to" />
+                android:text="@string/label_date_to"
+                android:textColor="@color/textColorPrimary"
+                android:textStyle="bold" />
 
             <RelativeLayout
+                android:id="@+id/layout_date_to"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/define_dimen_2"
@@ -131,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text="0 000 VNĐ"
+            android:text="0.000 VNĐ"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />

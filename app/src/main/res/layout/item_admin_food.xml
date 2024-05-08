@@ -28,11 +28,11 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/define_dimen_84">
+                android:layout_height="@dimen/define_dimen_80">
 
                 <ImageView
                     android:id="@+id/img_food"
-                    android:layout_width="@dimen/define_dimen_100"
+                    android:layout_width="@dimen/define_dimen_80"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/image_no_available"

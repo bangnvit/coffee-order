@@ -35,13 +35,12 @@ import com.bangnv.cafeorder.constant.Constant.Companion.TEXT_PREPARING
 import com.bangnv.cafeorder.constant.Constant.Companion.TEXT_SHIPPING
 import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.addMyTabs
-import com.bangnv.cafeorder.constant.GlobalFunction.startActivity
+import com.bangnv.cafeorder.constant.GlobalFunction.openActivity
 import com.bangnv.cafeorder.database.AppApi
 import com.bangnv.cafeorder.databinding.ActivityOrderHistoryBinding
 import com.bangnv.cafeorder.model.Order
 import com.bangnv.cafeorder.model.baseresponse.RetrofitClients
 import com.bangnv.cafeorder.model.request.OrderRequest
-import com.bangnv.cafeorder.model.responseapi.OrderResponse
 import com.bangnv.cafeorder.prefs.DataStoreManager.Companion.user
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.DataSnapshot
@@ -167,7 +166,9 @@ class OrderHistoryActivity : BaseActivity() {
                     if (order != null) {
                         val strEmail = user!!.email
                         if (strEmail.equals(order.email, ignoreCase = true)) {
-                            mListOrder.add(order)
+                            if(order.status != 1){
+                                mListOrder.add(0, order)
+                            }
                         }
                     }
                 }
@@ -250,7 +251,7 @@ class OrderHistoryActivity : BaseActivity() {
                     if (order != null) {
                         val strEmail = user!!.email
                         if (strEmail.equals(order.email, ignoreCase = true)) {
-                            tempOrders.add(order)
+                            tempOrders.add(0, order)
                         }
                     }
                 }
@@ -272,7 +273,7 @@ class OrderHistoryActivity : BaseActivity() {
     private fun handleTrackDriver(order: Order) {
         Toast.makeText(
             this,
-            "id: " + order.id + " - Hãy làm cái function Track Driver sau khi thêm module ship :v",
+            "id: " + order.id + " - Tính năng đang phát triển",
             Toast.LENGTH_SHORT
         ).show()
     }
@@ -327,13 +328,16 @@ class OrderHistoryActivity : BaseActivity() {
         GlobalFunction.customizeBottomSheetDialog(viewDialog)
     }
 
+
     private fun sendDataCancelOrderToRTDB(order: Order, selectedReason: String) {
+        val updates = HashMap<String, Any>()
+        updates["status"] = CODE_CANCELLED
+        updates["cancel_by"] = order.email.toString()
+        updates["cancel_reason"] = selectedReason
+
         ControllerApplication[this].bookingDatabaseReference
-            .child(order.id.toString()).child("status").setValue(CODE_CANCELLED)
-        ControllerApplication[this].bookingDatabaseReference
-            .child(order.id.toString()).child("cancel_by").setValue(order.email)
-        ControllerApplication[this].bookingDatabaseReference
-            .child(order.id.toString()).child("cancel_reason").setValue(selectedReason)
+            .child(order.id.toString())
+            .updateChildren(updates)
     }
 
     private fun sendNotiCancelOrderToAdmins(order: Order, selectedReason: String) {
@@ -414,7 +418,7 @@ class OrderHistoryActivity : BaseActivity() {
     private fun goToOrderHistoryDetail(id: Long) {
         val bundle = Bundle()
         bundle.putSerializable(Constant.KEY_INTENT_ORDER_OBJECT, id)
-        startActivity(this@OrderHistoryActivity, OrderHistoryDetailActivity::class.java, bundle)
+        openActivity(this@OrderHistoryActivity, OrderHistoryDetailActivity::class.java, bundle)
     }
 
     override fun onDestroy() {
