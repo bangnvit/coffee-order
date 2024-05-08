@@ -13,6 +13,7 @@ interface AppApi {
     fun postNewOrderHasResponse(@Body orderRequest: OrderRequest): Call<OrderResponse>
 
 
+
     @POST("/api/order_new") // for user
     fun postNewOrder(@Body orderRequest: OrderRequest): Call<Unit>
 
