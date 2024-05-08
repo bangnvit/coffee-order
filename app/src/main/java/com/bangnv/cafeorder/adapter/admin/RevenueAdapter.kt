@@ -23,8 +23,8 @@ class RevenueAdapter(private val mListOrder: List<Order>) :
         val order = mListOrder[position]
         holder.mItemRevenueBinding.tvId.text = order.id.toString()
         holder.mItemRevenueBinding.tvDate.text = convertTimeStampToDate_2(order.id)
-        val strAmount: String = formatNumberWithPeriods(order.amount) + Constant.CURRENCY
-        holder.mItemRevenueBinding.tvTotalAmount.text = strAmount
+        val strTotalPriceItem: String = formatNumberWithPeriods(order.totalPrice) + Constant.CURRENCY
+        holder.mItemRevenueBinding.tvTotalAmount.text = strTotalPriceItem
     }
 
     override fun getItemCount(): Int {

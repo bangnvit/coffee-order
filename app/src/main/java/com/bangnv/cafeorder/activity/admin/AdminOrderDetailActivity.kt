@@ -51,6 +51,7 @@ class AdminOrderDetailActivity : BaseActivity() {
         mActivityAdminOrderDetailBinding.tvAcceptOrder.setOnClickListener { handleAcceptOrder(mOrder) }
         mActivityAdminOrderDetailBinding.tvSendOrder.setOnClickListener { handleSendDeliveryOrder(mOrder) }
         mActivityAdminOrderDetailBinding.tvRefuseOrder.setOnClickListener { handleRefuseOrder(mOrder) }
+        mActivityAdminOrderDetailBinding.tvCompleteOrder.setOnClickListener { handleCompleteOrder(mOrder) } // expect driver
         copyFieldsClickListener()
     }
 
@@ -180,6 +181,8 @@ class AdminOrderDetailActivity : BaseActivity() {
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
                 mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.GONE
+
+                mActivityAdminOrderDetailBinding.tvCompleteOrder.visibility = View.GONE
             }
             Constant.CODE_PREPARING -> { //31
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
@@ -188,6 +191,8 @@ class AdminOrderDetailActivity : BaseActivity() {
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
                 mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.GONE
+
+                mActivityAdminOrderDetailBinding.tvCompleteOrder.visibility = View.GONE
             }
             Constant.CODE_SHIPPING -> { //32
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
@@ -196,6 +201,8 @@ class AdminOrderDetailActivity : BaseActivity() {
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
                 mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.GONE
+
+                mActivityAdminOrderDetailBinding.tvCompleteOrder.visibility = View.VISIBLE
             }
             Constant.CODE_COMPLETED -> { //33
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
@@ -204,6 +211,8 @@ class AdminOrderDetailActivity : BaseActivity() {
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_green_main_shape_corner_8)
                 mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.GONE
+
+                mActivityAdminOrderDetailBinding.tvCompleteOrder.visibility = View.GONE
             }
             Constant.CODE_CANCELLED -> { //34
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
@@ -212,14 +221,18 @@ class AdminOrderDetailActivity : BaseActivity() {
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_red_main_shape_corner_8)
                 mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.VISIBLE
                 mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.VISIBLE
+
+                mActivityAdminOrderDetailBinding.tvCompleteOrder.visibility = View.GONE
             }
-            else -> { // 35: CODE_FAILED | or any other unexpected status
+            else -> { // 35: CODE_FAILED | or any other unexpected status (but status -1 is not here - cause adapter in list not add)
                 mActivityAdminOrderDetailBinding.layoutAcceptRefuse.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvSendOrder.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.tvStatus.text = Constant.TEXT_FAILED
                 mActivityAdminOrderDetailBinding.tvStatus.setBackgroundResource(R.drawable.bg_red_main_shape_corner_8)
                 mActivityAdminOrderDetailBinding.layoutCancelBy.visibility = View.GONE
                 mActivityAdminOrderDetailBinding.layoutCancelReason.visibility = View.GONE
+
+                mActivityAdminOrderDetailBinding.tvCompleteOrder.visibility = View.GONE
             }
         }
     }
@@ -364,15 +377,13 @@ class AdminOrderDetailActivity : BaseActivity() {
     }
 
     private fun handleSendDeliveryOrder(order: Order) {
-        // user click send => status : CODE_SHIPPING
-        ControllerApplication[this@AdminOrderDetailActivity].bookingDatabaseReference
-            .child(order.id.toString()).child("status").setValue(Constant.CODE_SHIPPING)
 
         // Cần làm thêm: yêu cầu bên vận chuyển
 
         sendDataDeliveryOrderToRTDB(order)
         sendNotiDeliveryOrderToUser(order) // multi devices is available
     }
+
 
     private fun sendDataDeliveryOrderToRTDB(order: Order) {
         // user click send => status : CODE_SHIPPING
@@ -413,6 +424,52 @@ class AdminOrderDetailActivity : BaseActivity() {
         // Log ra đường link của request
         Log.d("Retrofit Request", "URL: ${appApi.postSendDeliveryOrder(OrderRequest(order.email, order.id.toString())).request().url}")
         Log.d("Retrofit Request: ", "${appApi.postSendDeliveryOrder(OrderRequest(order.email, order.id.toString())).request().body}")
+
+    }
+
+
+    private fun handleCompleteOrder(order: Order) {
+
+        sendCompleteOrderToRTDB(order)
+        sendNotiCompleteOrderToUser(order) // multi devices is available
+    }
+
+    private fun sendCompleteOrderToRTDB(order: Order) {
+        // user click send => status : CODE_COMPLETED
+        ControllerApplication[this@AdminOrderDetailActivity].bookingDatabaseReference
+            .child(order.id.toString()).child("status").setValue(Constant.CODE_COMPLETED)
+    }
+
+    private fun sendNotiCompleteOrderToUser(order: Order) {
+
+        // Send notification to user
+        showProgressDialog(true)
+        val appApi: AppApi = RetrofitClients.getInstance().create(AppApi::class.java)
+        appApi.postCompleteOrder(OrderRequest(order.email, order.id.toString())).enqueue(object :
+            Callback<Unit> {
+
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                if (response.body() != null) {
+                    showProgressDialog(false)
+                    Log.d("Success", "Gửi thông báo thành công!")
+                    // Thông báo cho cả gửi đơn cho vận chuyên thành công + thông báo
+                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_send_delivery_order_successfully), Toast.LENGTH_SHORT).show()
+                } else {
+                    showProgressDialog(false)
+                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                showProgressDialog(false)
+                Toast.makeText(this@AdminOrderDetailActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+                Log.e("onError():  ", t.message.toString())
+            }
+        })
+
+        // Log ra đường link của request
+        Log.d("Retrofit Request", "URL: ${appApi.postCompleteOrder(OrderRequest(order.email, order.id.toString())).request().url}")
+        Log.d("Retrofit Request: ", "${appApi.postCompleteOrder(OrderRequest(order.email, order.id.toString())).request().body}")
 
     }
 

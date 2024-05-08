@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -35,9 +36,9 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="@dimen/define_dimen_120"
             android:layout_height="@dimen/define_dimen_120"
+            android:src="@drawable/img_splash"
             app:civ_border_color="@color/color_circle_border_image"
-            app:civ_border_width="1dp"
-            android:src="@drawable/img_splash" />
+            app:civ_border_width="1dp" />
 
         <TextView
             android:layout_width="wrap_content"

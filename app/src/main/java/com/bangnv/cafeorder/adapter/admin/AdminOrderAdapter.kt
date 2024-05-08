@@ -26,6 +26,8 @@ class AdminOrderAdapter(private var mContext: Context?, private var mListOrder: 
 
         fun sendOrder(order: Order)
 
+        fun completeOrder(order: Order)
+
         fun onClickItemAdminOrder(order: Order)
     }
 
@@ -44,6 +46,8 @@ class AdminOrderAdapter(private var mContext: Context?, private var mListOrder: 
                 holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_NEW_ORDER
                 holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_primary_radius_8)
                 holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.colorPrimaryDark))
+
+                holder.mItemAdminOrderBinding.tvCompleteOrder.visibility = View.GONE
             }
             Constant.CODE_PREPARING -> { //31
                 holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.GONE
@@ -51,6 +55,8 @@ class AdminOrderAdapter(private var mContext: Context?, private var mListOrder: 
                 holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_PREPARING
                 holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_primary_radius_8)
                 holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.colorPrimaryDark))
+
+                holder.mItemAdminOrderBinding.tvCompleteOrder.visibility = View.GONE
             }
             Constant.CODE_SHIPPING -> { //32
                 holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.GONE
@@ -58,6 +64,8 @@ class AdminOrderAdapter(private var mContext: Context?, private var mListOrder: 
                 holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_SHIPPING
                 holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_primary_radius_8)
                 holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.colorPrimaryDark))
+
+                holder.mItemAdminOrderBinding.tvCompleteOrder.visibility = View.VISIBLE
             }
             Constant.CODE_COMPLETED -> { //33
                 holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.GONE
@@ -65,6 +73,8 @@ class AdminOrderAdapter(private var mContext: Context?, private var mListOrder: 
                 holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_COMPLETED
                 holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_primary_radius_8)
                 holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.colorPrimaryDark))
+
+                holder.mItemAdminOrderBinding.tvCompleteOrder.visibility = View.GONE
             }
             Constant.CODE_CANCELLED -> { //34
                 holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.GONE
@@ -72,6 +82,8 @@ class AdminOrderAdapter(private var mContext: Context?, private var mListOrder: 
                 holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_CANCELLED
                 holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_red_radius_8)
                 holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.color_red))
+
+                holder.mItemAdminOrderBinding.tvCompleteOrder.visibility = View.GONE
             }
             else -> { // 35: CODE_FAILED | or any other unexpected status
                 holder.mItemAdminOrderBinding.layoutAcceptRefuse.visibility = View.GONE
@@ -79,12 +91,15 @@ class AdminOrderAdapter(private var mContext: Context?, private var mListOrder: 
                 holder.mItemAdminOrderBinding.tvStatus.text = Constant.TEXT_FAILED
                 holder.mItemAdminOrderBinding.tvStatus.setBackgroundResource(R.drawable.bg_color_white_border_red_radius_8)
                 holder.mItemAdminOrderBinding.tvStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.color_red))
+
+                holder.mItemAdminOrderBinding.tvCompleteOrder.visibility = View.GONE
             }
         }
         holder.mItemAdminOrderBinding.tvAcceptOrder.setOnClickListener { mIClickAdminOrderListener.acceptOrder(order) }
         holder.mItemAdminOrderBinding.tvRefuseOrder.setOnClickListener { mIClickAdminOrderListener.refuseOrder(order) }
         holder.mItemAdminOrderBinding.tvSendOrder.setOnClickListener { mIClickAdminOrderListener.sendOrder(order) }
         holder.mItemAdminOrderBinding.layoutItem.setOnClickListener { mIClickAdminOrderListener.onClickItemAdminOrder(order) }
+        holder.mItemAdminOrderBinding.tvCompleteOrder.setOnClickListener { mIClickAdminOrderListener.completeOrder(order) } // expect driver
 
         holder.mItemAdminOrderBinding.tvId.text = order.id.toString()
         holder.mItemAdminOrderBinding.tvDate.text = convertTimeStampToDate(order.id)

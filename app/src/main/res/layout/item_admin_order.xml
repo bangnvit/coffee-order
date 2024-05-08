@@ -188,4 +188,15 @@
         android:text="@string/label_send_order"
         android:textColor="@color/white"
         android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_complete_order"
+        style="@style/MyTextViewButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/define_dimen_10"
+        android:background="@drawable/bg_green_main_shape_corner_circle"
+        android:text="@string/label_complete_order"
+        android:textColor="@color/white"
+        android:visibility="gone" />
 </LinearLayout>

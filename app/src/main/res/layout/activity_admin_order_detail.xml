@@ -693,8 +693,7 @@
                             android:layout_marginStart="@dimen/define_dimen_5"
                             android:gravity="end"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/tv_cancel_reason_title"
-                            tools:text="Muốn thay đổi sản phẩm trong đơn hàng (size, số lượng,…)" />
+                            app:layout_constraintStart_toEndOf="@+id/tv_cancel_reason_title" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -752,9 +751,23 @@
                 android:background="@drawable/bg_green_main_shape_corner_circle"
                 android:text="@string/label_send_order"
                 android:textColor="@color/white"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_complete_order"
                 app:layout_constraintTop_toBottomOf="@+id/layout_accept_refuse"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_complete_order"
+                style="@style/MyTextViewButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/define_dimen_16"
+                android:layout_marginTop="@dimen/define_dimen_10"
+                android:layout_marginBottom="@dimen/define_dimen_20"
+                android:background="@drawable/bg_green_main_shape_corner_circle"
+                android:text="@string/label_complete_order"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_send_order"
                 tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -90,6 +90,7 @@
     <string name="label_accept_order">Chấp nhận</string>
     <string name="label_refuse_order">Từ chối</string>
     <string name="label_send_order">Gửi đơn hàng</string>
+    <string name="label_complete_order">Hoàn thành đơn hàng</string>
 
     <string name="quantity">Số lượng:</string>
     <string name="list_food_order">Danh sách món trong đơn hàng</string>

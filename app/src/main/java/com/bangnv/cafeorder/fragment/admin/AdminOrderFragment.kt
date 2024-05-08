@@ -82,6 +82,10 @@ class AdminOrderFragment : Fragment() {
                     handleSendDeliveryOrder(order)
                 }
 
+                override fun completeOrder(order: Order) {
+                    handleCompleteOrder(order)
+                }
+
                 override fun onClickItemAdminOrder(order: Order) {
                     goToAdminOrderDetail(order.id)
                 }
@@ -303,7 +307,6 @@ class AdminOrderFragment : Fragment() {
         }
         sendDataDeliveryOrderToRTDB(order)
         sendNotiDeliveryOrderToUser(order) // multi devices is available
-
     }
 
     private fun sendDataDeliveryOrderToRTDB(order: Order) {
@@ -344,6 +347,53 @@ class AdminOrderFragment : Fragment() {
         // Log ra đường link của request
         Log.d("Retrofit Request", "URL: ${appApi.postSendDeliveryOrder(OrderRequest(order.email, order.id.toString())).request().url}")
         Log.d("Retrofit Request: ", "${appApi.postSendDeliveryOrder(OrderRequest(order.email, order.id.toString())).request().body}")
+    }
+
+    private fun handleCompleteOrder(order: Order) {
+        if (activity == null) {
+            return
+        }
+        sendDataCompleteOrderToRTDB(order)
+        sendNotiCompleteOrderToUser(order) // multi devices is available
+    }
+
+    private fun sendDataCompleteOrderToRTDB(order: Order) {
+        // user click send => status : CODE_COMPLETED
+        ControllerApplication[requireContext()].bookingDatabaseReference
+            .child(order.id.toString()).child("status").setValue(Constant.CODE_COMPLETED)
+    }
+
+    private fun sendNotiCompleteOrderToUser(order: Order) {
+
+        // Send notification to user
+        (activity as? AdminMainActivity)?.showProgressDialog(true)
+        val appApi: AppApi = RetrofitClients.getInstance().create(AppApi::class.java)
+        appApi.postCompleteOrder(OrderRequest(order.email, order.id.toString())).enqueue(object :
+            Callback<Unit> {
+
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                if (response.body() != null) {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+                    Log.d("Success", "Gửi thông báo thành công!")
+                    // Thông báo cho cả gửi đơn cho vận chuyên thành công + thông báo
+                    Toast.makeText(requireContext(), getString(R.string.msg_send_delivery_order_successfully), Toast.LENGTH_SHORT).show()
+                } else {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                (activity as? AdminMainActivity)?.showProgressDialog(false)
+                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+                Log.e("onError():  ", t.message.toString())
+            }
+        })
+
+        // Log ra đường link của request
+        Log.d("Retrofit Request", "URL: ${appApi.postCompleteOrder(OrderRequest(order.email, order.id.toString())).request().url}")
+        Log.d("Retrofit Request: ", "${appApi.postCompleteOrder(OrderRequest(order.email, order.id.toString())).request().body}")
+
     }
 
     private fun tabLayoutTabSelectedListener() {
