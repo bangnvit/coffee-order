@@ -453,7 +453,7 @@ class AdminOrderDetailActivity : BaseActivity() {
                     showProgressDialog(false)
                     Log.d("Success", "Gửi thông báo thành công!")
                     // Thông báo cho cả gửi đơn cho vận chuyên thành công + thông báo
-                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_send_delivery_order_successfully), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_send_complete_order_successfully), Toast.LENGTH_SHORT).show()
                 } else {
                     showProgressDialog(false)
                     Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()

@@ -216,6 +216,7 @@
     <string name="msg_confirm_cancel">Bạn có chắc chắn muốn hủy đơn hàng này không?</string>
     <string name="msg_cancel_order_successfully">Hủy đơn hàng thành công!</string>
     <string name="msg_send_delivery_order_successfully">Gửi đơn hàng cho bên vận chuyển thành công!</string>
+    <string name="msg_send_complete_order_successfully">Hoàn thành đơn hàng thành công!</string>
     <string name="msg_accept_order_successfully">Chấp nhận đơn hàng thành công!</string>
     <string name="msg_refuse_title">Xác nhận từ chối đơn hàng</string>
     <string name="msg_confirm_refuse">Bạn có chắc chắn muốn từ chối đơn hàng này không?</string>
