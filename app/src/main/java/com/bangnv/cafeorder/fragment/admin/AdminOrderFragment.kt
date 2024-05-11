@@ -375,7 +375,6 @@ class AdminOrderFragment : Fragment() {
                 if (response.body() != null) {
                     (activity as? AdminMainActivity)?.showProgressDialog(false)
                     Log.d("Success", "Gửi thông báo thành công!")
-                    // Thông báo cho cả gửi đơn cho vận chuyên thành công + thông báo
                     Toast.makeText(requireContext(), getString(R.string.msg_send_complete_order_successfully), Toast.LENGTH_SHORT).show()
                 } else {
                     (activity as? AdminMainActivity)?.showProgressDialog(false)
