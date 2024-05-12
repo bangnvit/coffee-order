@@ -286,5 +286,6 @@
     <string name="refuse_order_reason_2">Số lượng hàng không đủ</string>
     <string name="refuse_order_reason_3">Quán quá tải</string>
     <string name="select_refuse_reason">Hãy chọn lý do từ chối đơn hàng!</string>
+    <string name="msg_no_token">Không thể gửi thông báo do người nhận không đăng nhập!</string>
 
 </resources>

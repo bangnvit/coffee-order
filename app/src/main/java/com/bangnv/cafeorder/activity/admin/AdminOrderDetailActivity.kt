@@ -262,15 +262,19 @@ class AdminOrderDetailActivity : BaseActivity() {
                     Log.d("Success", "Gửi thông báo thành công!")
                     // Thông báo cho cả chấp nhận đơn thành công + thông báo
                     Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_accept_order_successfully), Toast.LENGTH_SHORT).show()
+                } else if (response.code() == 500) {
+                    showProgressDialog(false)
+                    Log.d("API", "Đối phương không đăng nhập (No token)")
+//                    Toast.makeText(this@AdminOrderDetailActivity, "Không thể gửi thông báo do người nhận không đăng nhập!", Toast.LENGTH_SHORT).show()
                 } else {
                     showProgressDialog(false)
-                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 showProgressDialog(false)
-                Toast.makeText(this@AdminOrderDetailActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@AdminOrderDetailActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
                 Log.e("onError():  ", t.message.toString())
             }
         })
@@ -357,15 +361,19 @@ class AdminOrderDetailActivity : BaseActivity() {
                     Log.d("Success", "Gửi thông báo thành công!")
                     // Thông báo cho cả từ chối đơn thành công + thông báo
                     Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_refuse_order_successfully), Toast.LENGTH_SHORT).show()
+                } else if (response.code() == 500) {
+                    showProgressDialog(false)
+                    Log.d("API", "Đối phương không đăng nhập (No token)")
+//                    Toast.makeText(this@AdminOrderDetailActivity, "Không thể gửi thông báo do người nhận không đăng nhập!", Toast.LENGTH_SHORT).show()
                 } else {
                     showProgressDialog(false)
-                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 showProgressDialog(false)
-                Toast.makeText(this@AdminOrderDetailActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@AdminOrderDetailActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
                 Log.e("onError():  ", t.message.toString())
             }
         })
@@ -408,15 +416,19 @@ class AdminOrderDetailActivity : BaseActivity() {
                     Log.d("Success", "Gửi thông báo thành công!")
                     // Thông báo cho cả gửi đơn cho vận chuyên thành công + thông báo
                     Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_send_delivery_order_successfully), Toast.LENGTH_SHORT).show()
+                } else if (response.code() == 500) {
+                    showProgressDialog(false)
+                    Log.d("API", "Đối phương không đăng nhập (No token)")
+//                    Toast.makeText(this@AdminOrderDetailActivity, "Không thể gửi thông báo do người nhận không đăng nhập!", Toast.LENGTH_SHORT).show()
                 } else {
                     showProgressDialog(false)
-                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 showProgressDialog(false)
-                Toast.makeText(this@AdminOrderDetailActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@AdminOrderDetailActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
                 Log.e("onError():  ", t.message.toString())
             }
         })
@@ -449,19 +461,23 @@ class AdminOrderDetailActivity : BaseActivity() {
             Callback<Unit> {
 
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                if (response.body() != null) {
+                if (response.isSuccessful) {
                     showProgressDialog(false)
                     Log.d("Success", "Gửi thông báo thành công!")
                     Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_send_complete_order_successfully), Toast.LENGTH_SHORT).show()
+                } else if (response.code() == 500) {
+                    showProgressDialog(false)
+//                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_no_token), Toast.LENGTH_SHORT).show()
+                    Log.d("API", "Đối phương không đăng nhập (No token)")
                 } else {
                     showProgressDialog(false)
-                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@AdminOrderDetailActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 showProgressDialog(false)
-                Toast.makeText(this@AdminOrderDetailActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@AdminOrderDetailActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
                 Log.e("onError():  ", t.message.toString())
             }
         })
