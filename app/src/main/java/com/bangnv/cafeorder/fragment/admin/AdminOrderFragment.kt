@@ -185,15 +185,18 @@ class AdminOrderFragment : Fragment() {
                     Log.d("Success", "Gửi thông báo thành công!")
                     // Thông báo cho cả chấp nhận đơn thành công + thông báo
                     Toast.makeText(requireContext(), getString(R.string.msg_accept_order_successfully), Toast.LENGTH_SHORT).show()
-                } else {
+                } else if (response.code() == 500) {
                     (activity as? AdminMainActivity)?.showProgressDialog(false)
-                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(requireContext(), getString(R.string.msg_no_token), Toast.LENGTH_SHORT).show()
+                }  else {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+//                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 (activity as? AdminMainActivity)?.showProgressDialog(false)
-                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
                 Log.e("onError():  ", t.message.toString())
             }
         })
@@ -282,15 +285,18 @@ class AdminOrderFragment : Fragment() {
                     Log.d("Success", "Gửi thông báo thành công!")
                     // Thông báo cho cả từ chối đơn thành công + thông báo
                     Toast.makeText(requireContext(), getString(R.string.msg_refuse_order_successfully), Toast.LENGTH_SHORT).show()
+                } else if (response.code() == 500) {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+//                    Toast.makeText(requireContext(), getString(R.string.msg_no_token), Toast.LENGTH_SHORT).show()
                 } else {
                     (activity as? AdminMainActivity)?.showProgressDialog(false)
-                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 (activity as? AdminMainActivity)?.showProgressDialog(false)
-                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
                 Log.e("onError():  ", t.message.toString())
             }
         })
@@ -331,15 +337,18 @@ class AdminOrderFragment : Fragment() {
                     Log.d("Success", "Gửi thông báo thành công!")
                     // Thông báo cho cả gửi đơn cho vận chuyển thành công + thông báo
                     Toast.makeText(requireContext(), getString(R.string.msg_send_delivery_order_successfully), Toast.LENGTH_SHORT).show()
+                } else if (response.code() == 500) {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+//                    Toast.makeText(requireContext(), getString(R.string.msg_no_token), Toast.LENGTH_SHORT).show()
                 } else {
                     (activity as? AdminMainActivity)?.showProgressDialog(false)
-                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 (activity as? AdminMainActivity)?.showProgressDialog(false)
-                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
                 Log.e("onError():  ", t.message.toString())
             }
         })
@@ -376,15 +385,18 @@ class AdminOrderFragment : Fragment() {
                     (activity as? AdminMainActivity)?.showProgressDialog(false)
                     Log.d("Success", "Gửi thông báo thành công!")
                     Toast.makeText(requireContext(), getString(R.string.msg_send_complete_order_successfully), Toast.LENGTH_SHORT).show()
+                } else if (response.code() == 500) {
+                    (activity as? AdminMainActivity)?.showProgressDialog(false)
+//                    Toast.makeText(requireContext(), getString(R.string.msg_no_token), Toast.LENGTH_SHORT).show()
                 } else {
                     (activity as? AdminMainActivity)?.showProgressDialog(false)
-                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(requireContext(), getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 (activity as? AdminMainActivity)?.showProgressDialog(false)
-                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
                 Log.e("onError():  ", t.message.toString())
             }
         })

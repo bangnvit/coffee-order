@@ -351,15 +351,19 @@ class OrderHistoryActivity : BaseActivity() {
                     Log.d("Success", "Gửi thông báo thành công!")
                     // Thông báo cho cả hủy đơn thành công + thông báo
                     Toast.makeText(this@OrderHistoryActivity, getString(R.string.msg_cancel_order_successfully), Toast.LENGTH_SHORT).show()
+                } else if (response.code() == 500) {
+                    showProgressDialog(false)
+//                    Toast.makeText(this@OrderHistoryActivity, "Không thể gửi thông báo do người nhận không đăng nhập!", Toast.LENGTH_SHORT).show()
+                    Log.d("API", "Đối phương không đăng nhập (No token)")
                 } else {
                     showProgressDialog(false)
-                    Toast.makeText(this@OrderHistoryActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@OrderHistoryActivity, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 showProgressDialog(false)
-                Toast.makeText(this@OrderHistoryActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@OrderHistoryActivity, "Lỗi: " + t.message, Toast.LENGTH_SHORT).show()
                 Log.e("onError():  ", t.message.toString())
             }
         })

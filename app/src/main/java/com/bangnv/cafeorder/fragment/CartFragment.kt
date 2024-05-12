@@ -515,17 +515,22 @@ class CartFragment : Fragment() {
                 (activity as? MainActivity)?.showProgressDialog(false)
 
                 if (response.body() != null) {
-                    Log.d("onSuccess", "Gửi thông báo thành công!")
+                    Log.d("NewOrder onSuccess", "Gửi thông báo thành công!")
                     // Thông báo cho cả tạo đơn thành công + thông báo
                     Toast.makeText(requireContext(), getString(R.string.msg_order_success), Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+                } else if (response.code() == 500) {
+//                    Toast.makeText(requireContext(), getString(R.string.msg_no_token), Toast.LENGTH_SHORT).show()
+                    Log.d("NewOrder code 500", "k thay token")
+                }  else {
+//                    Toast.makeText(context, getString(R.string.msg_cant_connect_server), Toast.LENGTH_SHORT).show()
+                    Log.d("NewOrder : ", "loi khac")
                 }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 (activity as? MainActivity)?.showProgressDialog(false)
-                Toast.makeText(context, "Lỗi onFailure: "+ t.message.toString(), Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "Lỗi onFailure: "+ t.message.toString(), Toast.LENGTH_SHORT).show()
+                Log.d("NewOrder onFailure: ", "loi khac")
             }
         })
 
