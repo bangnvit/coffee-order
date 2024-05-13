@@ -16,6 +16,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
         tools:ignore="Autofill,LabelFor,UselessParent">
 
         <LinearLayout
@@ -63,9 +64,9 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="@string/hint_name"
-                    android:lines="1"
                     android:imeOptions="actionNext"
                     android:inputType="text"
+                    android:lines="1"
                     android:paddingStart="@dimen/define_dimen_16" />
 
                 <ImageView
@@ -188,8 +189,8 @@
                     android:background="@null"
                     android:hint="@string/hint_discount"
                     android:imeOptions="actionNext"
-                    android:maxLength="3"
                     android:inputType="number"
+                    android:maxLength="3"
                     android:paddingStart="@dimen/define_dimen_16"
                     android:textColor="@color/purple"
                     android:textSize="@dimen/text_size_small" />
