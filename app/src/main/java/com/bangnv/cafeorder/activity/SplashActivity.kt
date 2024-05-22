@@ -1,12 +1,15 @@
 package com.bangnv.cafeorder.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import com.bangnv.cafeorder.R
+import com.bangnv.cafeorder.activity.admin.AdminOrderDetailActivity
 import com.bangnv.cafeorder.activity.auth.SignInActivity
+import com.bangnv.cafeorder.constant.Constant
 import com.bangnv.cafeorder.constant.GlobalFunction
 import com.bangnv.cafeorder.constant.GlobalFunction.gotoMainActivity
 import com.bangnv.cafeorder.constant.GlobalFunction.openActivity
@@ -32,16 +35,45 @@ class SplashActivity : BaseActivity() {
         handler.postDelayed({ goToNextActivity() }, 1500)
     }
 
+//    private fun goToNextActivity() {
+//        if (user != null && !isEmpty(user!!.email)) {
+////            checkUserFirebase()
+//            gotoMainActivity(this)
+//            finish()
+//        } else {
+//            openActivity(this, SignInActivity::class.java)
+//            finish()
+//        }
+//    }
+
     private fun goToNextActivity() {
-
-
+        val orderId = intent.getStringExtra("orderId")
         if (user != null && !isEmpty(user!!.email)) {
-//            checkUserFirebase()
-            gotoMainActivity(this)
+            if (orderId != null) {
+                // Nếu có orderId từ thông báo, chuyển đến chi tiết đơn hàng
+                gotoOrderDetailActivity(orderId)
+            } else {
+                // Không có orderId, chuyển đến MainActivity
+                gotoMainActivity(this)
+            }
             finish()
         } else {
             openActivity(this, SignInActivity::class.java)
             finish()
+        }
+    }
+
+    private fun gotoOrderDetailActivity(orderId: String) {
+        if (user!!.type == Constant.TYPE_USER_ADMIN) {
+            val intent = Intent(this, AdminOrderDetailActivity::class.java).apply {
+                putExtra(Constant.KEY_INTENT_ADMIN_ORDER_OBJECT, orderId.toLong())
+            }
+            startActivity(intent)
+        } else {
+            val intent = Intent(this, OrderHistoryDetailActivity::class.java).apply {
+                putExtra(Constant.KEY_INTENT_ORDER_OBJECT, orderId.toLong())
+            }
+            startActivity(intent)
         }
     }
 

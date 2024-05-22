@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/define_dimen_6"
-            android:text="@string/order_detail"
+            android:text="@string/confirm_order_detail"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_xnormal"
             android:textStyle="bold" />

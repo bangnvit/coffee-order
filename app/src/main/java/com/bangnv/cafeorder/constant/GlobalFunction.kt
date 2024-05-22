@@ -32,11 +32,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import com.bangnv.cafeorder.R
 import com.bangnv.cafeorder.activity.FoodDetailActivity
 import com.bangnv.cafeorder.activity.admin.AdminMainActivity
 import com.bangnv.cafeorder.activity.MainActivity
+import com.bangnv.cafeorder.activity.admin.AdminOrderDetailActivity
 import com.bangnv.cafeorder.database.AppApi
 import com.bangnv.cafeorder.listener.IGetDateListener
 import com.bangnv.cafeorder.model.Food
