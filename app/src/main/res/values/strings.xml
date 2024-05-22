@@ -49,6 +49,7 @@
     <string name="message_delete_food">Bạn có chắc chắn muốn xóa món này không?</string>
     <string name="dialog_cancel">Hủy</string>
     <string name="order_detail">Chi tiết đơn hàng</string>
+    <string name="confirm_order_detail">Xác nhận đặt hàng</string>
     <string name="recipient_name">Tên người nhận hàng (*)</string>
     <string name="delivery">Vận chuyển</string>
     <string name="payment_detail">Chi tiết thanh toán</string>
@@ -117,7 +118,7 @@
     <string name="forgot_password_guide">Vui lòng nhập địa chỉ email của bạn. Chúng tôi sẽ gửi hướng dẫn đặt lại mật khẩu cho bạn qua email.</string>
     <string name="admin">Quản trị viên</string>
     <string name="driver">Tài xế</string>
-    <string name="user">Người dùng</string>
+    <string name="user">Khách hàng</string>
     <string name="have_account">Đã có tài khoản?</string>
     <string name="have_not_account">Chưa có tài khoản?</string>
     <string name="sign_in">Đăng nhập</string>
@@ -145,18 +146,18 @@
     <string name="label_date_from">Từ ngày:</string>
     <string name="label_date_to">Đến ngày:</string>
 
-    <string name="food_name">Tên món(*)</string>
-    <string name="food_description">Mô tả món(*)</string>
-    <string name="food_price">Giá món(*)</string>
-    <string name="food_discount">Khuyến mại(*)</string>
-    <string name="food_image">Link ảnh món(*)</string>
-    <string name="food_image_banner">Link ảnh banner(*)</string>
+    <string name="food_name">Tên món (*)</string>
+    <string name="food_description">Mô tả món (*)</string>
+    <string name="food_price">Giá món (*)</string>
+    <string name="food_discount">Khuyến mại (*)</string>
+    <string name="food_image">Link ảnh món (*)</string>
+    <string name="food_image_banner">Link ảnh banner (*)</string>
     <string name="food_image_other">Link các hình ảnh khác</string>
     <string name="food_image_other_note">Phân cách với nhau bằng dấu [ ; ]</string>
 
     <string name="select_category">Chọn danh mục (*)</string>
-    <string name="category_name">Tên danh mục(*)</string>
-    <string name="category_image">Link ảnh danh mục(*)</string>
+    <string name="category_name">Tên danh mục (*)</string>
+    <string name="category_image">Link ảnh danh mục (*)</string>
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Mật khẩu</string>
@@ -185,17 +186,19 @@
     <string name="msg_new_password_invalid">Mật khẩu mới phải khác mật khẩu cũ</string>
     <string name="msg_change_password_successfully">Thay đổi mật khẩu thành công</string>
     <string name="msg_reset_password_successfully">Reset mật khẩu thành công, vui lòng kiểm tra email của bạn</string>
-    <string name="msg_email_invalid">Định dạng Email dành cho Admin không hợp lệ, vui lòng nhập lại</string>
+    <string name="msg_email_invalid">Định dạng email  không hợp lệ, vui lòng thử lại</string>
     <!--    <string name="msg_email_invalid_admin">Email dành cho quản trị viên cần có định dạng …@admin.com</string>-->
     <string name="msg_email_invalid_admin">Email dành cho quản trị viên sai định dạng!</string>
     <string name="msg_email_invalid_driver">Email dành cho tài xế sai định dạng!</string>
-    <string name="msg_email_invalid_user">Email dành cho người dùng sai định dạng!</string>
+    <string name="msg_email_invalid_user">Email dành cho khách hàng sai định dạng!</string>
     <string name="msg_sign_up_success">Đăng ký thành công</string>
-    <string name="msg_sign_up_admin_first_sc">Đăng nhập tài khoản admin lần đầu thành công</string>
+    <string name="msg_sign_up_admin_first_sc">Đăng nhập tài khoản quản trị viên lần đầu thành công</string>
     <string name="msg_sign_up_error">Đăng ký không thành công, vui lòng thử lại</string>
     <string name="msg_sign_up_email_exist">Email đã tồn tại, vui lòng đăng ký với email khác</string>
     <string name="msg_sign_in_error">Đăng nhập không thành công, vui lòng thử lại</string>
 
+    <string name="msg_name_category_require">Vui lòng nhập tên danh mục</string>
+    <string name="msg_url_category_require">Vui lòng nhập link ảnh danh mục</string>
     <string name="msg_name_food_require">Vui lòng nhập tên món</string>
     <string name="msg_description_food_require">Vui lòng nhập mô tả món</string>
     <string name="msg_price_food_require">Vui lòng nhập giá món</string>
@@ -209,7 +212,7 @@
     <string name="msg_confirm_delete">Bạn có chắc chắn muốn xóa mục này không?</string>
     <string name="msg_delete_movie_successfully">Xóa món thành công!</string>
 
-    <string name="msg_add_category_successfully">Thêm danh mục thành công</string>
+    <string name="msg_add_category_successfully">Thêm danh mục thành công!</string>
     <string name="msg_edit_category_success">Chỉnh sửa danh mục thành công!</string>
 
     <string name="msg_cancel_title">Xác nhận hủy đơn hàng</string>

@@ -316,11 +316,12 @@ class OrderHistoryActivity : BaseActivity() {
                 sendDataCancelOrderToRTDB(order, selectedReason)
                 // API Server control notification
                 sendNotiCancelOrderToAdmins(order, selectedReason)
+
+                viewDialog.dismiss()
             } else {
                 // RadioButton not selected
                  Toast.makeText(this@OrderHistoryActivity, getString(R.string.select_cancel_reason), Toast.LENGTH_SHORT).show()
             }
-            viewDialog.dismiss()
         }
 
         // Show dialog + set Customize

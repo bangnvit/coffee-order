@@ -83,9 +83,14 @@ class CustomerFirebaseMessagingService : FirebaseMessagingService(){
             }
             else -> intent = Intent(this, SplashActivity::class.java) // Tự vào Main đúng theo User.type
         }
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+        // Tạo mã yêu cầu duy nhất cho mỗi thông báo để không bị trùng.
+        // (đã bị dính chưởng khi để requestCode = 0, thông báo A xong có thông báo B đến NGAY sau đó - tức là chưa bấm vào thông báo A)
+        // (cái kết là bấm thông báo B và ID đơn hàng đang thông báo A do chưa bị ghi đè hết...)
+        val uniqueRequestCode = System.currentTimeMillis().toInt()
+
         val pendingIntent = PendingIntent.getActivity(
-            this, 0 /* Request code */,
+            this, uniqueRequestCode,
             intent, PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
         )
 

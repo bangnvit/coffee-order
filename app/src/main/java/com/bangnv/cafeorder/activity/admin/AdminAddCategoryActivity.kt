@@ -69,11 +69,11 @@ class AdminAddCategoryActivity : BaseActivity()  {
         val strName = mActivityAdminAddCategoryBinding.edtName.text.toString().trim { it <= ' ' }
         val strImage = mActivityAdminAddCategoryBinding.edtImage.text.toString().trim { it <= ' ' }
         if (StringUtil.isEmpty(strName)) {
-            Toast.makeText(this, getString(R.string.msg_name_food_require), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.msg_name_category_require), Toast.LENGTH_SHORT).show()
             return
         }
         if (StringUtil.isEmpty(strImage)) {
-            Toast.makeText(this, getString(R.string.msg_image_food_require), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.msg_url_category_require), Toast.LENGTH_SHORT).show()
             return
         }
 
