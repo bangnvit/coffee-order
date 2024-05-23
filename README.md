@@ -6,7 +6,7 @@
 
 ## Yêu cầu
 - Có kết nối Internet để download các dependency
-- Android Studio 4.x (Recommend: Android Studio Flamingo 2022.2.1 Patch 2)
+- Android Studio 4.x - Recommended: Android Studio Flamingo 2022.2.1 Patch 2
 - SDK Android
 - Gradle JDK 11 - Recommended: corretto-11 Amazon Corretto version 11.0.22
 
@@ -23,12 +23,12 @@
 
 ## App Android: tài khoản đăng nhập:
 1. Admin:
-	Email:		bangnv@admin.com
-	Password:	123123
-hoặc
-	Email:		bang@admin.com
-	Password:	123123
+   Email:		bangnv@admin.com
+   Password:	123123
+   hoặc
+   Email:		bang@admin.com
+   Password:	123123
 
 2. User:
-	Email:		bangnv@gmail.com
-	Password:	123123
+   Email:		bangnv@gmail.com
+   Password:	123123
