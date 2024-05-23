@@ -1,6 +1,7 @@
 # Hướng dẫn Thiết lập Dự án Android
 
 ## Yêu cầu
+- Có kết nối Internet để download các dependency
 - Android Studio 4.x (Recommend: Android Studio Flamingo 2022.2.1 Patch 2)
 - SDK Android
 - Gradle JDK 11 - Recommended: corretto-11 Amazon Corretto version 11.0.22
