@@ -210,7 +210,8 @@
     <string name="msg_edit_food_success">Chỉnh sửa món thành công!</string>
     <string name="msg_delete_title">Xác nhận xóa</string>
     <string name="msg_confirm_delete">Bạn có chắc chắn muốn xóa mục này không?</string>
-    <string name="msg_delete_movie_successfully">Xóa món thành công!</string>
+    <string name="msg_delete_food_successfully">Xóa món thành công!</string>
+    <string name="msg_delete_category_successfully">Xóa danh mục thành công!</string>
 
     <string name="msg_add_category_successfully">Thêm danh mục thành công!</string>
     <string name="msg_edit_category_success">Chỉnh sửa danh mục thành công!</string>

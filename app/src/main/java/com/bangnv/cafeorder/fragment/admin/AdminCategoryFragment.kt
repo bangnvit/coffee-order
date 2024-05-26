@@ -108,7 +108,7 @@ class AdminCategoryFragment : Fragment() {
                     ControllerApplication[requireActivity()].categoryDatabaseReference
                             .child(category!!.id.toString()).removeValue { _: DatabaseError?, _: DatabaseReference? ->
                                 Toast.makeText(activity,
-                                        getString(R.string.msg_delete_movie_successfully), Toast.LENGTH_SHORT).show()
+                                        getString(R.string.msg_delete_category_successfully), Toast.LENGTH_SHORT).show()
                             }
                 }
                 .setNegativeButton(getString(R.string.action_cancel), null)
