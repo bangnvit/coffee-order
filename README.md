@@ -1,5 +1,9 @@
 ## Kính chào các thầy cô!
 
+## Demo
+
+[Coffee Order - Demo](https://youtu.be/uDAHHCDkxvQ)
+
 ## Dưới đây là hướng đẫn thiết lập dự án:
 
 # Hướng dẫn thiết lập Dự án Android
