@@ -12,13 +12,11 @@ import com.bangnv.cafeorder.model.Payment
 class PaymentMethodAdapter (context: Context, @LayoutRes resource: Int,
                             list: MutableList<Payment>) : ArrayAdapter<Payment>(context, resource, list) {
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
-        var convertView = view
-        if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_choose_option, null)
-            val tvSelected = convertView.findViewById<TextView>(R.id.tv_selected)
+        val convertView = view ?: View.inflate(context, R.layout.item_choose_option, null).also { inflated ->
+            val tvSelected = inflated.findViewById<TextView>(R.id.tv_selected)
             tvSelected.text = getItem(position)?.name
         }
-        return convertView!!
+        return convertView
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {

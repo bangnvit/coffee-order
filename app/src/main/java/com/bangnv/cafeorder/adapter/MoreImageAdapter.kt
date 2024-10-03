@@ -9,7 +9,7 @@ import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.model.Image
 import com.bangnv.cafeorder.utils.GlideUtils.loadUrl
 
-class MoreImageAdapter(private val mListImages: List<Image>?) : RecyclerView.Adapter<MoreImageViewHolder>() {
+class MoreImageAdapter(private val mListImages: List<Image>) : RecyclerView.Adapter<MoreImageViewHolder>() {
 
     interface IOnClickOtherImagesListener {
         fun onClickOtherImages(urlImage: String)
@@ -21,12 +21,12 @@ class MoreImageAdapter(private val mListImages: List<Image>?) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: MoreImageViewHolder, position: Int) {
-        val image = mListImages!![position]
+        val image = mListImages[position]
         loadUrl(image.url, holder.mItemMoreImageBinding.imageFood)
     }
 
     override fun getItemCount(): Int {
-        return mListImages?.size ?: 0
+        return mListImages.size
     }
 
     class MoreImageViewHolder(val mItemMoreImageBinding: ItemMoreImageBinding) : RecyclerView.ViewHolder(mItemMoreImageBinding.root)

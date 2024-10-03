@@ -10,7 +10,7 @@ import com.bangnv.cafeorder.listener.IOnClickFoodItemListener
 import com.bangnv.cafeorder.model.Food
 import com.bangnv.cafeorder.utils.GlideUtils.loadUrlBanner
 
-class FoodPopularAdapter(private val mListFoods: List<Food>?,
+class FoodPopularAdapter(private val mListFoods: List<Food>,
                          private val iOnClickFoodItemListener: IOnClickFoodItemListener) : RecyclerView.Adapter<FoodPopularViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodPopularViewHolder {
@@ -19,7 +19,7 @@ class FoodPopularAdapter(private val mListFoods: List<Food>?,
     }
 
     override fun onBindViewHolder(holder: FoodPopularViewHolder, position: Int) {
-        val food = mListFoods!![position]
+        val food = mListFoods[position]
         loadUrlBanner(food.banner, holder.mItemFoodPopularBinding.imageFood)
         if (food.sale <= 0) {
             holder.mItemFoodPopularBinding.tvSaleOff.visibility = View.GONE
@@ -32,7 +32,7 @@ class FoodPopularAdapter(private val mListFoods: List<Food>?,
     }
 
     override fun getItemCount(): Int {
-        return mListFoods?.size ?: 0
+        return mListFoods.size
     }
 
     class FoodPopularViewHolder(val mItemFoodPopularBinding: ItemFoodPopularBinding) : RecyclerView.ViewHolder(mItemFoodPopularBinding.root)
