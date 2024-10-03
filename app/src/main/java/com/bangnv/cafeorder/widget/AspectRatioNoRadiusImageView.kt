@@ -7,9 +7,9 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import com.bangnv.cafeorder.R
 
-class AspectRatioNoRadiusImageView @JvmOverloads constructor(context: Context?,
+class AspectRatioNoRadiusImageView @JvmOverloads constructor(context: Context,
                                                              attrs: AttributeSet? = null,
-                                                             defStyleAttr: Int = 0) : AppCompatImageView(context!!, attrs, defStyleAttr) {
+                                                             defStyleAttr: Int = 0) : AppCompatImageView(context, attrs, defStyleAttr) {
     private var aspectRatio = 0f
     private var aspectRatioEnabled = false
     private var dominantMeasurement = 0

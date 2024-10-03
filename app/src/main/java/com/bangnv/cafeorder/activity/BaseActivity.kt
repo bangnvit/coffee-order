@@ -8,8 +8,8 @@ import com.bangnv.cafeorder.R
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    private var progressDialog: MaterialDialog? = null
-    private var alertDialog: MaterialDialog? = null
+    private lateinit var progressDialog: MaterialDialog
+    private lateinit var alertDialog: MaterialDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,24 +26,23 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun showProgressDialog(value: Boolean) {
         if (value) {
-            if (progressDialog != null && !progressDialog!!.isShowing) {
-                progressDialog!!.show()
-//                progressDialog!!.setCancelable(false)
-                progressDialog!!.setCancelable(true)
+            if (!progressDialog.isShowing) {
+                progressDialog.show()
+                progressDialog.setCancelable(true)
             }
         } else {
-            if (progressDialog != null && progressDialog!!.isShowing) {
-                progressDialog!!.dismiss()
+            if (progressDialog.isShowing) {
+                progressDialog.dismiss()
             }
         }
     }
 
     fun dismissProgressDialog() {
-        if (progressDialog != null && progressDialog!!.isShowing) {
-            progressDialog!!.dismiss()
+        if (progressDialog.isShowing) {
+            progressDialog.dismiss()
         }
-        if (alertDialog != null && alertDialog!!.isShowing) {
-            alertDialog!!.dismiss()
+        if (alertDialog.isShowing) {
+            alertDialog.dismiss()
         }
     }
 
@@ -56,27 +55,25 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun showAlertDialog(errorMessage: String?) {
-        alertDialog!!.setContent(errorMessage)
-        alertDialog!!.show()
+        alertDialog.setContent(errorMessage)
+        alertDialog.show()
     }
 
     fun showAlertDialog(@StringRes resourceId: Int) {
-        alertDialog!!.setContent(resourceId)
-        alertDialog!!.show()
+        alertDialog.setContent(resourceId)
+        alertDialog.show()
     }
 
     fun setCancelProgress(isCancel: Boolean) {
-        if (progressDialog != null) {
-            progressDialog!!.setCancelable(isCancel)
-        }
+        progressDialog.setCancelable(isCancel)
     }
 
     override fun onDestroy() {
-        if (progressDialog != null && progressDialog!!.isShowing) {
-            progressDialog!!.dismiss()
+        if (progressDialog.isShowing) {
+            progressDialog.dismiss()
         }
-        if (alertDialog != null && alertDialog!!.isShowing) {
-            alertDialog!!.dismiss()
+        if (alertDialog.isShowing) {
+            alertDialog.dismiss()
         }
         super.onDestroy()
     }

@@ -10,7 +10,7 @@ import com.bangnv.cafeorder.prefs.DataStoreManager
 
 class ControllerApplication : Application() {
 
-    private var mFirebaseDatabase: FirebaseDatabase? = null
+    private lateinit var mFirebaseDatabase: FirebaseDatabase
 
     override fun onCreate() {
         super.onCreate()
@@ -20,15 +20,15 @@ class ControllerApplication : Application() {
     }
 
     val categoryDatabaseReference: DatabaseReference
-        get() = mFirebaseDatabase!!.getReference("/category")
+        get() = mFirebaseDatabase.getReference("/category")
     val foodDatabaseReference: DatabaseReference
-        get() = mFirebaseDatabase!!.getReference("/food")
+        get() = mFirebaseDatabase.getReference("/food")
     val feedbackDatabaseReference: DatabaseReference
-        get() = mFirebaseDatabase!!.getReference("/feedback")
+        get() = mFirebaseDatabase.getReference("/feedback")
     val bookingDatabaseReference: DatabaseReference
-        get() = mFirebaseDatabase!!.getReference("/booking")
+        get() = mFirebaseDatabase.getReference("/booking")
     val userDatabaseReference: DatabaseReference
-        get() = mFirebaseDatabase!!.getReference("/user")
+        get() = mFirebaseDatabase.getReference("/user")
 
 
     companion object {

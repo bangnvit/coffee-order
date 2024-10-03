@@ -61,20 +61,21 @@ object GlobalFunction {
     }
 
     @JvmStatic
-    fun openActivity(context: Context, clz: Class<*>?, bundle: Bundle?) {
+    fun openActivity(context: Context, clz: Class<*>?, bundle: Bundle) {
         val intent = Intent(context, clz)
-        intent.putExtras(bundle!!)
+        intent.putExtras(bundle)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(intent)
     }
 
     @JvmStatic
     fun gotoMainActivity(context: Context) {
-        if (user!!.type == Constant.TYPE_USER_ADMIN) {
+        val currentUser = user ?: return
+        if (currentUser.type == Constant.TYPE_USER_ADMIN) {
             openActivity(context, AdminMainActivity::class.java)
-        } else  if (user!!.type == Constant.TYPE_USER_DRIVER){
+        } else if (currentUser.type == Constant.TYPE_USER_DRIVER) {
 //            startActivity(context, DriverMainActivity::class.java)
-            Toast.makeText(context, "Global function gotoMainActivity: Cần tạo DriverMainActivity", Toast.LENGTH_SHORT ).show()
+            Toast.makeText(context, "Global function gotoMainActivity: Cần tạo DriverMainActivity", Toast.LENGTH_SHORT).show()
         } else {
             openActivity(context, MainActivity::class.java)
         }
@@ -91,7 +92,7 @@ object GlobalFunction {
         try {
             val inputMethodManager =
                 activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
+            inputMethodManager.hideSoftInputFromWindow(activity.currentFocus?.windowToken, 0)
         } catch (ex: NullPointerException) {
             ex.printStackTrace()
         }
@@ -226,7 +227,7 @@ object GlobalFunction {
     }
 
     @JvmStatic
-    fun showDatePicker(context: Context?, currentDate: String, getDateListener: IGetDateListener) {
+    fun showDatePicker(context: Context, currentDate: String, getDateListener: IGetDateListener) {
         val mCalendar = Calendar.getInstance()
         var currentDay = mCalendar[Calendar.DATE]
         var currentMonth = mCalendar[Calendar.MONTH]
@@ -246,7 +247,7 @@ object GlobalFunction {
                 getDateListener.getDate(date)
             }
         val datePicker = DatePickerDialog(
-            context!!,
+            context,
             callBack, mCalendar[Calendar.YEAR], mCalendar[Calendar.MONTH],
             mCalendar[Calendar.DATE]
         )
