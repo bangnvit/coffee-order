@@ -29,7 +29,7 @@ class FeedbackFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         mFragmentFeedbackBinding = FragmentFeedbackBinding.inflate(inflater, container, false)
-        mFragmentFeedbackBinding.edtEmail.setText(user!!.email)
+        mFragmentFeedbackBinding.edtEmail.setText(user?.email)
         mFragmentFeedbackBinding.btnSendFeedback.setOnClickListener { onClickSendFeedback() }
 
         setupTouchOtherToClearAllFocus()
@@ -39,26 +39,23 @@ class FeedbackFragment : Fragment() {
     }
 
     private fun onClickSendFeedback() {
-        if (activity == null) {
-            return
-        }
-        val activity = activity as MainActivity?
+        val mainActivity = activity as? MainActivity ?: return
         val strName = mFragmentFeedbackBinding.edtName.text.toString()
         val strPhone = mFragmentFeedbackBinding.edtPhone.text.toString()
         val strEmail = mFragmentFeedbackBinding.edtEmail.text.toString()
         val strComment = mFragmentFeedbackBinding.edtComment.text.toString()
         when {
-            isEmpty(strName) -> { showToastMessage(activity, getString(R.string.name_require)) }
+            isEmpty(strName) -> { showToastMessage(mainActivity, getString(R.string.name_require)) }
 
-            isEmpty(strComment) -> { showToastMessage(activity, getString(R.string.comment_require)) }
+            isEmpty(strComment) -> { showToastMessage(mainActivity, getString(R.string.comment_require)) }
 
             else -> {
-                activity!!.showProgressDialog(true)
+                mainActivity.showProgressDialog(true)
                 val feedback = Feedback(strName, strPhone, strEmail, strComment)
                 ControllerApplication[requireActivity()].feedbackDatabaseReference
                     .child(System.currentTimeMillis().toString())
                     .setValue(feedback) { _: DatabaseError?, _: DatabaseReference? ->
-                        activity.showProgressDialog(false)
+                        mainActivity.showProgressDialog(false)
                         sendFeedbackSuccess()
                     }
             }

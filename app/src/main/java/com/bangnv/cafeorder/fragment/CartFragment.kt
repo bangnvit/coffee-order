@@ -116,7 +116,7 @@ class CartFragment : Fragment() {
 
     private fun initDataFoodCart() {
         mListFoodCart = mutableListOf()
-        mListFoodCart = getInstance(requireActivity())!!.foodDAO()!!.listFoodCart!!
+        mListFoodCart = getInstance(requireActivity()).foodDAO().listFoodCart ?: mutableListOf()
         if (mListFoodCart.isEmpty()) {
             return
         }
@@ -126,7 +126,7 @@ class CartFragment : Fragment() {
             }
 
             override fun updateItemFood(food: Food?, position: Int) {
-                getInstance(requireActivity())!!.foodDAO()!!.updateFood(food)
+                getInstance(requireActivity()).foodDAO().updateFood(food)
                 mCartAdapter.notifyItemChanged(position)
                 calculateTotalPrice()
             }
@@ -151,7 +151,7 @@ class CartFragment : Fragment() {
     }
 
     private fun calculateTotalPrice() {
-        val listFoodCart = getInstance(requireActivity())!!.foodDAO()!!.listFoodCart
+        val listFoodCart = getInstance(requireActivity()).foodDAO().listFoodCart
         if (listFoodCart.isNullOrEmpty()) {
             val strZero: String = formatNumberWithPeriods(0) + Constant.CURRENCY
             mFragmentCartBinding.tvSubTotalPrice.text = strZero
@@ -172,7 +172,7 @@ class CartFragment : Fragment() {
             .setTitle(getString(R.string.confirm_delete_food))
             .setMessage(getString(R.string.message_delete_food))
             .setPositiveButton(getString(R.string.delete)) { _: DialogInterface?, _: Int ->
-                getInstance(requireActivity())!!.foodDAO()!!.deleteFood(food)
+                getInstance(requireActivity()).foodDAO().deleteFood(food)
                 mListFoodCart.removeAt(position)
                 mCartAdapter.notifyItemRemoved(position)
                 if (mCartAdapter.itemCount == 0) {
@@ -252,17 +252,18 @@ class CartFragment : Fragment() {
                 showToastMessage(activity, getString(R.string.message_enter_infor_order))
             } else {
                 val id = System.currentTimeMillis()
-                val strEmail = user!!.email
+                val strEmail = user?.email
+                val paymentSelected = mPaymentSelected ?: return@setOnClickListener
 
                 // Payment COD or Payment WALLET
-                val paymentCode = if (mPaymentSelected!!.code == Constant.TYPE_PAYMENT_COD) {
+                val paymentCode = if (paymentSelected.code == Constant.TYPE_PAYMENT_COD) {
                     Constant.CODE_NEW_ORDER
                 } else {
                     Constant.CODE_NEW_MOMO_UNPAID
                 }
                 val order = Order(
-                    id, strName, strEmail, strPhone, strAddress,mAmount, getStringListFoodsOrder(),
-                    mPaymentSelected!!.code,strNote, paymentCode, shippingFee, totalPrice
+                    id, strName, strEmail, strPhone, strAddress, mAmount, getStringListFoodsOrder(),
+                    paymentSelected.code, strNote, paymentCode, shippingFee, totalPrice
                 )
 
                 // Set Data on Realtime Database
@@ -312,7 +313,7 @@ class CartFragment : Fragment() {
         viewDialog.dismiss()
 
         mFragmentCartBinding.edtNote.setText("")
-        getInstance(requireActivity())!!.foodDAO()!!.deleteAllFood()
+        getInstance(requireActivity()).foodDAO().deleteAllFood()
         clearCart()
         mFragmentCartBinding.layoutCartWrap.visibility = View.GONE
     }
@@ -391,7 +392,7 @@ class CartFragment : Fragment() {
                             }
                         } else {
                             Log.e("MoMoResponse rsCode!=0", "resultCode != 0 (Not Success)")
-                            Log.d("moMoApi: ", "onResponse isSuccessful moMoResponse != null;  resultCode !!!= 0")
+                            Log.d("moMoApi: ", "onResponse isSuccessful moMoResponse != null;  resultCode != 0")
 
                         }
                     } else {
@@ -469,7 +470,7 @@ class CartFragment : Fragment() {
                             }
                         } else {
                             Log.e("MoMoResponse rsCode!=0", "resultCode != 0 (Not Success)")
-                            Log.d("moMoApi: ", "onResponse isSuccessful moMoResponse != null;  resultCode !!!= 0")
+                            Log.d("moMoApi: ", "onResponse isSuccessful moMoResponse != null;  resultCode != 0")
 
                         }
                     } else {

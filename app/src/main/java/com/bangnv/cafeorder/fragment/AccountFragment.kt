@@ -32,7 +32,7 @@ class AccountFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val fragmentAccountBinding = FragmentAccountBinding.inflate(inflater, container, false)
-        fragmentAccountBinding.tvEmail.text = user!!.email
+        fragmentAccountBinding.tvEmail.text = user?.email
         fragmentAccountBinding.layoutSignOut.setOnClickListener { onClickSignOut() }
         fragmentAccountBinding.layoutChangePassword.setOnClickListener { onClickChangePassword() }
         fragmentAccountBinding.layoutOrderHistory.setOnClickListener { onClickOrderHistory() }
@@ -61,14 +61,13 @@ class AccountFragment : Fragment() {
     }
 
     private fun deleteFcmTokenOnRTDB() {
-        val currentUserEmail = user!!.email
+        val currentUserEmail = user?.email ?: return
         val tokenIdToDelete = DataStoreManager.tokenId.toString()
 
         val userRef = ControllerApplication[requireContext()].userDatabaseReference
         val query = userRef.orderByChild("email").equalTo(currentUserEmail)
 
-
-        queryValueListener = object : ValueEventListener {
+        val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (userSnapshot in snapshot.children) {
                     val fcmtokenRef = userSnapshot.child("fcmtoken")
@@ -86,7 +85,8 @@ class AccountFragment : Fragment() {
                 Log.e("Delete Fcm Token", "Error: ${error.message}")
             }
         }
-        query.addListenerForSingleValueEvent(queryValueListener!!)
+        queryValueListener = listener
+        query.addListenerForSingleValueEvent(listener)
     }
 
     override fun onDestroyView() {

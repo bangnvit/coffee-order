@@ -200,8 +200,9 @@ class AdminHomeFragment : Fragment() {
                     if (activity == null) {
                         return@setPositiveButton
                     }
+                    val foodId = food?.id ?: return@setPositiveButton
                     ControllerApplication[requireActivity()].foodDatabaseReference
-                            .child(food!!.id.toString()).removeValue { _: DatabaseError?, _: DatabaseReference? ->
+                            .child(foodId.toString()).removeValue { _: DatabaseError?, _: DatabaseReference? ->
                                 Toast.makeText(activity,
                                         getString(R.string.msg_delete_food_successfully), Toast.LENGTH_SHORT).show()
                             }

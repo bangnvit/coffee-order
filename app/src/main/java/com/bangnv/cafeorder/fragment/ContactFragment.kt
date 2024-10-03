@@ -19,9 +19,9 @@ class ContactFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val mFragmentContactBinding = FragmentContactBinding.inflate(inflater, container, false)
-        mContactAdapter = ContactAdapter(activity, getListContact(), object : ICallPhone {
+        mContactAdapter = ContactAdapter(getListContact(), object : ICallPhone {
             override fun onClickCallPhone() {
-                callPhoneNumber(activity!!)
+                callPhoneNumber(requireActivity())
             }
         })
         val layoutManager = LinearLayoutManager(activity)
@@ -47,6 +47,5 @@ class ContactFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mContactAdapter.release()
     }
 }

@@ -105,8 +105,9 @@ class AdminCategoryFragment : Fragment() {
                     if (activity == null) {
                         return@setPositiveButton
                     }
+                    val categoryId = category?.id ?: return@setPositiveButton
                     ControllerApplication[requireActivity()].categoryDatabaseReference
-                            .child(category!!.id.toString()).removeValue { _: DatabaseError?, _: DatabaseReference? ->
+                            .child(categoryId.toString()).removeValue { _: DatabaseError?, _: DatabaseReference? ->
                                 Toast.makeText(activity,
                                         getString(R.string.msg_delete_category_successfully), Toast.LENGTH_SHORT).show()
                             }
