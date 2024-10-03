@@ -219,7 +219,7 @@ class SearchActivity : AppCompatActivity(){
             override fun onDataChange(snapshot: DataSnapshot) {
                 mListFood.clear()
                 for (dataSnapshot in snapshot.children) {
-                    val food = dataSnapshot.getValue(Food::class.java)!!
+                    val food = dataSnapshot.getValue(Food::class.java) ?: continue
                     if (isFoodResult(food)) {
                         mListFood.add(0, food)
                     }

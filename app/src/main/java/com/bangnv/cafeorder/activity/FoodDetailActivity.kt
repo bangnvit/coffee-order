@@ -55,41 +55,40 @@ class FoodDetailActivity : BaseActivity() {
     }
 
     private fun setDataFoodDetail() {
-        if (mFood == null) {
-            return
-        }
-        loadUrlBanner(mFood!!.banner, mActivityFoodDetailBinding.imageFood)
-        if (mFood!!.sale <= 0) {
+        val food = mFood ?: return
+        loadUrlBanner(food.banner, mActivityFoodDetailBinding.imageFood)
+        if (food.sale <= 0) {
             mActivityFoodDetailBinding.tvSaleOff.visibility = View.GONE
             mActivityFoodDetailBinding.tvPrice.visibility = View.GONE
-            val strPrice: String = formatNumberWithPeriods(mFood!!.price) + Constant.CURRENCY
+            val strPrice: String = formatNumberWithPeriods(food.price) + Constant.CURRENCY
             mActivityFoodDetailBinding.tvPriceSale.text = strPrice
         } else {
             mActivityFoodDetailBinding.tvSaleOff.visibility = View.VISIBLE
             mActivityFoodDetailBinding.tvPrice.visibility = View.VISIBLE
-            val strSale = "Giảm " + mFood!!.sale + "%"
+            val strSale = "Giảm " + food.sale + "%"
             mActivityFoodDetailBinding.tvSaleOff.text = strSale
-            val strPriceOld: String = formatNumberWithPeriods(mFood!!.price) + Constant.CURRENCY
+            val strPriceOld: String = formatNumberWithPeriods(food.price) + Constant.CURRENCY
             mActivityFoodDetailBinding.tvPrice.text = strPriceOld
             mActivityFoodDetailBinding.tvPrice.paintFlags = mActivityFoodDetailBinding.tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            val strRealPrice: String = formatNumberWithPeriods(mFood!!.realPrice) + Constant.CURRENCY
+            val strRealPrice: String = formatNumberWithPeriods(food.realPrice) + Constant.CURRENCY
             mActivityFoodDetailBinding.tvPriceSale.text = strRealPrice
         }
-        mActivityFoodDetailBinding.tvFoodName.text = mFood!!.name
-        mActivityFoodDetailBinding.tvFoodDescription.text = mFood!!.description
-        displayListMoreImages()
+        mActivityFoodDetailBinding.tvFoodName.text = food.name
+        mActivityFoodDetailBinding.tvFoodDescription.text = food.description
+        displayListMoreImages(food)
         setStatusButtonAddToCart()
     }
 
-    private fun displayListMoreImages() {
-        if (mFood!!.images == null || mFood!!.images!!.isEmpty()) {
+    private fun displayListMoreImages(food: Food) {
+        val images = food.images
+        if (images.isNullOrEmpty()) {
             mActivityFoodDetailBinding.tvMoreImageLabel.visibility = View.GONE
             return
         }
         mActivityFoodDetailBinding.tvMoreImageLabel.visibility = View.VISIBLE
         val gridLayoutManager = GridLayoutManager(this, 2)
         mActivityFoodDetailBinding.rcvImages.layoutManager = gridLayoutManager
-        val moreImageAdapter = MoreImageAdapter(mFood!!.images)
+        val moreImageAdapter = MoreImageAdapter(images)
         mActivityFoodDetailBinding.rcvImages.adapter = moreImageAdapter
     }
 
@@ -110,7 +109,8 @@ class FoodDetailActivity : BaseActivity() {
     }
 
     private fun isFoodInCart(): Boolean {
-        val list = getInstance(this)!!.foodDAO()!!.checkFoodInCart(mFood!!.id)
+        val food = mFood ?: return false
+        val list = getInstance(this).foodDAO().checkFoodInCart(food.id)
         return !list.isNullOrEmpty()
     }
 
@@ -127,6 +127,7 @@ class FoodDetailActivity : BaseActivity() {
 
     @SuppressLint("ResourceType", "InflateParams")
     private fun onClickAddToCart() {
+        val food = mFood ?: return
         if (isFoodInCart()) {
             return
         }
@@ -144,39 +145,38 @@ class FoodDetailActivity : BaseActivity() {
         val tvAddCount = viewDialog.findViewById<TextView>(R.id.tv_add)
         val tvCancel = viewDialog.findViewById<TextView>(R.id.tv_cancel)
         val tvAddCart = viewDialog.findViewById<TextView>(R.id.tv_add_cart)
-        loadUrl(mFood!!.image, imgFoodCart)
-        tvFoodNameCart.text = mFood!!.name
-        val totalPrice = mFood!!.realPrice
+        loadUrl(food.image, imgFoodCart)
+        tvFoodNameCart.text = food.name
+        val totalPrice = food.realPrice
         val strTotalPrice: String = formatNumberWithPeriods(totalPrice) + Constant.CURRENCY
         tvFoodPriceCart.text = strTotalPrice
-        mFood!!.count = 1
-        mFood!!.totalPrice = totalPrice
+        food.count = 1
+        food.totalPrice = totalPrice
 
         // Set listener
         tvSubtractCount.setOnClickListener {
             val count = tvCount.text.toString().toInt()
-            if (count <= 1) {                return@setOnClickListener
-            }
+            if (count <= 1) { return@setOnClickListener }
             val newCount = tvCount.text.toString().toInt() - 1
             tvCount.text = newCount.toString()
-            val totalPrice1 = mFood!!.realPrice * newCount
+            val totalPrice1 = food.realPrice * newCount
             val strTotalPrice1: String = formatNumberWithPeriods(totalPrice1) + Constant.CURRENCY
             tvFoodPriceCart.text = strTotalPrice1
-            mFood!!.count = newCount
-            mFood!!.totalPrice = totalPrice1
+            food.count = newCount
+            food.totalPrice = totalPrice1
         }
         tvAddCount.setOnClickListener {
             val newCount = tvCount.text.toString().toInt() + 1
             tvCount.text = newCount.toString()
-            val totalPrice2 = mFood!!.realPrice * newCount
+            val totalPrice2 = food.realPrice * newCount
             val strTotalPrice2: String = formatNumberWithPeriods(totalPrice2) + Constant.CURRENCY
             tvFoodPriceCart.text = strTotalPrice2
-            mFood!!.count = newCount
-            mFood!!.totalPrice = totalPrice2
+            food.count = newCount
+            food.totalPrice = totalPrice2
         }
         tvCancel.setOnClickListener { viewDialog.dismiss() }
         tvAddCart.setOnClickListener {
-            getInstance(this@FoodDetailActivity)!!.foodDAO()!!.insertFood(mFood)
+            getInstance(this@FoodDetailActivity).foodDAO().insertFood(food)
             viewDialog.dismiss()
             setStatusButtonAddToCart()
             EventBus.getDefault().post(ReloadListCartEvent())

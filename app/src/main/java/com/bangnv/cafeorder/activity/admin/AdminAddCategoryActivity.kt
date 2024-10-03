@@ -55,10 +55,11 @@ class AdminAddCategoryActivity : BaseActivity()  {
 
     private fun initView() {
         if (isUpdate) {
+            val category = mCategory ?: return
             mActivityAdminAddCategoryBinding.toolbar.tvTitle.text = getString(R.string.edit_category)
             mActivityAdminAddCategoryBinding.btnAddOrEdit.text = getString(R.string.action_edit)
-            mActivityAdminAddCategoryBinding.edtName.setText(mCategory!!.name)
-            mActivityAdminAddCategoryBinding.edtImage.setText(mCategory!!.image)
+            mActivityAdminAddCategoryBinding.edtName.setText(category.name)
+            mActivityAdminAddCategoryBinding.edtImage.setText(category.image)
         } else {
             mActivityAdminAddCategoryBinding.toolbar.tvTitle.text = getString(R.string.add_category)
             mActivityAdminAddCategoryBinding.btnAddOrEdit.text = getString(R.string.action_add)
@@ -83,8 +84,9 @@ class AdminAddCategoryActivity : BaseActivity()  {
             val map: MutableMap<String, Any> = HashMap()
             map["name"] = strName
             map["image"] = strImage
+            val category = mCategory ?: return
             ControllerApplication[this].categoryDatabaseReference
-                .child(mCategory!!.id.toString()).updateChildren(map) { _: DatabaseError?, _: DatabaseReference? ->
+                .child(category.id.toString()).updateChildren(map) { _: DatabaseError?, _: DatabaseReference? ->
                     showProgressDialog(false)
                     Toast.makeText(this@AdminAddCategoryActivity,
                         getString(R.string.msg_edit_category_success), Toast.LENGTH_SHORT).show()

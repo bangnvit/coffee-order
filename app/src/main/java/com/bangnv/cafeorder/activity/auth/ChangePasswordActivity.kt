@@ -41,7 +41,7 @@ class ChangePasswordActivity : BaseActivity() {
             Toast.makeText(this@ChangePasswordActivity, getString(R.string.msg_new_password_require), Toast.LENGTH_SHORT).show()
         } else if (isEmpty(strConfirmPassword)) {
             Toast.makeText(this@ChangePasswordActivity, getString(R.string.msg_confirm_password_require), Toast.LENGTH_SHORT).show()
-        } else if (user!!.password != strOldPassword) {
+        } else if (user?.password != strOldPassword) {
             Toast.makeText(this@ChangePasswordActivity, getString(R.string.msg_old_password_invalid), Toast.LENGTH_SHORT).show()
         } else if (strNewPassword != strConfirmPassword) {
             Toast.makeText(this@ChangePasswordActivity, getString(R.string.msg_confirm_password_invalid), Toast.LENGTH_SHORT).show()
@@ -62,7 +62,7 @@ class ChangePasswordActivity : BaseActivity() {
                         Toast.makeText(this@ChangePasswordActivity,
                                 getString(R.string.msg_change_password_successfully), Toast.LENGTH_SHORT).show()
                         val userLogin = DataStoreManager.user
-                        userLogin!!.password = newPassword
+                        userLogin?.password = newPassword
                         DataStoreManager.user = userLogin
                         mActivityChangePasswordBinding.edtOldPassword.setText("")
                         mActivityChangePasswordBinding.edtNewPassword.setText("")

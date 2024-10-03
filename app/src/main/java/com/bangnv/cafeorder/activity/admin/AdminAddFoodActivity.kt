@@ -69,15 +69,16 @@ class AdminAddFoodActivity : BaseActivity() {
 
     private fun initView() {
         if (isUpdate) {
+            val food = mFood ?: return
             mActivityAdminAddFoodBinding.toolbar.tvTitle.text = getString(R.string.edit_food)
             mActivityAdminAddFoodBinding.btnAddOrEdit.text = getString(R.string.action_edit)
-            mActivityAdminAddFoodBinding.edtName.setText(mFood!!.name)
-            mActivityAdminAddFoodBinding.edtDescription.setText(mFood!!.description)
-            mActivityAdminAddFoodBinding.edtPrice.setText(java.lang.String.valueOf(mFood!!.price))
-            mActivityAdminAddFoodBinding.edtDiscount.setText(java.lang.String.valueOf(mFood!!.sale))
-            mActivityAdminAddFoodBinding.edtImage.setText(mFood!!.image)
-            mActivityAdminAddFoodBinding.edtImageBanner.setText(mFood!!.banner)
-            mActivityAdminAddFoodBinding.chbPopular.isChecked = mFood!!.isPopular
+            mActivityAdminAddFoodBinding.edtName.setText(food.name)
+            mActivityAdminAddFoodBinding.edtDescription.setText(food.description)
+            mActivityAdminAddFoodBinding.edtPrice.setText(java.lang.String.valueOf(food.price))
+            mActivityAdminAddFoodBinding.edtDiscount.setText(java.lang.String.valueOf(food.sale))
+            mActivityAdminAddFoodBinding.edtImage.setText(food.image)
+            mActivityAdminAddFoodBinding.edtImageBanner.setText(food.banner)
+            mActivityAdminAddFoodBinding.chbPopular.isChecked = food.isPopular
             mActivityAdminAddFoodBinding.edtOtherImage.setText(getTextOtherImages())
         } else {
             mActivityAdminAddFoodBinding.toolbar.tvTitle.text = getString(R.string.add_food)
@@ -86,11 +87,12 @@ class AdminAddFoodActivity : BaseActivity() {
     }
 
     private fun getTextOtherImages(): String {
-        var result = ""
-        if (mFood == null || mFood!!.images == null || mFood!!.images!!.isEmpty()) {
-            return result
+        val images = mFood?.images
+        if (images.isNullOrEmpty()) {
+            return ""
         }
-        for (image in mFood!!.images!!) {
+        var result = ""
+        for (image in images) {
             result = if (isEmpty(result)) {
                 result + image.url
             } else {
@@ -162,8 +164,9 @@ class AdminAddFoodActivity : BaseActivity() {
             if (listImages.isNotEmpty()) {
                 map["images"] = listImages
             }
+            val food = mFood ?: return
             ControllerApplication[this].foodDatabaseReference
-                    .child(mFood!!.id.toString()).updateChildren(map) { _: DatabaseError?, _: DatabaseReference? ->
+                    .child(food.id.toString()).updateChildren(map) { _: DatabaseError?, _: DatabaseReference? ->
                         showProgressDialog(false)
                         Toast.makeText(this@AdminAddFoodActivity,
                                 getString(R.string.msg_edit_food_success), Toast.LENGTH_SHORT).show()
@@ -175,8 +178,13 @@ class AdminAddFoodActivity : BaseActivity() {
         // Add food
         showProgressDialog(true)
         val foodId = System.currentTimeMillis()
+        val categorySelected = mCategorySelected ?: run {
+            Toast.makeText(this, getString(R.string.msg_name_category_require), Toast.LENGTH_SHORT).show()
+            showProgressDialog(false)
+            return
+        }
         val food = FoodObject(foodId, strName, strDescription, strPrice.toInt(), strDiscount.toInt(),
-            strImage, strImageBanner, isPopular, mCategorySelected!!.id, mCategorySelected!!.name)
+            strImage, strImageBanner, isPopular, categorySelected.id, categorySelected.name)
         if (listImages.isNotEmpty()) {
             food.images = listImages
         }

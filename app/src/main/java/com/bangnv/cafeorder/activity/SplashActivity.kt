@@ -36,7 +36,7 @@ class SplashActivity : BaseActivity() {
     }
 
 //    private fun goToNextActivity() {
-//        if (user != null && !isEmpty(user!!.email)) {
+//        if (user != null && !isEmpty(user?.email)) {
 ////            checkUserFirebase()
 //            gotoMainActivity(this)
 //            finish()
@@ -48,10 +48,11 @@ class SplashActivity : BaseActivity() {
 
     private fun goToNextActivity() {
         val orderId = intent.getStringExtra("orderId")
-        if (user != null && !isEmpty(user!!.email)) {
+        val currentUser = user
+        if (currentUser != null && !isEmpty(currentUser.email)) {
             if (orderId != null) {
                 // Nếu có orderId từ thông báo, chuyển đến chi tiết đơn hàng
-                gotoOrderDetailActivity(orderId)
+                gotoOrderDetailActivity(orderId, currentUser)
             } else {
                 // Không có orderId, chuyển đến MainActivity
                 gotoMainActivity(this)
@@ -63,8 +64,8 @@ class SplashActivity : BaseActivity() {
         }
     }
 
-    private fun gotoOrderDetailActivity(orderId: String) {
-        if (user!!.type == Constant.TYPE_USER_ADMIN) {
+    private fun gotoOrderDetailActivity(orderId: String, currentUser: com.bangnv.cafeorder.model.User) {
+        if (currentUser.type == Constant.TYPE_USER_ADMIN) {
             val intent = Intent(this, AdminOrderDetailActivity::class.java).apply {
                 putExtra(Constant.KEY_INTENT_ADMIN_ORDER_OBJECT, orderId.toLong())
             }

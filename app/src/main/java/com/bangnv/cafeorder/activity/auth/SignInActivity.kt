@@ -120,15 +120,16 @@ class SignInActivity : BaseActivity() {
                     val user = firebaseAuth.currentUser
                     if (user != null) {
                         val userObject = User(user.email, password)
-                        if (user.email != null && user.email!!.contains(Constant.ADMIN_EMAIL_FORMAT)) {
+                        val email = user.email.orEmpty()
+                        if (email.contains(Constant.ADMIN_EMAIL_FORMAT)) {
                             userObject.type = Constant.TYPE_USER_ADMIN
 
                             DataStoreManager.user = userObject
 
-                            createAdminNodeOnRTDB(user.email!!)
+                            createAdminNodeOnRTDB(email)
                         }
 //                        //Driver: Viết nhưng không dùng đến. không làm rule Driver
-//                        else if (user.email != null && user.email!!.contains(Constant.DRIVER_EMAIL_FORMAT)) {
+//                        else if (user.email != null && user.email.orEmpty().contains(Constant.DRIVER_EMAIL_FORMAT)) {
 //                            userObject.type = Constant.TYPE_USER_DRIVER
 //                        }
                         else {

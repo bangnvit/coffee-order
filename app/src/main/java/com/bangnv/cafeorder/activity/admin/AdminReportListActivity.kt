@@ -74,7 +74,7 @@ class AdminReportListActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list: MutableList<Order> = ArrayList()
                 for (dataSnapshot in snapshot.children) {
-                    val order = dataSnapshot.getValue(Order::class.java)!!
+                    val order = dataSnapshot.getValue(Order::class.java) ?: continue
                     if (canAddOrder(order)) {
                         list.add(0, order)
                     }

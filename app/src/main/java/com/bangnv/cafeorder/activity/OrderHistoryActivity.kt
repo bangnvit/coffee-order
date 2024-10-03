@@ -158,13 +158,14 @@ class OrderHistoryActivity : BaseActivity() {
 
 
     private fun getListOrders() {
+        val currentUserEmail = user?.email
         bookingValueListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 mListOrder.clear()
                 for (dataSnapshot in snapshot.children) {
                     val order = dataSnapshot.getValue(Order::class.java)
                     if (order != null) {
-                        val strEmail = user!!.email
+                        val strEmail = currentUserEmail
                         if (strEmail.equals(order.email, ignoreCase = true)) {
                             if(order.status != 1){
                                 mListOrder.add(0, order)
@@ -200,13 +201,14 @@ class OrderHistoryActivity : BaseActivity() {
 
     //Test
     private fun getListOrdersFirst() {
+        val currentUserEmail = user?.email
         bookingValueListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 mListOrder.clear()
                 for (dataSnapshot in snapshot.children) {
                     val order = dataSnapshot.getValue(Order::class.java)
                     if (order != null) {
-                        val strEmail = user!!.email
+                        val strEmail = currentUserEmail
                         if (strEmail.equals(order.email, ignoreCase = true)) {
                             mListOrder.add(order)
                         }
@@ -243,13 +245,14 @@ class OrderHistoryActivity : BaseActivity() {
     }
 
     private fun getListOrdersNext(lastItemKeyLoaded : Long) {
+        val currentUserEmail = user?.email
         bookingValueListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 tempOrders.clear()
                 for (dataSnapshot in snapshot.children) {
                     val order = dataSnapshot.getValue(Order::class.java)
                     if (order != null) {
-                        val strEmail = user!!.email
+                        val strEmail = currentUserEmail
                         if (strEmail.equals(order.email, ignoreCase = true)) {
                             tempOrders.add(0, order)
                         }
